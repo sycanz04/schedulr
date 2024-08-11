@@ -1,0 +1,19 @@
+{
+    "manifest_version": 3,
+    "name": "schedulr",
+    "version": "1.0",
+    "description": "It scrapes the timetable from CliC and inserts it into google drive",
+    "icons": {
+        "16": "images/magnify16.png",
+        "32": "images/magnify32.png",
+        "48": "images/magnify48.png",
+        "128": "images/magnify128.png"
+    },
+    "action": {
+        "default_popup": "popup/popup.html"
+    },
+    "permissions": [
+        "activeTab",
+        "scripting"
+    ]
+}
