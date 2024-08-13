@@ -1,4 +1,20 @@
-window.onload = function() {
+let value = null;
+
+document.getElementById('semesterForm').addEventListener('submit', function(event) {
+    event.preventDefault();  // Prevent form submission
+
+    // Get the selected value
+    const selectedSemesterValue = document.querySelector('input[name="semester"]:checked').value;
+
+    // Set the recurrence based on the selected value
+    if (selectedSemesterValue === '7') {
+        value = '1';
+        console.log("Selected 7 short weeks semester");
+    } else if (selectedSemesterValue === '14') {
+        value = '2';
+        console.log("Selected 14 long weeks semester");
+    }
+
     chrome.identity.getAuthToken({interactive: true}, function(token) {
         if (chrome.runtime.lastError || !token) {
             console.error('Error getting OAuth token:', chrome.runtime.lastError);
@@ -9,8 +25,11 @@ window.onload = function() {
             var currTab = tabs[0];
             chrome.scripting.executeScript({
                 target: { tabId: currTab.id },
-                func: (token) => {
-                    window.accessToken = token;  // Store the token globally
+                func: (token, recurrenceValue) => {
+                    console.log(`Received token: ${token}`)
+                    console.log(`Received value: ${recurrenceValue}`)
+                    // Store the token and recurrence value globally
+                    window.accessToken = token;
 
                     // ===============Google API===============
                     // Function to create a calendar event
@@ -161,7 +180,10 @@ window.onload = function() {
                                                     'end': {
                                                         'dateTime': `${date}T${formattedEndTime}`,
                                                         'timezone': 'Asia/Kuala_Lumpur'
-                                                    }
+                                                    },
+                                                    'recurrence': [
+                                                        `RRULE:FREQ=WEEKLY;COUNT=1`
+                                                    ]
                                                 }
 
                                                 if (window.accessToken) {
@@ -178,8 +200,8 @@ window.onload = function() {
                     }
                     processIframe();
                 },
-                args: [token]
+                args: [token, value]
             });
         });
     });
-};
+});
