@@ -1,4 +1,9 @@
-window.onload = function() {
+document.getElementById('semesterForm').addEventListener('submit', function(event) {
+    event.preventDefault();  // Prevent the form from submitting
+
+    // Get the value of the selected radio button
+    const selectedSemesterValue = document.querySelector('input[name="semester"]:checked').value;
+
     chrome.identity.getAuthToken({interactive: true}, function(token) {
         if (chrome.runtime.lastError || !token) {
             console.error('Error getting OAuth token:', chrome.runtime.lastError);
@@ -9,7 +14,7 @@ window.onload = function() {
             var currTab = tabs[0];
             chrome.scripting.executeScript({
                 target: { tabId: currTab.id },
-                func: (token) => {
+                func: (token, selectedSemesterValue) => {
                     window.accessToken = token;  // Store the token globally
 
                     // ===============Google API===============
@@ -88,18 +93,9 @@ window.onload = function() {
                             const [date, month] = classDate.split(' ')
                             // console.log(`${date},${month}`)
                             const months = {
-                                'Jan':'01',
-                                'Feb':'02',
-                                'Mar':'03',
-                                'Apr':'04',
-                                'May':'05',
-                                'Jun':'06',
-                                'Jul':'07',
-                                'Aug':'08',
-                                'Sep':'09',
-                                'Oct':'10',
-                                'Nov':'11',
-                                'Dec':'12'
+                                'Jan':'01', 'Feb':'02', 'Mar':'03', 'Apr':'04',
+                                'May':'05', 'Jun':'06', 'Jul':'07', 'Aug':'08',
+                                'Sep':'09', 'Oct':'10', 'Nov':'11', 'Dec':'12'
                             }
                             let monthValue = months[month]
                             return `2024-${monthValue}-${date}`
@@ -151,18 +147,26 @@ window.onload = function() {
 
                                                 console.log(`Summary: ${className}, Location: ${classLocation}, Day: ${day}, startDateTime: ${date}T${formattedStartTime}, endDateTime: ${date}T${formattedEndTime}`);
 
-                                                const event = {
+                                                var event = {
                                                     'summary': `${className}`,
                                                     'location': `${classLocation}`,
                                                     'start': {
                                                         'dateTime': `${date}T${formattedStartTime}`,
-                                                        'timezone': 'Asia/Kuala_Lumpur'
+                                                        'timeZone': 'Asia/Kuala_Lumpur'
                                                     },
                                                     'end': {
                                                         'dateTime': `${date}T${formattedEndTime}`,
-                                                        'timezone': 'Asia/Kuala_Lumpur'
-                                                    }
+                                                        'timeZone': 'Asia/Kuala_Lumpur'
+                                                    },
+                                                    'recurrence': [
+                                                        `RRULE:FREQ=WEEKLY;COUNT=${selectedSemesterValue}`
+                                                    ]
                                                 }
+                                                // console.log("Final event object: ", event);
+                                                // Log the selected value
+
+                                                // console.log(`RRULE:FREQ=WEEKLY;COUNT=${selectedSemesterValue}`);
+                                                // console.log('Selected semester value:', selectedSemesterValue);
 
                                                 if (window.accessToken) {
                                                     createCalendarEvent(window.accessToken, event);
@@ -178,8 +182,8 @@ window.onload = function() {
                     }
                     processIframe();
                 },
-                args: [token]
+                args: [token, selectedSemesterValue]
             });
         });
     });
-};
+});
