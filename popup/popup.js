@@ -1,19 +1,8 @@
-let value = null;
-
 document.getElementById('semesterForm').addEventListener('submit', function(event) {
-    event.preventDefault();  // Prevent form submission
+    event.preventDefault();  // Prevent the form from submitting
 
-    // Get the selected value
+    // Get the value of the selected radio button
     const selectedSemesterValue = document.querySelector('input[name="semester"]:checked').value;
-
-    // Set the recurrence based on the selected value
-    if (selectedSemesterValue === '7') {
-        value = '1';
-        console.log("Selected 7 short weeks semester");
-    } else if (selectedSemesterValue === '14') {
-        value = '2';
-        console.log("Selected 14 long weeks semester");
-    }
 
     chrome.identity.getAuthToken({interactive: true}, function(token) {
         if (chrome.runtime.lastError || !token) {
@@ -25,11 +14,8 @@ document.getElementById('semesterForm').addEventListener('submit', function(even
             var currTab = tabs[0];
             chrome.scripting.executeScript({
                 target: { tabId: currTab.id },
-                func: (token, recurrenceValue) => {
-                    console.log(`Received token: ${token}`)
-                    console.log(`Received value: ${recurrenceValue}`)
-                    // Store the token and recurrence value globally
-                    window.accessToken = token;
+                func: (token, selectedSemesterValue) => {
+                    window.accessToken = token;  // Store the token globally
 
                     // ===============Google API===============
                     // Function to create a calendar event
@@ -107,18 +93,9 @@ document.getElementById('semesterForm').addEventListener('submit', function(even
                             const [date, month] = classDate.split(' ')
                             // console.log(`${date},${month}`)
                             const months = {
-                                'Jan':'01',
-                                'Feb':'02',
-                                'Mar':'03',
-                                'Apr':'04',
-                                'May':'05',
-                                'Jun':'06',
-                                'Jul':'07',
-                                'Aug':'08',
-                                'Sep':'09',
-                                'Oct':'10',
-                                'Nov':'11',
-                                'Dec':'12'
+                                'Jan':'01', 'Feb':'02', 'Mar':'03', 'Apr':'04',
+                                'May':'05', 'Jun':'06', 'Jul':'07', 'Aug':'08',
+                                'Sep':'09', 'Oct':'10', 'Nov':'11', 'Dec':'12'
                             }
                             let monthValue = months[month]
                             return `2024-${monthValue}-${date}`
@@ -170,21 +147,26 @@ document.getElementById('semesterForm').addEventListener('submit', function(even
 
                                                 console.log(`Summary: ${className}, Location: ${classLocation}, Day: ${day}, startDateTime: ${date}T${formattedStartTime}, endDateTime: ${date}T${formattedEndTime}`);
 
-                                                const event = {
+                                                var event = {
                                                     'summary': `${className}`,
                                                     'location': `${classLocation}`,
                                                     'start': {
                                                         'dateTime': `${date}T${formattedStartTime}`,
-                                                        'timezone': 'Asia/Kuala_Lumpur'
+                                                        'timeZone': 'Asia/Kuala_Lumpur'
                                                     },
                                                     'end': {
                                                         'dateTime': `${date}T${formattedEndTime}`,
-                                                        'timezone': 'Asia/Kuala_Lumpur'
+                                                        'timeZone': 'Asia/Kuala_Lumpur'
                                                     },
                                                     'recurrence': [
-                                                        `RRULE:FREQ=WEEKLY;COUNT=1`
+                                                        `RRULE:FREQ=WEEKLY;COUNT=${selectedSemesterValue}`
                                                     ]
                                                 }
+                                                // console.log("Final event object: ", event);
+                                                // Log the selected value
+
+                                                // console.log(`RRULE:FREQ=WEEKLY;COUNT=${selectedSemesterValue}`);
+                                                // console.log('Selected semester value:', selectedSemesterValue);
 
                                                 if (window.accessToken) {
                                                     createCalendarEvent(window.accessToken, event);
@@ -200,7 +182,7 @@ document.getElementById('semesterForm').addEventListener('submit', function(even
                     }
                     processIframe();
                 },
-                args: [token, value]
+                args: [token, selectedSemesterValue]
             });
         });
     });
