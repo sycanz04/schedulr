@@ -89,7 +89,8 @@ document.getElementById('semesterForm').addEventListener('submit', function(even
 
                         // Reformat date. Currently looks like '14 Aug'
                         // Target format '2024-08-14'
-                        function formatDate(classDate){
+                        function formatDate(period, classDate, yearElement){
+                            // Get the correct date and month
                             const [date, month] = classDate.split(' ')
                             // console.log(`${date},${month}`)
                             const months = {
@@ -97,8 +98,44 @@ document.getElementById('semesterForm').addEventListener('submit', function(even
                                 'May':'05', 'Jun':'06', 'Jul':'07', 'Aug':'08',
                                 'Sep':'09', 'Oct':'10', 'Nov':'11', 'Dec':'12'
                             }
-                            let monthValue = months[month]
-                            return `2024-${monthValue}-${date}`
+
+                            // Find the right date for each month depending on year
+                            // Every year that is exactly divisible by four is a leap year,
+                            // except for years that are exactly divisible by 100,
+                            // but these centurial years are leap years if they are exactly divisible by 400.
+                            const nonLeapYear = {
+                                'Jan':31, 'Feb':28, 'Mar':31, 'Apr':30,
+                                'May':31, 'Jun':30, 'Jul':31, 'Aug':31,
+                                'Sep':30, 'Oct':31, 'Nov':30, 'Dec':31
+                            }
+                            const leapYear = {
+                                'Jan':31, 'Feb':29, 'Mar':31, 'Apr':30,
+                                'May':31, 'Jun':30, 'Jul':31, 'Aug':31,
+                                'Sep':30, 'Oct':31, 'Nov':30, 'Dec':31
+                            }
+                            let monthValue = months[month];
+
+                            // Get the correct semester value and process it
+                            if (selectedSemesterValue === '7'){
+                                daysToBeAdded = 49;
+                            } else if (selectedSemesterValue === '14'){
+                                daysToBeAdded = 98;
+                            }
+
+                            // Get the correct year
+                            if (period === 'end') {
+                                endDateYear = yearElement.substr(-4, 4);
+                                if (endDateYear % 4 == 0){
+                                    
+                                }
+                                return `${endDateYear}-${monthValue}-${date}`
+                            } else if (period === 'start'){
+                                // console.log(`Year Element: ${yearElement}`)
+                                frontDatePeriod = yearElement.split("-");
+                                startDate = frontDatePeriod[0].split(" ");
+                                startDateYear = startDate[2].substr(-4, 4)
+                                return `${startDateYear}-${monthValue}-${date}`
+                            }
                         }
 
                         if (iframeElement) {
@@ -107,7 +144,8 @@ document.getElementById('semesterForm').addEventListener('submit', function(even
 
                             // Select elements in iframe
                             const dayHeader = iframeDocument.querySelectorAll("th.PSLEVEL3GRIDODDROW");
-                            const rows = iframeDocument.querySelectorAll("table.PSLEVEL3GRIDODDROW  tr")
+                            const rows = iframeDocument.querySelectorAll("table.PSLEVEL3GRIDODDROW  tr");
+                            const year = iframeDocument.querySelector("div#win0divDERIVED_CLASS_S_DESCR100_2 td.PSGROUPBOXLABEL.PSLEFTCORNER").textContent;
 
                             // Get the dates
                             const days = []
@@ -143,25 +181,29 @@ document.getElementById('semesterForm').addEventListener('submit', function(even
                                                 const classLocation = truncLocation(classContent[3]);
 
                                                 const day = days[colIndex];
-                                                const date = formatDate(dates[colIndex]);
+                                                const startDate = formatDate('start', dates[colIndex], year);
+                                                const endDate = formatDate('end', dates[colIndex], year);
 
-                                                console.log(`Summary: ${className}, Location: ${classLocation}, Day: ${day}, startDateTime: ${date}T${formattedStartTime}, endDateTime: ${date}T${formattedEndTime}`);
+                                                console.log(`Summary: ${className}, Location: ${classLocation}, Day: ${day}, startDateTime: ${startDate}T${formattedStartTime}, endDateTime: ${endDate}T${formattedEndTime}`);
 
                                                 var event = {
                                                     'summary': `${className}`,
                                                     'location': `${classLocation}`,
                                                     'start': {
-                                                        'dateTime': `${date}T${formattedStartTime}`,
+                                                        'dateTime': `${startDate}T${formattedStartTime}`,
                                                         'timeZone': 'Asia/Kuala_Lumpur'
                                                     },
                                                     'end': {
-                                                        'dateTime': `${date}T${formattedEndTime}`,
+                                                        'dateTime': `${endDate}T${formattedEndTime}`,
                                                         'timeZone': 'Asia/Kuala_Lumpur'
                                                     },
                                                     'recurrence': [
                                                         `RRULE:FREQ=WEEKLY;COUNT=${selectedSemesterValue}`
                                                     ]
                                                 }
+
+                                                console.log('Event: ', event)
+
                                                 // console.log("Final event object: ", event);
                                                 // Log the selected value
 
@@ -169,7 +211,7 @@ document.getElementById('semesterForm').addEventListener('submit', function(even
                                                 // console.log('Selected semester value:', selectedSemesterValue);
 
                                                 if (window.accessToken) {
-                                                    createCalendarEvent(window.accessToken, event);
+                                                    // createCalendarEvent(window.accessToken, event);
                                                 }
                                             }
                                         }
