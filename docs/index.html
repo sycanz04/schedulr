@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- Meta -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MMU Schedulr</title>
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="navbar">
+            <a class="leftside" href="#home">MMU Schedulr</a>
+            <div class="menu-icon" id="menuIcon">
+                <i class="fa fa-bars"></i>
+            </div>
+        <ul>
+            <li><a class="rightSide" href="#page">Extension page</a></li>
+            <li><a class="rightSide" href="#privacy-policy">Privacy Policy</a></li>
+            <li><a class="rightSide" href="#aboutMe">Buy me a coffee</a></li>
+        </ul>
+    </div>
+
+    <div class="body">
+        <div class="first">
+            <h1>MMU Schedulr</h1>
+            <h2>A chrome extension that transfers your timetable from CliC to Google Calendar.</h2>
+            <video controls width="1000" height="450">
+                <source src="assets/schedulr.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+        <div class="second">
+            <h1>What's this extension about? 📅</h1>
+            <p>
+                Google chrome extension that scrapes MMU CliC's personal timetable in the "My weekly schedule" page and create new events
+                for classes recurringly into google calendar. In another term, it "transfers" timetable from CliC to Google Calendar.
+            </p>
+
+            <h1>Who's eligible to use this extension? 👀</h1>
+            <p>
+                Any MMU student with "Active" current student status and a chrome browser.
+            </p>
+
+            <h1>Privacy Policy 📜</h1>
+            <p>Please read the Privacy Policy for this extension before proceeding.</p>
+
+            <div id="privacy-policy" class="privacy-policy">
+                <a href="#" id="privacyPolicyLink" class="expand-link">↓ Show Privacy Policy</a>
+                <div id="privacyPolicyContent" class="privacy-policy-content">
+                    <h2>Privacy Policy for schedulr Chrome Extension</h2>
+                    <p><strong>Effective Date:</strong> 14 August 2024</p>
+
+                    <p>Thank you for using "schedulr," a Chrome extension that helps you scrape your timetable from the CliC platform and insert it into Google Calendar. I value your privacy and am committed to protecting your personal information. This Privacy Policy outlines how I collect, use, and safeguard your data when you use my extension.</p>
+
+                    <div class="privacy-section">
+                        <h3>1. Information I Collect</h3>
+                        <p><strong>Google Account Information:</strong> To insert your timetable into Google Calendar, the extension requires access to your Google Calendar account. This is done through OAuth2 authentication, and it only requests the necessary scopes to manage calendar events.</p>
+                        <p><strong>Timetable Data:</strong> The extension scrapes your timetable data from the CliC platform to populate events in your Google Calendar.</p>
+                    </div>
+
+                    <div class="privacy-section">
+                        <h3>2. How I Use Your Information</h3>
+                        <p><strong>Google Calendar Integration:</strong> The primary purpose of this extension is to add your scraped timetable events into your Google Calendar. I do not store or transmit your data to any external servers. All data handling is done locally within your browser.</p>
+                        <p><strong>User Authentication:</strong> We use Google's OAuth2 service to authenticate your Google account. This allows me to manage your Google Calendar events.</p>
+                    </div>
+
+                    <div class="privacy-section">
+                        <h3>3. Data Sharing and Disclosure</h3>
+                        <p>I do not share, sell, or otherwise disclose your personal information to third parties. The data processed by the extension is only used for the purposes of integrating your timetable into Google Calendar.</p>
+                    </div>
+
+                    <div class="privacy-section">
+                        <h3>4. Security</h3>
+                        <p>I take reasonable measures to protect your data while using my extension. However, please note that no method of transmission over the internet or method of electronic storage is 100% secure, and I cannot guarantee absolute security.</p>
+                    </div>
+
+                    <div class="privacy-section">
+                        <h3>5. Your Consent</h3>
+                        <p>By using the "schedulr" extension, you consent to this Privacy Policy.</p>
+                    </div>
+
+                    <div class="privacy-section">
+                        <h3>6. Changes to This Privacy Policy</h3>
+                        <p>I may update this Privacy Policy from time to time and will notify you of any changes by posting the new Privacy Policy on this page. You are advised to review this Privacy Policy periodically for any changes.</p>
+                    </div>
+
+                    <div class="privacy-section">
+                        <h3>7. Contact Me</h3>
+                        <p>If you have any questions or concerns about this Privacy Policy or my practices, you can find me at <a href="mailto:aidenchan0397@gmail.com">aidenchan0397@gmail.com</a>.</p>
+                    </div>
+                </div>
+            </div>
+
+            <h1>Usage 🕹️</h1>
+            <ol>
+                <li>Open Chrome Web Store</li>
+                <li>Search for "Schedulr"</li>
+                <li>Click "Add to Chrome"</li>
+                <li>Go to your CliC's "My Weekly Schedule" page (Make sure you're on the very first week of the semester)</li>
+                <li>Click on the extension, select short (7 weeks) or long (14 weeks) semester.</li>
+                <li>Click submit button and check if it's working.</li>
+            </ol>
+
+            <h1>Tech Stack 🚀</h1>
+            <ol>
+                <li>Javascript</li>
+                <li>Google API</li>
+            </ol>
+
+            <h1>Why this project? 🛌</h1>
+            <p>
+                Imagine a world where you can automate your life away, cool right? The idea was so could spend less time transferring my timetable
+                manually every semester but it feels like I spent more time building than I'll spend transferring them manually...oh well.
+                Also, this is my first web related project so if you see any room for improvement do let me know :)
+            </p>
+        </div>
+    </div>
+
+    <script src="scripts/privacyPolicy.js"></script>
+</body>
+</html>
