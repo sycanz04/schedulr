@@ -99,37 +99,11 @@ document.getElementById('semesterForm').addEventListener('submit', function(even
                                 'Sep':'09', 'Oct':'10', 'Nov':'11', 'Dec':'12'
                             }
 
-                            // Find the right date for each month depending on year
-                            // Every year that is exactly divisible by four is a leap year,
-                            // except for years that are exactly divisible by 100,
-                            // but these centurial years are leap years if they are exactly divisible by 400.
-                            const nonLeapYear = {
-                                'Jan':31, 'Feb':28, 'Mar':31, 'Apr':30,
-                                'May':31, 'Jun':30, 'Jul':31, 'Aug':31,
-                                'Sep':30, 'Oct':31, 'Nov':30, 'Dec':31
-                            }
-                            const leapYear = {
-                                'Jan':31, 'Feb':29, 'Mar':31, 'Apr':30,
-                                'May':31, 'Jun':30, 'Jul':31, 'Aug':31,
-                                'Sep':30, 'Oct':31, 'Nov':30, 'Dec':31
-                            }
                             let monthValue = months[month];
-
-                            // Get the correct semester value and process it
-                            if (selectedSemesterValue === '7'){
-                                daysToBeAdded = 49;
-                            } else if (selectedSemesterValue === '14'){
-                                daysToBeAdded = 98;
-                            }
-
-                            // Get the correct year
-                            if (period === 'end') {
+                            if (period === 'end'){
                                 endDateYear = yearElement.substr(-4, 4);
-                                if (endDateYear % 4 == 0){
-                                    
-                                }
                                 return `${endDateYear}-${monthValue}-${date}`
-                            } else if (period === 'start'){
+                            } else if (period === 'start') {
                                 // console.log(`Year Element: ${yearElement}`)
                                 frontDatePeriod = yearElement.split("-");
                                 startDate = frontDatePeriod[0].split(" ");
