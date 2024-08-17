@@ -176,12 +176,13 @@ video {
 }
 
 .privacy-policy {
-    margin: 20px auto; /* Center horizontally and add vertical margins */
-    width: 80%; /* Adjust width as needed */
-    background-color: #1e1e2e; /* Optional: Background color for visibility */
-    border-radius: 15px; /* Optional: Rounded corners */
-    padding: 20px; /* Optional: Padding inside the container */
-    color: #fff; /* Text color */
+    margin: 20px auto;
+    width: 80%;
+    background-color: #1e1e2e;
+    border: 2px solid #89b4fa;
+    border-radius: 15px;
+    padding: 20px;
+    color: #fff;
 }
 
 /* Styling for the main heading */
@@ -198,7 +199,7 @@ video {
     margin-top: 20px;
     margin-bottom: 0px;
     padding: 20px;
-    position: relative; /* To position the line relative to the heading */
+    position: relative;
     font-size: 25px;
 }
 
@@ -207,9 +208,9 @@ video {
     content: "";
     display: block;
     width: 100%;
-    height: 1px; /* Thickness of the line */
-    background-color: #89b4fa; /* Color of the line */
-    margin-top: 10px; /* Space between the heading and line */
+    height: 1px;
+    background-color: #89b4fa;
+    margin-top: 10px; 
 }
 
 /* Styling for paragraphs */
