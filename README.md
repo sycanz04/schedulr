@@ -1,11 +1,11 @@
 # Schedulr 📅
-Google chrome extension that scrapes **MMU CliC's** personal timetable in the "My weekly schedule" page and create new events for classes recurringly into google calendar. In another term, it "transfers" timetable from CliC to Google Calendar.
+Google chrome extension that extracts timetable from the "My Weekly Schedule" page of **MMU CliC** and automatically creates recurring events in Google Calendar, effectively transferring your schedule from CliC to Google Calendar.
 
 ## Who's eligible to use this extension? 👀
-Any MMU student with **"Active"** current student status
+Any MMU student with **"Active"** current student status and a chrome browser
 
-## Privacy policy
-Please read the [Privacy Policy](https://github.com/sycanz04/schedulr/blob/main/privacy_policy.md) for this extension before proceeding.
+## Privacy policy 📜
+Please read the [Privacy Policy](https://www.mmuschedulr.com/privacy-policy.html) for this extension before proceeding.
 
 ## Usage 🕹️
 1. Open [Chrome Web Store](https://chromewebstore.google.com/?utm_source=ext_app_menu&pli=1)
@@ -20,6 +20,12 @@ Please read the [Privacy Policy](https://github.com/sycanz04/schedulr/blob/main/
 2. Google API
 
 ## Why this project? 🛌
-Imagine a world where you can automate your life away, cool right? The idea was so could spend less time transferring my timetable manually every semester but it feels like I spent more time building than I'll spend transferring them manually...oh well.
+Imagine a world where you can automate your life - cool right? I initially created this to save time on manually transferring my timetable but it seems I've spend more time building it than I would have transferring the timetable manually...oh well.
 
-Also, this is my first web related project so if you see any room for improvement do let me know :)
+Since this is my first web project, I'd love to hear any suggetions for improvements you might have!
+
+## Buy me a coffee ☕
+I seem to have developed a bit of an addiction to espresso shots, so if you're feeling generous, feel free to [buy me a coffee](https://ko-fi.com/sycanz)!
+
+## Credit 🤝🏻
+This project was developed at [Hackerspace MMU](https://hackerspacemmu.rocks/). Also shoutout to a couple of friends who helped me out on this project.
