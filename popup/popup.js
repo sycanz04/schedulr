@@ -185,7 +185,7 @@ document.getElementById('semesterForm').addEventListener('submit', function(even
                                                 // console.log('Selected semester value:', selectedSemesterValue);
 
                                                 if (window.accessToken) {
-                                                    // createCalendarEvent(window.accessToken, event);
+                                                    createCalendarEvent(window.accessToken, event);
                                                 }
                                             }
                                         }
