@@ -176,58 +176,51 @@ video {
 }
 
 .privacy-policy {
-    border: 2px solid #89b4fa;
-    border-radius: 15px;
-    margin: 20px;
-    margin-bottom: 50px;
-    background-color: #1e1e2e;
-    color: #fff;
+    margin: 20px auto; /* Center horizontally and add vertical margins */
+    width: 80%; /* Adjust width as needed */
+    background-color: #1e1e2e; /* Optional: Background color for visibility */
+    border-radius: 15px; /* Optional: Rounded corners */
+    padding: 20px; /* Optional: Padding inside the container */
+    color: #fff; /* Text color */
 }
 
+/* Styling for the main heading */
 .privacy-policy h2 {
     color: #89b4fa;
     margin-bottom: 20px;
     padding: 20px;
+    font-size: 25px;
 }
 
+/* Styling for subheadings and horizontal lines */
 .privacy-policy h3 {
     color: #89b4fa;
     margin-top: 20px;
     margin-bottom: 0px;
     padding: 20px;
+    position: relative; /* To position the line relative to the heading */
+    font-size: 25px;
 }
 
+/* Add a horizontal line after each h3 */
+.privacy-policy h3::after {
+    content: "";
+    display: block;
+    width: 100%;
+    height: 1px; /* Thickness of the line */
+    background-color: #89b4fa; /* Color of the line */
+    margin-top: 10px; /* Space between the heading and line */
+}
+
+/* Styling for paragraphs */
 .privacy-policy p {
-    font-size: 16px;
-    margin-bottom: 0;
+    font-size: 19px;
+    margin-bottom: 15px;;
     padding-left: 20px;
     padding-right: 20px;
 }
 
-/* Style the expand link as a long bar */
-.expand-link {
-    color: #89b4fa;
-    width: 90%;
-    text-decoration: none; /* Remove underline */
-    font-size: 18px; /* Adjust font size as needed */
-    font-weight: bold; /* Make the text bold */
-    display: block; /* Make it a block element to take full width */
-    padding: 15px; /* Space around the link text */
-    background-color: transparent; /* Match background with the rest of the policy section */
-    text-align: center; /* Center align text */
-    transition: background-color 0.3s, color 0.3s; /* Smooth transition for hover effects */
-}
-
-/* Hide content by default */
-.privacy-policy-content {
-    display: none; /* Hide content initially */
-}
-
-/* Display content when expanded */
-.privacy-policy-content.show {
-    display: block; /* Show content when expanded */
-}
-
+/* Styling for sections within the privacy policy */
 .privacy-section {
     margin-top: 0px;
 }
