@@ -1,0 +1,311 @@
+/* Basic reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #000000;
+    color: #fff;
+    font-family: Arial, sans-serif;
+}
+
+/* Navbar styling */
+.navbar {
+    width: 90%;
+    margin: auto;
+    padding: 20px 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 1000;
+}
+
+.navbar .leftside {
+    font-size: 20px;
+    font-weight: bold;
+    text-decoration: none;
+    color: #fff;
+    position: relative;
+}
+
+.navbar .leftside::after {
+    content: '';
+    height: 3px;
+    width: 0;
+    background: #89b4fa;
+    position: absolute;
+    left: 0;
+    bottom: -5px;
+    transition: 0.5s;
+}
+
+.navbar .name:hover::after {
+    width: 100%;
+}
+
+.navbar .menu-icon {
+    display: none;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.navbar ul {
+    list-style: none;
+    display: flex;
+}
+
+.navbar ul li {
+    margin: 0 10px;
+    position: relative;
+}
+
+.navbar a {
+    text-decoration: none;
+    color: #fff;
+    text-transform: uppercase;
+    font-size: 16px;
+    padding: 5px 10px;
+}
+
+.navbar a::after {
+    content: '';
+    height: 3px;
+    width: 0;
+    background: #89b4fa;
+    position: absolute;
+    left: 0;
+    bottom: -10px;
+    transition: 0.5s;
+}
+
+.navbar a:hover::after {
+    width: 100%;
+}
+
+.first {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 25px;
+    height: auto;
+    width: 90%;
+    margin: auto;
+    overflow: hidden;
+}
+
+.first h1 {
+    color: #fff;
+    font-size: 90px;
+    text-align: center;
+}
+
+.first h2 {
+    color: #fff;
+    font-size: 30px;
+    padding: 10px 0;
+    text-align: center;
+}
+
+video {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin-top: 10px;
+}
+
+.first .bottom {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 60px;
+}
+
+#bottom-text {
+    margin-right: 10px;
+    font-style: bold;
+}
+
+.social-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 25px;
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    text-decoration: none;
+}
+
+.second {
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    padding: 20px;
+    width: 90%;
+    margin-top: 100px;
+}
+
+.second h1 {
+    font-size: 30px;
+    margin-bottom: 15px;
+    color: #fff;
+    border-bottom: 3px solid #89b4fa;
+    padding-bottom: 5px;
+}
+
+.second p {
+    font-size: 20px;
+    line-height: 1.6;
+    margin-bottom: 30px;
+}
+
+.second ol {
+    margin-left: 20px;
+    margin-bottom: 30px;
+}
+
+.second ol li {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.privacy-policy {
+    margin: 20px auto; /* Center horizontally and add vertical margins */
+    width: 80%; /* Adjust width as needed */
+    background-color: #1e1e2e; /* Optional: Background color for visibility */
+    border-radius: 15px; /* Optional: Rounded corners */
+    padding: 20px; /* Optional: Padding inside the container */
+    color: #fff; /* Text color */
+}
+
+/* Styling for the main heading */
+.privacy-policy h2 {
+    color: #89b4fa;
+    margin-bottom: 20px;
+    padding: 20px;
+    font-size: 25px;
+}
+
+/* Styling for subheadings and horizontal lines */
+.privacy-policy h3 {
+    color: #89b4fa;
+    margin-top: 20px;
+    margin-bottom: 0px;
+    padding: 20px;
+    position: relative; /* To position the line relative to the heading */
+    font-size: 25px;
+}
+
+/* Add a horizontal line after each h3 */
+.privacy-policy h3::after {
+    content: "";
+    display: block;
+    width: 100%;
+    height: 1px; /* Thickness of the line */
+    background-color: #89b4fa; /* Color of the line */
+    margin-top: 10px; /* Space between the heading and line */
+}
+
+/* Styling for paragraphs */
+.privacy-policy p {
+    font-size: 19px;
+    margin-bottom: 15px;;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+/* Styling for sections within the privacy policy */
+.privacy-section {
+    margin-top: 0px;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .navbar {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .navbar ul {
+        display: none;
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .navbar ul.show {
+        display: flex;
+    }
+
+    .navbar ul li {
+        margin: 5px 0;
+    }
+
+    .menu-icon {
+        display: block;
+    }
+
+    .first {
+        height: 80vh;
+    }
+
+    .first h1 {
+        font-size: 30px;
+    }
+
+    .first h2 {
+        font-size: 18px;
+    }
+
+    .second {
+        margin-top: 40px;
+    }
+
+    .second h1 {
+        font-size: 24px;
+    }
+
+    .second p, .second ol li {
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    .navbar {
+        padding: 15px 0;
+    }
+
+    .navbar a {
+        font-size: 14px;
+        padding: 5px;
+    }
+
+    .first{
+        height: 70vh;
+    }
+
+    .first h1 {
+        font-size: 24px;
+    }
+
+    .first h2 {
+        font-size: 16px;
+    }
+
+    .second {
+        margin-top: 30px;
+    }
+
+    .second h1 {
+        font-size: 20px;
+    }
+
+    .second p, .second ol li {
+        font-size: 14px;
+    }
+}
