@@ -1,16 +1,34 @@
 <!doctype html>
 <html lang="en">
-    <body>
-        <h1>Schedulr Extensions</h1>
+<head>
+    <!-- Meta -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="popup.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <h1>Schedulr</h1>
+    <div class="forms">
         <form id="semesterForm">
-            <p>Select how many weeks for recurring classes:</p>
+            <p>How many weeks of classes: </p>
             <input type="radio" id="short" name="semester" value="7">
             <label for="short">Short semester (7 weeks)</label><br>
             <input type="radio" id="long" name="semester" value="14">
             <label for="long">Long semester (14 weeks)</label><br>
             <br>
+        </form>
+
+        <form id="reminderForm">
+            <p>Reminder for event: </p>
+            <input type="radio" id="minutes" name="reminder" value=30>
+            <label for="minutes">30 minutes before</label><br>
+            <input type="radio" id="hour" name="reminder" value=60>
+            <label for="hour">1 hour before</label><br>
+            <br>
             <input type="submit" value="Submit">
         </form>
-        <script src="popup.js"></script>
-    </body>
+    </div>
+    <script src="popup.js"></script>
+</body>
 </html>
