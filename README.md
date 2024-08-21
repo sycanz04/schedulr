@@ -1,7 +1,7 @@
 # Schedulr 📅
 Google chrome extension that extracts timetable from the "My Weekly Schedule" page of **MMU CliC** and automatically creates recurring events in Google Calendar, effectively transferring your schedule from CliC to Google Calendar.
 
-https://github.com/user-attachments/assets/b4c474fb-5a24-4ac2-83d8-f27123162791
+https://github.com/user-attachments/assets/9379bee7-6b2d-48c0-b261-4f93800fcac5
 
 ## Who's eligible to use this extension? 👀
 Any MMU student with **"Active"** current student status and a chrome browser
