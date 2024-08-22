@@ -2,7 +2,7 @@
     "manifest_version": 3,
     "name": "schedulr",
     "version": "1.0",
-    "description": "It scrapes the timetable from CliC and inserts it into google drive",
+    "description": "It scrapes the timetable from CliC and inserts it into google calendar",
     "icons": {
         "16": "images/magnify16.png",
         "32": "images/magnify32.png",
@@ -11,6 +11,17 @@
     },
     "action": {
         "default_popup": "popup/popup.html"
+    },
+    "commands": {
+        "_execute_action": {
+            "suggested_key": {
+                "default": "Alt+Shift+S",
+                "linux": "Alt+Shift+S",
+                "mac": "Alt+Shift+S",
+                "windows": "Alt+Shift+S"
+            },
+            "description" : "Open schedulr's popup.html"
+        }
     },
     "permissions": [
         "activeTab",
