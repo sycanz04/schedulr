@@ -17,6 +17,9 @@ Please read the [Privacy Policy](https://www.mmuschedulr.com/privacy-policy.html
 5. Click on the extension, select short (7 weeks) or long (14 weeks) semester.
 6. Click submit button and check if it's working.
 
+## Key binding ⌨️
+- `Alt+Shift+S` - Opens extension page
+
 ## Tech Stack 🚀
 1. Javascript
 2. Google API
