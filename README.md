@@ -18,7 +18,8 @@ https://github.com/user-attachments/assets/9379bee7-6b2d-48c0-b261-4f93800fcac5
 - [Credit](https://github.com/sycanz04/schedulr?tab=readme-ov-file#credit-)
 
 ## Requirements 👀
-Any MMU student with **"Active"** current student status and a chrome browser
+- MMU student with **"Active"** current student status **ONLY**
+- Chrome browser **ONLY**
 
 ## Installation 📦
 ### Easy installation (Not available as of this moment, [see why](https://github.com/sycanz04/schedulr?tab=readme-ov-file#project-status-))
@@ -29,13 +30,13 @@ Any MMU student with **"Active"** current student status and a chrome browser
 ### Manual installation
 **Note:** *Using this method will require you to manually clone the project everytime an update is made to this project*
 1. Clone git project
-2. Create a new google cloud project
-3. Setup OAuth Consent Screen with "salendar" and "salendar.event" scopes
-4. Create a OAuth Client ID
-5. Enable Google Calendar API for the project
-6. Replace the "client_id" field in **manifest.json**
-7. Go to your [chrome extension](chrome://extensions/)
-8. Click on "Load Unpacked" and load the cloned project
+2. Go to [chrome extension page](chrome://extensions) and enable developer mode
+3. Click on "Load Unpacked" and load the cloned project (Comment out OAuth field in manifest.json to avoid error, take note of item ID)
+4. Create a new google cloud project
+5. Setup OAuth Consent Screen with "calendar" and "calendar.event" scopes
+6. Go to project library and enable Google Calendar API
+7. Create an OAuth Client ID (Chrome Extension, Item ID)
+8. Replace the "client_id" object with new Client ID in **manifest.json**
 
 After you're done with the installation, follow [Usage](https://github.com/sycanz04/schedulr?tab=readme-ov-file#usage-)
 

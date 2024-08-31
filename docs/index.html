@@ -51,26 +51,48 @@
                 creates recurring events in Google Calendar, effectively transferring your schedule from CliC to Google Calendar.
             </p>
 
-            <h1>Who's eligible to use this extension? 👀</h1>
+            <h1>Requirements 👀</h1>
             <p>
-                Any MMU student with "Active" current student status and a chrome browser.
+                - MMU Student with <strong>"Active"</strong> current student status <strong>ONLY</strong> <br>
+                - Chrome browser <strong>ONLY</strong>
             </p>
 
-            <h1>Privacy Policy 📜</h1>
-            <p>Please read the <a href="privacy-policy.html">Privacy Policy</a> for this extension before proceeding.</p>
+            <h1>Installation 📦</h1>
+            <h2>Easy Installation</h2>
+                <p>
+                1. Open <a href=https://chromewebstore.google.com/?utm_source=ext_app_menu&pli=1>Chrome Web Store</a><br>
+                2. Search for "Schedulr"<br>
+                3. Click "Add to Chrome"<br>
+                </p>
+            <h2>Manual Installation</h2>
+                <p>
+                <strong>Note:</strong> <em>Using this method will require you to manually clone the project everytime an update is made to this project</em><br>
+                1. Clone git project<br>
+                2. Go to `chrome://extensions` and enable developer mode<br>
+                3. Click on "Load Unpacked" and load the cloned project (Comment out OAuth field in manifest.json to avoid error, take note of item ID)<br>
+                4. Create a new google cloud project<br>
+                5. Setup OAuth Consent Screen with "calendar" and "calendar.event" scopes<br>
+                6. Go to project library and enable Google Calendar API<br>
+                7. Create an OAuth Client ID (Chrome Extension, Item ID)<br>
+                8. Replace the "client_id" object with new Client ID in <strong>manifest.json</strong><br>
+                </p>
 
             <h1>Usage 🕹️</h1>
             <ol>
-                <li>Open <a href="https://chromewebstore.google.com/?utm_source=ext_app_menu&pli=1">Chrome Web Store</a></li>
-                <li>Search for "Schedulr"</li>
-                <li>Click "Add to Chrome"</li>
                 <li>Go to your CliC's "My Weekly Schedule" page <strong><em>(Make sure you're on the very first week of the semester)</em></strong></li>
                 <li>Click on the extension, select short <strong>(7 weeks)</strong> or long <strong>(14 weeks)</strong> semester.</li>
-                <li>Click submit button and check if it's working.</li>
+                <li>Click submit button</li>
+                <li>Classes should be added to Google Calendar</li>
             </ol>
 
             <h1>Key Binding ⌨️</h1>
             <p>Pressing <kbd>Alt+Shift+S</kbd> opens up the extension page.</p>
+
+            <h1>Project status ⏳</h1>
+            <p>
+                Currently the extension is available on <a href="https://chromewebstore.google.com/detail/schedulr/ofaflpillnejkhmkefmcpoamjeaghipp">Chrome Web store</a> but my OAuth Consent Screen is in the process
+                of being authenticated. So the only way to use it right now is to clone the project manually and set up your own extension.
+            </p>
 
             <h1>Tech Stack 🚀</h1>
             <ol>
@@ -85,6 +107,9 @@
                 <br><br>
                 Since this is my first web project, I'd love to hear any suggetions for improvements you might have!
             </p>
+
+            <h1>Privacy Policy 📜</h1>
+            <p>Please read the <a href="privacy-policy.html">Privacy Policy</a> for this extension before proceeding.</p>
 
             <h1>Buy me a coffee ☕</h1>
             <p>
