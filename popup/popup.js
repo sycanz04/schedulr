@@ -112,7 +112,7 @@ document.getElementById('reminderForm').addEventListener('submit', function(even
 
                                         // Reformat date. Currently looks like '14 Aug'
                                         // Target format '2024-08-14'
-                                        function formatDate(period, classDate, yearElement){
+                                        function formatDate(classDate, yearElement){
                                             // Get the correct date and month
                                             const [date, month] = classDate.split(' ')
                                             // console.log(`${date},${month}`)
@@ -123,16 +123,20 @@ document.getElementById('reminderForm').addEventListener('submit', function(even
                                             }
 
                                             let monthValue = months[month];
-                                            if (period === 'end'){
-                                                endDateYear = yearElement.substr(-4, 4);
-                                                return `${endDateYear}-${monthValue}-${date}`
-                                            } else if (period === 'start') {
-                                                // console.log(`Year Element: ${yearElement}`)
-                                                frontDatePeriod = yearElement.split("-");
-                                                startDate = frontDatePeriod[0].split(" ");
-                                                startDateYear = startDate[2].substr(-4, 4)
-                                                return `${startDateYear}-${monthValue}-${date}`
-                                            }
+                                            endDateYear = yearElement.substr(-4, 4);
+                                            return `${endDateYear}-${monthValue}-${date}`
+
+                                            // if (period === 'end'){
+                                            //     endDateYear = yearElement.substr(-4, 4);
+                                            //     console.log(endDateYear);
+                                            //     return `${endDateYear}-${monthValue}-${date}`
+                                            // } else if (period === 'start') {
+                                            //     // console.log(`Year Element: ${yearElement}`)
+                                            //     frontDatePeriod = yearElement.split("-");
+                                            //     startDate = frontDatePeriod[0].split(" ");
+                                            //     startDateYear = startDate[2].substr(-4, 4)
+                                            //     return `${startDateYear}-${monthValue}-${date}`
+                                            // }
                                         }
 
                                         if (iframeElement) {
@@ -152,17 +156,38 @@ document.getElementById('reminderForm').addEventListener('submit', function(even
                                                     const dayText = element.textContent.split("\n");
                                                     const day = dayText[0].trim();
                                                     const date = dayText[1]
+                                                    // console.log(`Day: ${day}, Date: ${date}`);
                                                     days.push(day);
                                                     dates.push(date);
+                                                    // console.log(days);
+                                                    // console.log(dates);
                                                 })
                                             } else {
                                                 console.log("No day elements found");
                                                 throw "No day elements found";
                                             }
 
+                                            // days.shift();
+                                            // dates.shift();
+                                            // console.log(days);
+                                            // console.log(dates);
+
+                                            // Plan on getting class details in a new way:
+                                            // Since each row(time) is split to different <tr> while different columns(days) are split to <td>.
+                                            // We'll initiate a count1 to loop through all days, then count2 to let program know which row to read.
+                                            // So we're essential looping top down 
+                                            rows.forEach((row) => {
+                                                const cells = row.querySelectorAll("td.PSLEVEL3GRIDODDROW");
+
+                                                cells.forEach((cell, colIndex) => {
+                                                    // if detect a class, check the duration. If 2 hours, add another element right below it.
+                                                })
+                                            })
+
                                             // Get the class details
                                             rows.forEach((row) => {
-                                                const cells = row.querySelectorAll("td.PSLEVEL3GRIDODDROW")
+                                                const cells = row.querySelectorAll("td.PSLEVEL3GRIDODDROW");
+                                                // console.log(`Amount of cells: ${cells.length}`);
 
                                                 if (cells.length > 0) {
                                                     cells.forEach((cell, colIndex) => {
@@ -179,8 +204,8 @@ document.getElementById('reminderForm').addEventListener('submit', function(even
                                                                 const classLocation = truncLocation(classContent[3]);
 
                                                                 const day = days[colIndex];
-                                                                const startDate = formatDate('start', dates[colIndex], year);
-                                                                const endDate = formatDate('end', dates[colIndex], year);
+                                                                const startDate = formatDate(dates[colIndex], year);
+                                                                const endDate = formatDate(dates[colIndex], year);
 
                                                                 console.log(`Summary: ${className}, Location: ${classLocation}, Day: ${day}, startDateTime: ${startDate}T${formattedStartTime}, endDateTime: ${endDate}T${formattedEndTime}`);
 
@@ -209,14 +234,15 @@ document.getElementById('reminderForm').addEventListener('submit', function(even
                                                                     }
                                                                 }
 
-                                                                console.log('Event: ', event)
+                                                                // console.log('Event: ', event)
 
                                                                 // Log the selected value
                                                                 // console.log(`RRULE:FREQ=WEEKLY;COUNT=${selectedSemesterValue}`);
                                                                 // console.log('Selected semester value:', selectedSemesterValue);
 
                                                                 if (window.accessToken) {
-                                                                    createCalendarEvent(window.accessToken, event);
+                                                                    console.log("Extension end");
+                                                                    // createCalendarEvent(window.accessToken, event);
                                                                 }
                                                             }
                                                         }
