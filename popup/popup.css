@@ -2,7 +2,7 @@ body {
     font-family: Arial, sans-serif;
     border: 2px solid #89b4fa;
     width: 250px;
-    height: 310px;
+    height: 410px;
     margin: 0;
     box-sizing: border-box;
     background-color: #1e1e2e;
@@ -58,4 +58,29 @@ input[type="submit"] {
 
 input[type="submit"]:hover {
     background-color: #a6adc8;
+}
+
+.color-picker {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    width: 150px;
+    margin: 0 auto;
+}
+
+#colorForm input[type="radio"] {
+    display: none;
+}
+
+.color-circle {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    cursor: pointer;
+    border: 2px solid transparent;
+}
+
+input[type="radio"]:checked + .color-circle {
+    border: 3px solid #FFFFFF;
 }

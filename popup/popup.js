@@ -1,13 +1,14 @@
-document.getElementById('reminderForm').addEventListener('submit', function(event) {
+document.getElementById('colorForm').addEventListener('submit', function(event) {
     event.preventDefault();  // Prevent the form from submitting
 
     try{
         // Get the value of the selected radio button
         const selectedSemesterValue = document.querySelector('input[name="semester"]:checked')?.value;
         const selectedReminderTime = document.querySelector('input[name="reminder"]:checked')?.value;
+        const selectedColorValue = document.querySelector('input[name="color"]:checked')?.value;
 
         // Check if both values are selected
-        if (selectedSemesterValue && selectedReminderTime) {
+        if (selectedSemesterValue && selectedReminderTime && selectedColorValue) {
             chrome.identity.getAuthToken({interactive: true}, function(token) {
                 if (chrome.runtime.lastError || !token) {
                     console.error('Error getting OAuth token:', chrome.runtime.lastError);
@@ -25,7 +26,7 @@ document.getElementById('reminderForm').addEventListener('submit', function(even
 
                     chrome.scripting.executeScript({
                         target: { tabId: currTab.id },
-                        func: (token, selectedSemesterValue, selectedReminderTime) => {
+                        func: (token, selectedSemesterValue, selectedReminderTime, selectedColorValue) => {
                             try {
                                 window.accessToken = token;  // Store the token globally
 
@@ -125,18 +126,38 @@ document.getElementById('reminderForm').addEventListener('submit', function(even
                                             let monthValue = months[month];
                                             endDateYear = yearElement.substr(-4, 4);
                                             return `${endDateYear}-${monthValue}-${date}`
+                                        }
 
-                                            // if (period === 'end'){
-                                            //     endDateYear = yearElement.substr(-4, 4);
-                                            //     console.log(endDateYear);
-                                            //     return `${endDateYear}-${monthValue}-${date}`
-                                            // } else if (period === 'start') {
-                                            //     // console.log(`Year Element: ${yearElement}`)
-                                            //     frontDatePeriod = yearElement.split("-");
-                                            //     startDate = frontDatePeriod[0].split(" ");
-                                            //     startDateYear = startDate[2].substr(-4, 4)
-                                            //     return `${startDateYear}-${monthValue}-${date}`
-                                            // }
+                                        function createArray(rows, cols, value = 0) {
+                                            let arr = new Array(rows);
+                                            for (let i = 0; i < rows; i++) {
+                                                arr[i] = new Array(cols).fill(value);
+                                            }
+
+                                            // console.log(arr);
+                                            return arr;
+                                        }
+
+                                        function rowSpan(fStartTime, fEndTime) {
+                                            // Parse formatted time
+                                            const startTime = fStartTime.split(':');
+                                            const endTime = fEndTime.split(':');
+
+                                            // Get hour/min
+                                            const startHour = parseInt(startTime[0]);
+                                            const endHour = parseInt(endTime[0]);
+                                            const endMin = parseInt(endTime[1]);
+
+                                            hourSpan = endHour - startHour;
+                                            if (endMin > 0) {
+                                                let minSpan = 1;
+                                                totalSpan = hourSpan + minSpan
+                                            } else {
+                                                totalSpan = hourSpan;
+                                            }
+                                            // console.log(totalSpan);
+
+                                            return totalSpan;
                                         }
 
                                         if (iframeElement) {
@@ -172,26 +193,28 @@ document.getElementById('reminderForm').addEventListener('submit', function(even
                                             // console.log(days);
                                             // console.log(dates);
 
-                                            // Plan on getting class details in a new way:
-                                            // Since each row(time) is split to different <tr> while different columns(days) are split to <td>.
-                                            // We'll initiate a count1 to loop through all days, then count2 to let program know which row to read.
-                                            // So we're essential looping top down 
-                                            rows.forEach((row) => {
-                                                const cells = row.querySelectorAll("td.PSLEVEL3GRIDODDROW");
+                                            let skip = createArray(12, 8, 0);
 
-                                                cells.forEach((cell, colIndex) => {
-                                                    // if detect a class, check the duration. If 2 hours, add another element right below it.
-                                                })
-                                            })
-
-                                            // Get the class details
-                                            rows.forEach((row) => {
+                                            // For every tr
+                                            rows.forEach((row, rowIndex) => {
                                                 const cells = row.querySelectorAll("td.PSLEVEL3GRIDODDROW");
                                                 // console.log(`Amount of cells: ${cells.length}`);
 
+                                                // track current row skips
+                                                let curRowSkips = 0;
+
+                                                // Get every cell in row
                                                 if (cells.length > 0) {
-                                                    cells.forEach((cell, colIndex) => {
-                                                        if (colIndex > 0) {
+                                                    cells.forEach((cell, susColIndex) => {
+                                                        if (susColIndex > 0) { // Skip first(time) column
+                                                            let colIndex = susColIndex + curRowSkips;
+                                                            // console.log(rowIndex, susColIndex);
+
+                                                            if (skip[rowIndex][susColIndex] > 0) {
+                                                                curRowSkips += skip[rowIndex][susColIndex];
+                                                                colIndex += skip[rowIndex][susColIndex];
+                                                            }
+
                                                             const spanElement = cell.querySelector("span");
                                                             if (spanElement) {
                                                                 // Get innerHTML
@@ -208,6 +231,29 @@ document.getElementById('reminderForm').addEventListener('submit', function(even
                                                                 const endDate = formatDate(dates[colIndex], year);
 
                                                                 console.log(`Summary: ${className}, Location: ${classLocation}, Day: ${day}, startDateTime: ${startDate}T${formattedStartTime}, endDateTime: ${endDate}T${formattedEndTime}`);
+
+                                                                // If class is 2 hours, mark slot below as "True"
+                                                                let totalSpan = rowSpan(formattedStartTime, formattedEndTime);
+
+                                                                if (totalSpan > 1) {
+                                                                    for (i = 1; i < totalSpan; i++) {
+                                                                        if (rowIndex + i < skip.length) {
+                                                                            // Do a for loop that adds 1 to corresponding hours
+                                                                            skip[rowIndex + i][colIndex] = 1;
+
+                                                                            let itrColIndex = colIndex - 1
+                                                                            while(itrColIndex > 0) {
+                                                                                if(skip[rowIndex + i][itrColIndex] > 0) {
+                                                                                    skip[rowIndex + i][itrColIndex] += 1
+                                                                                }
+                                                                                else {
+                                                                                    break
+                                                                                }
+                                                                                itrColIndex -= 1
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                }
 
                                                                 var event = {
                                                                     'summary': `${className}`,
@@ -231,7 +277,8 @@ document.getElementById('reminderForm').addEventListener('submit', function(even
                                                                                 'minutes': selectedReminderTime
                                                                             }
                                                                         ]
-                                                                    }
+                                                                    },
+                                                                    'colorId': selectedColorValue
                                                                 }
 
                                                                 // console.log('Event: ', event)
@@ -241,8 +288,8 @@ document.getElementById('reminderForm').addEventListener('submit', function(even
                                                                 // console.log('Selected semester value:', selectedSemesterValue);
 
                                                                 if (window.accessToken) {
-                                                                    console.log("Extension end");
-                                                                    // createCalendarEvent(window.accessToken, event);
+                                                                    // console.log("Extension end");
+                                                                    createCalendarEvent(window.accessToken, event);
                                                                 }
                                                             }
                                                         }
@@ -263,12 +310,12 @@ document.getElementById('reminderForm').addEventListener('submit', function(even
                                 window.alert('An unexpected error occured: ', err);
                             }
                         },
-                        args: [token, selectedSemesterValue, selectedReminderTime]
+                        args: [token, selectedSemesterValue, selectedReminderTime, selectedColorValue]
                     });
                 });
             });
         } else {
-            window.alert('Please select both semester and reminder options.');
+            window.alert('Please select all options.');
         }
     }
     catch(err) {
