@@ -1,13 +1,14 @@
-document.getElementById('reminderForm').addEventListener('submit', function(event) {
+document.getElementById('colorForm').addEventListener('submit', function(event) {
     event.preventDefault();  // Prevent the form from submitting
 
     try{
         // Get the value of the selected radio button
         const selectedSemesterValue = document.querySelector('input[name="semester"]:checked')?.value;
         const selectedReminderTime = document.querySelector('input[name="reminder"]:checked')?.value;
+        const selectedColorValue = document.querySelector('input[name="color"]:checked')?.value;
 
         // Check if both values are selected
-        if (selectedSemesterValue && selectedReminderTime) {
+        if (selectedSemesterValue && selectedReminderTime && selectedColorValue) {
             chrome.identity.getAuthToken({interactive: true}, function(token) {
                 if (chrome.runtime.lastError || !token) {
                     console.error('Error getting OAuth token:', chrome.runtime.lastError);
@@ -25,7 +26,7 @@ document.getElementById('reminderForm').addEventListener('submit', function(even
 
                     chrome.scripting.executeScript({
                         target: { tabId: currTab.id },
-                        func: (token, selectedSemesterValue, selectedReminderTime) => {
+                        func: (token, selectedSemesterValue, selectedReminderTime, selectedColorValue) => {
                             try {
                                 window.accessToken = token;  // Store the token globally
 
@@ -112,7 +113,7 @@ document.getElementById('reminderForm').addEventListener('submit', function(even
 
                                         // Reformat date. Currently looks like '14 Aug'
                                         // Target format '2024-08-14'
-                                        function formatDate(period, classDate, yearElement){
+                                        function formatDate(classDate, yearElement){
                                             // Get the correct date and month
                                             const [date, month] = classDate.split(' ')
                                             // console.log(`${date},${month}`)
@@ -123,16 +124,40 @@ document.getElementById('reminderForm').addEventListener('submit', function(even
                                             }
 
                                             let monthValue = months[month];
-                                            if (period === 'end'){
-                                                endDateYear = yearElement.substr(-4, 4);
-                                                return `${endDateYear}-${monthValue}-${date}`
-                                            } else if (period === 'start') {
-                                                // console.log(`Year Element: ${yearElement}`)
-                                                frontDatePeriod = yearElement.split("-");
-                                                startDate = frontDatePeriod[0].split(" ");
-                                                startDateYear = startDate[2].substr(-4, 4)
-                                                return `${startDateYear}-${monthValue}-${date}`
+                                            endDateYear = yearElement.substr(-4, 4);
+                                            return `${endDateYear}-${monthValue}-${date}`
+                                        }
+
+                                        function createArray(rows, cols, value = 0) {
+                                            let arr = new Array(rows);
+                                            for (let i = 0; i < rows; i++) {
+                                                arr[i] = new Array(cols).fill(value);
                                             }
+
+                                            // console.log(arr);
+                                            return arr;
+                                        }
+
+                                        function rowSpan(fStartTime, fEndTime) {
+                                            // Parse formatted time
+                                            const startTime = fStartTime.split(':');
+                                            const endTime = fEndTime.split(':');
+
+                                            // Get hour/min
+                                            const startHour = parseInt(startTime[0]);
+                                            const endHour = parseInt(endTime[0]);
+                                            const endMin = parseInt(endTime[1]);
+
+                                            hourSpan = endHour - startHour;
+                                            if (endMin > 0) {
+                                                let minSpan = 1;
+                                                totalSpan = hourSpan + minSpan
+                                            } else {
+                                                totalSpan = hourSpan;
+                                            }
+                                            // console.log(totalSpan);
+
+                                            return totalSpan;
                                         }
 
                                         if (iframeElement) {
@@ -152,21 +177,44 @@ document.getElementById('reminderForm').addEventListener('submit', function(even
                                                     const dayText = element.textContent.split("\n");
                                                     const day = dayText[0].trim();
                                                     const date = dayText[1]
+                                                    // console.log(`Day: ${day}, Date: ${date}`);
                                                     days.push(day);
                                                     dates.push(date);
+                                                    // console.log(days);
+                                                    // console.log(dates);
                                                 })
                                             } else {
                                                 console.log("No day elements found");
                                                 throw "No day elements found";
                                             }
 
-                                            // Get the class details
-                                            rows.forEach((row) => {
-                                                const cells = row.querySelectorAll("td.PSLEVEL3GRIDODDROW")
+                                            // days.shift();
+                                            // dates.shift();
+                                            // console.log(days);
+                                            // console.log(dates);
 
+                                            let skip = createArray(12, 8, 0);
+
+                                            // For every tr
+                                            rows.forEach((row, rowIndex) => {
+                                                const cells = row.querySelectorAll("td.PSLEVEL3GRIDODDROW");
+                                                // console.log(`Amount of cells: ${cells.length}`);
+
+                                                // track current row skips
+                                                let curRowSkips = 0;
+
+                                                // Get every cell in row
                                                 if (cells.length > 0) {
-                                                    cells.forEach((cell, colIndex) => {
-                                                        if (colIndex > 0) {
+                                                    cells.forEach((cell, susColIndex) => {
+                                                        if (susColIndex > 0) { // Skip first(time) column
+                                                            let colIndex = susColIndex + curRowSkips;
+                                                            // console.log(rowIndex, susColIndex);
+
+                                                            if (skip[rowIndex][susColIndex] > 0) {
+                                                                curRowSkips += skip[rowIndex][susColIndex];
+                                                                colIndex += skip[rowIndex][susColIndex];
+                                                            }
+
                                                             const spanElement = cell.querySelector("span");
                                                             if (spanElement) {
                                                                 // Get innerHTML
@@ -179,10 +227,33 @@ document.getElementById('reminderForm').addEventListener('submit', function(even
                                                                 const classLocation = truncLocation(classContent[3]);
 
                                                                 const day = days[colIndex];
-                                                                const startDate = formatDate('start', dates[colIndex], year);
-                                                                const endDate = formatDate('end', dates[colIndex], year);
+                                                                const startDate = formatDate(dates[colIndex], year);
+                                                                const endDate = formatDate(dates[colIndex], year);
 
                                                                 console.log(`Summary: ${className}, Location: ${classLocation}, Day: ${day}, startDateTime: ${startDate}T${formattedStartTime}, endDateTime: ${endDate}T${formattedEndTime}`);
+
+                                                                // If class is 2 hours, mark slot below as "True"
+                                                                let totalSpan = rowSpan(formattedStartTime, formattedEndTime);
+
+                                                                if (totalSpan > 1) {
+                                                                    for (i = 1; i < totalSpan; i++) {
+                                                                        if (rowIndex + i < skip.length) {
+                                                                            // Do a for loop that adds 1 to corresponding hours
+                                                                            skip[rowIndex + i][colIndex] = 1;
+
+                                                                            let itrColIndex = colIndex - 1
+                                                                            while(itrColIndex > 0) {
+                                                                                if(skip[rowIndex + i][itrColIndex] > 0) {
+                                                                                    skip[rowIndex + i][itrColIndex] += 1
+                                                                                }
+                                                                                else {
+                                                                                    break
+                                                                                }
+                                                                                itrColIndex -= 1
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                }
 
                                                                 var event = {
                                                                     'summary': `${className}`,
@@ -206,16 +277,18 @@ document.getElementById('reminderForm').addEventListener('submit', function(even
                                                                                 'minutes': selectedReminderTime
                                                                             }
                                                                         ]
-                                                                    }
+                                                                    },
+                                                                    'colorId': selectedColorValue
                                                                 }
 
-                                                                console.log('Event: ', event)
+                                                                // console.log('Event: ', event)
 
                                                                 // Log the selected value
                                                                 // console.log(`RRULE:FREQ=WEEKLY;COUNT=${selectedSemesterValue}`);
                                                                 // console.log('Selected semester value:', selectedSemesterValue);
 
                                                                 if (window.accessToken) {
+                                                                    // console.log("Extension end");
                                                                     createCalendarEvent(window.accessToken, event);
                                                                 }
                                                             }
@@ -237,12 +310,12 @@ document.getElementById('reminderForm').addEventListener('submit', function(even
                                 window.alert('An unexpected error occured: ', err);
                             }
                         },
-                        args: [token, selectedSemesterValue, selectedReminderTime]
+                        args: [token, selectedSemesterValue, selectedReminderTime, selectedColorValue]
                     });
                 });
             });
         } else {
-            window.alert('Please select both semester and reminder options.');
+            window.alert('Please select all options.');
         }
     }
     catch(err) {
