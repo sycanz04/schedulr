@@ -200,18 +200,18 @@ document.getElementById('colorForm').addEventListener('submit', function(event) 
                                                 const cells = row.querySelectorAll("td.PSLEVEL3GRIDODDROW");
                                                 // console.log(`Amount of cells: ${cells.length}`);
 
-                                                // track current row skips
-                                                let curRowSkips = 0;
+                                                // track current col skips
+                                                let curColSkips = 0;
 
-                                                // Get every cell in row
+                                                // For every cell
                                                 if (cells.length > 0) {
                                                     cells.forEach((cell, susColIndex) => {
-                                                        if (susColIndex > 0) { // Skip first(time) column
-                                                            let colIndex = susColIndex + curRowSkips;
+                                                        if (susColIndex > 0) { // Other than the first one
+                                                            let colIndex = susColIndex + curColSkips;
                                                             // console.log(rowIndex, susColIndex);
 
                                                             if (skip[rowIndex][susColIndex] > 0) {
-                                                                curRowSkips += skip[rowIndex][susColIndex];
+                                                                curColSkips += 1;
                                                                 colIndex += skip[rowIndex][susColIndex];
                                                             }
 
@@ -235,21 +235,25 @@ document.getElementById('colorForm').addEventListener('submit', function(event) 
                                                                 // If class is 2 hours, mark slot below as "True"
                                                                 let totalSpan = rowSpan(formattedStartTime, formattedEndTime);
 
+                                                                // If the class's total span is more than an hour
                                                                 if (totalSpan > 1) {
+                                                                    // For every total - 1 span
                                                                     for (i = 1; i < totalSpan; i++) {
+                                                                        // If next row is a valid row
                                                                         if (rowIndex + i < skip.length) {
-                                                                            // Do a for loop that adds 1 to corresponding hours
+                                                                            // Edit value to 1 in row i
                                                                             skip[rowIndex + i][colIndex] = 1;
 
-                                                                            let itrColIndex = colIndex - 1
+                                                                            // Checks the col before curr one
+                                                                            let itrColIndex = colIndex - 1;
                                                                             while(itrColIndex > 0) {
                                                                                 if(skip[rowIndex + i][itrColIndex] > 0) {
-                                                                                    skip[rowIndex + i][itrColIndex] += 1
+                                                                                    skip[rowIndex + i][itrColIndex] += 1;
                                                                                 }
                                                                                 else {
-                                                                                    break
+                                                                                    break;
                                                                                 }
-                                                                                itrColIndex -= 1
+                                                                                itrColIndex -= 1;
                                                                             }
                                                                         }
                                                                     }
