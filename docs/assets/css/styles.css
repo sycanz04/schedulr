@@ -163,7 +163,7 @@ video {
     font-size: 22px;
     margin-bottom: 15px;
     color: #fff;
-    border-bottom: 2px solid #89b4fa;
+    /* border-bottom: 2px solid #89b4fa; */
     padding-bottom: 5px;
 }
 
@@ -179,6 +179,16 @@ video {
 }
 
 .second ol li {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.second ul {
+    margin-left: 20px;
+    margin-bottom: 30px;
+}
+
+.second ul li {
     font-size: 18px;
     margin-bottom: 10px;
 }
