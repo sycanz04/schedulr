@@ -310,6 +310,7 @@ document.getElementById('colorForm').addEventListener('submit', function(event) 
                                     }
                                 }
                                 processIframe();
+                                window.alert("Timetable transferred to Google Calendar!");
                             }
                             catch(err) {
                                 console.error('An unexpected error occured: ', err);
