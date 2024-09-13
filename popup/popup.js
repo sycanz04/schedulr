@@ -259,7 +259,7 @@ document.getElementById('colorForm').addEventListener('submit', function(event) 
                                                                     }
                                                                 }
 
-                                                                var event = {
+                                                                let event = {
                                                                     'summary': `${className}`,
                                                                     'location': `${classLocation}`,
                                                                     'start': {
@@ -275,14 +275,16 @@ document.getElementById('colorForm').addEventListener('submit', function(event) 
                                                                     ],
                                                                     'reminders': {
                                                                         'useDefault': false,
-                                                                        'overrides': [
-                                                                            {
-                                                                                'method': 'popup',
-                                                                                'minutes': selectedReminderTime
-                                                                            }
-                                                                        ]
+                                                                        'overrides': []
                                                                     },
                                                                     'colorId': selectedColorValue
+                                                                }
+
+                                                                if (selectedReminderTime !== "none") {
+                                                                    event.reminders.overrides.push({
+                                                                        'method': 'popup',
+                                                                        'minutes': parseInt(selectedReminderTime)
+                                                                    })
                                                                 }
 
                                                                 // console.log('Event: ', event)

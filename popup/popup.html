@@ -21,9 +21,11 @@
 
         <form id="reminderForm">
             <p>Reminder for events: </p>
-            <input type="radio" id="minutes" name="reminder" value=30>
+            <input type="radio" id="none" name="reminder" value="none">
+            <label for="minutes">No reminder</label><br>
+            <input type="radio" id="minutes" name="reminder" value="30">
             <label for="minutes">30 minutes before</label><br>
-            <input type="radio" id="hour" name="reminder" value=60>
+            <input type="radio" id="hour" name="reminder" value="60">
             <label for="hour">1 hour before</label><br>
         </form>
 
