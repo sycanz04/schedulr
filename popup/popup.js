@@ -1,3 +1,11 @@
+function calChoice() {
+    chrome.runtime.sendMessage({
+        action: "calChoice"
+    });
+}
+
+calChoice();
+
 document.getElementById('colorForm').addEventListener('submit', function(event) {
     event.preventDefault();  // Prevent the form from submitting
 
@@ -295,7 +303,7 @@ document.getElementById('colorForm').addEventListener('submit', function(event) 
 
                                                                 if (window.accessToken) {
                                                                     // console.log("Extension end");
-                                                                    createCalendarEvent(window.accessToken, event);
+                                                                    // createCalendarEvent(window.accessToken, event);
                                                                 }
                                                             }
                                                         }
