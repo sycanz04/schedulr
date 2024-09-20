@@ -2,10 +2,10 @@ body {
     font-family: Arial, sans-serif;
     border: 2px solid #89b4fa;
     width: 250px;
-    height: 500px;
     margin: 0;
     box-sizing: border-box;
     background-color: #1e1e2e;
+    overflow-y: auto;
 }
 
 h1 {
@@ -60,6 +60,7 @@ input[type="submit"]:hover {
     background-color: #a6adc8;
 }
 
+/* Colour picker stuffs */
 .color-picker {
     display: flex;
     flex-wrap: wrap;
@@ -84,3 +85,33 @@ input[type="submit"]:hover {
 input[type="radio"]:checked + .color-circle {
     border: 3px solid #FFFFFF;
 }
+/* End of colour picker stuffs */
+
+/* Loader stuffs */
+.loader-container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.loader {
+    border: 4px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 4px solid #3498db;
+    width: 15px;
+    height: 15px;
+    -webkit-animation: spin 2s linear infinite; /* Safari */
+    animation: spin 2s linear infinite;
+}
+
+/* Safari */
+@-webkit-keyframes spin {
+    0% { -webkit-transform: rotate(0deg); }
+    100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+/* End of loader stuffs */

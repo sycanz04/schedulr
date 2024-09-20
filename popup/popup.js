@@ -32,6 +32,9 @@ function setAttributes(form, calData) {
         form.appendChild(label);
         form.appendChild(br);
     }
+
+    // Hide the loader after calendar
+    document.getElementById('loader').style.display = 'none';
 }
 
 chrome.runtime.onMessage.addListener((message) => {

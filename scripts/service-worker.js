@@ -56,8 +56,7 @@ function parseCalIds(calObject) {
         if (!(calendar.summary.includes("Holidays")) && !(calendar.summary.includes("Birthdays"))) {
             calJson[calendar.summary] = calendar.id;
         }
-    })
-    // console.log("Cal JSON:", calJson);
+    });
 
     chrome.runtime.sendMessage({
         action: 'calData',
