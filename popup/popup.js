@@ -6,17 +6,58 @@ function calChoice() {
 
 calChoice();
 
+function setAttributes(form, calData) {
+    // Ideal html tags in popup.js
+    // <input type="radio" id="$summary" name="calender" value="$calId">
+    // <label for="$summary>$Summary</label><br>
+    
+    for (let cals in calData) {
+        // Create input and label tag for every index
+        const input = document.createElement("input");
+        const label = document.createElement("label");
+        const br = document.createElement("br");
+        
+        // Set attribute for input tag
+        input.setAttribute("type", "radio");
+        input.setAttribute("id", `${cals}`);
+        input.setAttribute("name", "calendar");
+        input.setAttribute("value", `${calData[cals]}`);
+
+        // Set attribute for label tag
+        label.innerText = `${cals}`;
+        label.setAttribute("for", `${cals}`);
+
+        // Append input and label tag, then a line break after
+        form.appendChild(input);
+        form.appendChild(label);
+        form.appendChild(br);
+    }
+}
+
+chrome.runtime.onMessage.addListener((message) => {
+    if (message.action === "calData") {
+        let calData = message.data;
+        // console.log("Cal Data:", calData);
+        
+        // Get form element in html
+        const form = document.getElementById("calendarForm");
+
+        setAttributes(form, calData);
+    }
+});
+
 document.getElementById('colorForm').addEventListener('submit', function(event) {
     event.preventDefault();  // Prevent the form from submitting
 
     try{
         // Get the value of the selected radio button
+        const selectedCalendar = document.querySelector('input[name="calendar"]:checked')?.value;
         const selectedSemesterValue = document.querySelector('input[name="semester"]:checked')?.value;
         const selectedReminderTime = document.querySelector('input[name="reminder"]:checked')?.value;
         const selectedColorValue = document.querySelector('input[name="color"]:checked')?.value;
 
         // Check if both values are selected
-        if (selectedSemesterValue && selectedReminderTime && selectedColorValue) {
+        if (selectedSemesterValue && selectedReminderTime && selectedColorValue && selectedCalendar) {
             chrome.identity.getAuthToken({interactive: true}, function(token) {
                 if (chrome.runtime.lastError || !token) {
                     console.error('Error getting OAuth token:', chrome.runtime.lastError);
@@ -34,14 +75,14 @@ document.getElementById('colorForm').addEventListener('submit', function(event) 
 
                     chrome.scripting.executeScript({
                         target: { tabId: currTab.id },
-                        func: (token, selectedSemesterValue, selectedReminderTime, selectedColorValue) => {
+                        func: (token, selectedSemesterValue, selectedReminderTime, selectedColorValue, selectedCalendar) => {
                             try {
                                 window.accessToken = token;  // Store the token globally
 
                                 // ===============Google API===============
                                 // Function to create a calendar event
                                 function createCalendarEvent(accessToken, event) {
-                                    fetch('https://www.googleapis.com/calendar/v3/calendars/primary/events', {
+                                    fetch(`https://www.googleapis.com/calendar/v3/calendars/${selectedCalendar}/events`, {
                                         method: 'POST',
                                         headers: {
                                             'Authorization': `Bearer ${accessToken}`,
@@ -303,7 +344,7 @@ document.getElementById('colorForm').addEventListener('submit', function(event) 
 
                                                                 if (window.accessToken) {
                                                                     // console.log("Extension end");
-                                                                    // createCalendarEvent(window.accessToken, event);
+                                                                    createCalendarEvent(window.accessToken, event);
                                                                 }
                                                             }
                                                         }
@@ -325,7 +366,7 @@ document.getElementById('colorForm').addEventListener('submit', function(event) 
                                 window.alert('An unexpected error occured: ', err);
                             }
                         },
-                        args: [token, selectedSemesterValue, selectedReminderTime, selectedColorValue]
+                        args: [token, selectedSemesterValue, selectedReminderTime, selectedColorValue, selectedCalendar]
                     });
                 });
             });

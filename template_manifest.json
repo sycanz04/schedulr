@@ -18,11 +18,14 @@
             "suggested_key": {
                 "default": "Alt+Shift+S",
                 "linux": "Alt+Shift+S",
-                "mac": "Alt+Shift+S",
+                "mac": "Command+Shift+S",
                 "windows": "Alt+Shift+S"
             },
             "description" : "Open schedulr's popup.html"
         }
+    },
+    "background": {
+        "service_worker": "scripts/service-worker.js"
     },
     "permissions": [
         "activeTab",
