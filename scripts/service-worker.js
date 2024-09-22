@@ -36,7 +36,6 @@ function getCalIds(token) {
     .then(response => {
         if (!response.ok) {
             console.log(`Error creating event: ${response.statusText}`);
-            window.alert(`Error creating event: ${response.statusText}`);
         }
         return response.json();
     })
@@ -46,7 +45,6 @@ function getCalIds(token) {
     })
     .catch(error => {
         console.error('Error occured:', error);
-        window.alert(`Error occured: ${error.message}`);
     })
 }
 
