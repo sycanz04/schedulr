@@ -11,7 +11,10 @@ function getToken() {
         chrome.identity.getAuthToken({interactive: true}, function(token) {
             if (chrome.runtime.lastError || !token) {
                 console.error('Error getting OAuth token:', chrome.runtime.lastError);
-                window.alert('Failed to get OAuth token. Please try again.');
+                chrome.runtime.sendMessage({
+                    action: 'showAlert',
+                    message: 'Error getting OAuth token'
+                });
                 return;
             }
             myResolve(token);
@@ -36,6 +39,10 @@ function getCalIds(token) {
     .then(response => {
         if (!response.ok) {
             console.log(`Error creating event: ${response.statusText}`);
+            chrome.runtime.sendMessage({
+                action: 'showAlert',
+                message: `Error getting calendar id: ${response.statusText}`
+            });
         }
         return response.json();
     })
@@ -45,6 +52,10 @@ function getCalIds(token) {
     })
     .catch(error => {
         console.error('Error occured:', error);
+        chrome.runtime.sendMessage({
+            action: 'showAlert',
+            message: `Error occured: ${error}`
+        })
     })
 }
 

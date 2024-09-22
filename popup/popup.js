@@ -46,6 +46,8 @@ chrome.runtime.onMessage.addListener((message) => {
         const form = document.getElementById("calendarForm");
 
         setAttributes(form, calData);
+    } else if (message.action === "showAlert") {
+        window.alert(calData);
     }
 });
 
