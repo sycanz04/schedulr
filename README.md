@@ -28,10 +28,11 @@ https://github.com/user-attachments/assets/9379bee7-6b2d-48c0-b261-4f93800fcac5
 ## Usage 🕹️
 1. Go to "My Weekly Schedule" page in CliC. ***(Ensure you're viewing the schedule for the very first week of the semester)***
 2. Open the extension by using the [shortcut key](https://github.com/sycanz04/schedulr?tab=readme-ov-file#key-binding-) or by clicking the extension icon.
-3. Choose the calendar where you'd like to add events. ***(Your main calendar is typically the one linked to your email)***
-4. Select the semester length: either **Short (7 weeks)** or **Long (14 weeks)**.
-5. Pick a colour for the calendar events.
-6. Press the **Submit** button to complete the process.
+3. An authentication window will appear, grant permission for both scopes and then reopen the extension.
+4. Choose the calendar where you'd like to add events. ***(Your main calendar is typically the one linked to your email)***
+5. Select the semester length: either **Short (7 weeks)** or **Long (14 weeks)**.
+6. Pick a colour for the calendar events.
+7. Press the **Submit** button to complete the process.
 
 ...classes **SHOULD** be added to Google Calendar.
 
