@@ -16,7 +16,7 @@ body {
 
 /* Navbar styling */
 .navbar {
-    width: 90%;
+    width: 95%;
     margin: auto;
     padding: 20px 0;
     display: flex;
@@ -26,7 +26,7 @@ body {
 }
 
 .navbar .leftside {
-    font-size: 20px;
+    font-size: 35px;
     font-weight: bold;
     text-decoration: none;
     color: #fff;
@@ -64,65 +64,118 @@ body {
     position: relative;
 }
 
-.navbar a {
-    text-decoration: none;
+.rightside {
+    display: inline-block;
+    font-size: 17px;
     color: #fff;
     text-transform: uppercase;
-    font-size: 16px;
-    padding: 5px 10px;
+    text-decoration: none;
+    font-weight: bold;
 }
 
-.navbar a::after {
-    content: '';
-    height: 3px;
-    width: 0;
-    background: #89b4fa;
-    position: absolute;
-    left: 0;
-    bottom: -10px;
-    transition: 0.5s;
+#links {
+  color: #89b4fa;
+  background-color: transparent;
+  text-decoration: none;
 }
 
-.navbar a:hover::after {
-    width: 100%;
+#rating-links {
+  color: #fff;
+  background-color: transparent;
+  text-decoration: none;
 }
 
 .first {
     display: flex;
     flex-direction: column;
+    height: 90.3vh;
+    padding: 0 20px;
+    width: 100%;
+}
+
+.top-part {
+    display: flex;
+    justify-content: space-between;
     align-items: center;
-    padding-top: 25px;
+    padding: 20px;
     height: auto;
     width: 90%;
     margin: auto;
-    overflow: hidden;
+    flex-wrap: wrap;
+    gap: 70px;
 }
 
-.first h1 {
-    color: #fff;
-    font-size: 90px;
-    text-align: center;
+.text-container {
+    flex: 1;
+    max-width: 50%;
 }
 
-.first h2 {
+.text-container h1 {
+    color: #89dceb;
+    font-size: 70px;
+    text-align: left;
+}
+
+.text-container h2 {
     color: #fff;
-    font-size: 30px;
+    font-size: 28px;
     padding: 10px 0;
-    text-align: center;
+    text-align: left;
+}
+
+.text-container h3 {
+    color: #fff;
+    font-size: 24px;
+    padding: 10px 0;
+    text-align: left;
+}
+
+.rating {
+    margin: 20px 0px;
+}
+
+.rating-site {
+    color: #fff;
+    font-size: 20px;
+    text-align: left;
+    margin-bottom: 10px;
+}
+
+.extension-button {
+    display: inline-block;
+    padding: 11px 17px;
+    font-size: 20px;
+    color: #fff;
+    border: 2px solid #89b4fa;
+    border-radius: 30px;
+    text-decoration: none;
+    font-weight: bold;
+    margin-top: 20px;
+    background-color: transparent;
+}
+
+.extension-button:hover {
+    background-color: #89b4fa;
+    color: #000000;
+}
+
+.video-container {
+    flex: 1;
+    max-width: 80%;
+    margin: auto;
 }
 
 video {
-    max-width: 100%;
+    width: 100%;
     height: auto;
     display: block;
-    margin-top: 10px;
 }
 
-.first .bottom {
+.bottom {
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-top: 60px;
+    padding-bottom: 30px;
 }
 
 #bottom-text {
@@ -146,9 +199,9 @@ video {
     display: flex;
     flex-direction: column;
     margin: auto;
-    padding: 20px;
-    width: 90%;
-    margin-top: 100px;
+    padding: 80px 100px;
+    width: 100%;
+    background: #181825;
 }
 
 .second h1 {
@@ -252,6 +305,51 @@ kbd {
   box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
   margin: 0 2px;
 }
+
+.reviews {
+    margin: 40px;
+    padding: 30px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.reviews h1 {
+    text-align: center;
+    color: #89dceb; /* Use your main theme color */
+    font-size: 36px;
+    margin-bottom: 40px;
+}
+
+.reviews p {
+    font-size: 20px;
+    line-height: 1.6;
+}
+
+.reviews-container-1 {
+    display: flex; /* Use flexbox for horizontal layout */
+    justify-content: space-around; /* Distribute space evenly */
+    flex-wrap: wrap; /* Allow wrapping on smaller screens */
+}
+
+.reviews-container-2 {
+    margin-top: 20px;
+    display: flex; /* Use flexbox for horizontal layout */
+    justify-content: space-around; /* Distribute space evenly */
+    flex-wrap: wrap; /* Allow wrapping on smaller screens */
+}
+
+.review {
+    padding: 15px;
+    border-left: 4px solid #89b4fa; /* Accent color for left border */
+    margin: 10px; /* Add margin between reviews */
+    background-color: rgba(255, 255, 255, 0.2); /* Slightly lighter background */
+    border-radius: 8px; /* Rounded corners for individual reviews */
+    flex: 1; /* Allow reviews to grow and fill available space */
+    min-width: 250px; /* Set a minimum width for each review */
+    max-width: 550px; /* Set a maximum width for each review */
+}
+
 
 /* Responsive Styles */
 @media (max-width: 768px) {
