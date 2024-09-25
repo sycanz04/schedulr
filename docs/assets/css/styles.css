@@ -73,10 +73,22 @@ body {
     font-weight: bold;
 }
 
+#links {
+  color: #89b4fa;
+  background-color: transparent;
+  text-decoration: none;
+}
+
+#rating-links {
+  color: #fff;
+  background-color: transparent;
+  text-decoration: none;
+}
+
 .first {
     display: flex;
     flex-direction: column;
-    height: 90.7vh;
+    height: 90.3vh;
     padding: 0 20px;
     width: 100%;
 }
@@ -99,7 +111,7 @@ body {
 }
 
 .text-container h1 {
-    color: #fff;
+    color: #89dceb;
     font-size: 70px;
     text-align: left;
 }
@@ -118,10 +130,21 @@ body {
     text-align: left;
 }
 
+.rating {
+    margin: 20px 0px;
+}
+
+.rating-site {
+    color: #fff;
+    font-size: 20px;
+    text-align: left;
+    margin-bottom: 10px;
+}
+
 .extension-button {
     display: inline-block;
     padding: 11px 17px;
-    font-size: 18px;
+    font-size: 20px;
     color: #fff;
     border: 2px solid #89b4fa;
     border-radius: 30px;
@@ -152,7 +175,7 @@ video {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding-bottom: 20px;
+    padding-bottom: 30px;
 }
 
 #bottom-text {
@@ -176,9 +199,9 @@ video {
     display: flex;
     flex-direction: column;
     margin: auto;
-    padding: 20px;
-    width: 90%;
-    margin-top: 30px;
+    padding: 80px 100px;
+    width: 100%;
+    background: #181825;
 }
 
 .second h1 {
@@ -282,6 +305,51 @@ kbd {
   box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
   margin: 0 2px;
 }
+
+.reviews {
+    margin: 40px;
+    padding: 30px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.reviews h1 {
+    text-align: center;
+    color: #89dceb; /* Use your main theme color */
+    font-size: 36px;
+    margin-bottom: 40px;
+}
+
+.reviews p {
+    font-size: 20px;
+    line-height: 1.6;
+}
+
+.reviews-container-1 {
+    display: flex; /* Use flexbox for horizontal layout */
+    justify-content: space-around; /* Distribute space evenly */
+    flex-wrap: wrap; /* Allow wrapping on smaller screens */
+}
+
+.reviews-container-2 {
+    margin-top: 20px;
+    display: flex; /* Use flexbox for horizontal layout */
+    justify-content: space-around; /* Distribute space evenly */
+    flex-wrap: wrap; /* Allow wrapping on smaller screens */
+}
+
+.review {
+    padding: 15px;
+    border-left: 4px solid #89b4fa; /* Accent color for left border */
+    margin: 10px; /* Add margin between reviews */
+    background-color: rgba(255, 255, 255, 0.2); /* Slightly lighter background */
+    border-radius: 8px; /* Rounded corners for individual reviews */
+    flex: 1; /* Allow reviews to grow and fill available space */
+    min-width: 250px; /* Set a minimum width for each review */
+    max-width: 550px; /* Set a maximum width for each review */
+}
+
 
 /* Responsive Styles */
 @media (max-width: 768px) {
