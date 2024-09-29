@@ -214,6 +214,64 @@ document.getElementById('colorForm').addEventListener('submit', function(event) 
                                             return totalSpan;
                                         }
 
+                                        // This function converts json object into ical format and write it into .ics file
+                                        /*
+                                        'summary': `${className}`,
+                                        'location': `${classLocation}`,
+                                        'start': {
+                                            'dateTime': `${startDate}T${formattedStartTime}`,
+                                            'timeZone': 'Asia/Kuala_Lumpur'
+                                        },
+                                        'end': {
+                                            'dateTime': `${endDate}T${formattedEndTime}`,
+                                            'timeZone': 'Asia/Kuala_Lumpur'
+                                        },
+                                        'recurrence': [
+                                            `RRULE:FREQ=WEEKLY;COUNT=${selectedSemesterValue}`
+                                        ],
+                                        'reminders': {
+                                            'useDefault': false,
+                                            'overrides': []
+                                        },
+                                        'colorId': selectedColorValue
+                                        */
+                                        function jsonToIcal(event) {
+                                            let icsContent = `
+BEGIN:VCALENDAR
+BEGIN:VEVENT
+SUMMARY:${event.summary}
+LOCATION:${event.location}
+END:VEVENT
+END:VCALENDAR
+`
+                                            /*
+                                            BEGIN:VCALENDAR
+                                            VERSION:2.0
+                                            PRODID:-//ZContent.net//Zap Calendar 1.0//EN
+                                            CALSCALE:GREGORIAN
+                                            METHOD:PUBLISH
+                                            BEGIN:VEVENT
+                                            SUMMARY:Abraham Lincoln
+                                            UID:c7614cff-3549-4a00-9152-d25cc1fe077d
+                                            SEQUENCE:0
+                                            STATUS:CONFIRMED
+                                            TRANSP:TRANSPARENT
+                                            RRULE:FREQ=YEARLY;INTERVAL=1;BYMONTH=2;BYMONTHDAY=12
+                                            DTSTART:20080212
+                                            DTEND:20080213
+                                            DTSTAMP:20150421T141403
+                                            CATEGORIES:U.S. Presidents,Civil War People
+                                            LOCATION:Hodgenville\, Kentucky
+                                            GEO:37.5739497;-85.7399606
+                                            DESCRIPTION:Born February 12\, 1809\nSixteenth President (1861-1865)\n\n\n
+                                             \nhttp://AmericanHistoryCalendar.com
+                                            URL:http://americanhistorycalendar.com/peoplecalendar/1,328-abraham-lincol
+                                             n
+                                            END:VEVENT
+                                            END:VCALENDAR
+                                            */
+                                        }
+
                                         if (iframeElement) {
                                             // Access the iframe's content document
                                             const iframeDocument = iframeElement.contentWindow.document.body;
