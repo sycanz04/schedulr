@@ -47,7 +47,7 @@ function getCalIds(token) {
         return response.json();
     })
     .then(calObject => {
-        console.log('Calendar list:', calObject);
+        // console.log('Calendar list:', calObject);
         parseCalIds(calObject);
     })
     .catch(error => {
