@@ -1,3 +1,5 @@
+import { getAuthToken, getCurrTab } from './helper/prog-flow.js';
+
 function calChoice() {
     chrome.runtime.sendMessage({
         action: "calChoice"
@@ -96,37 +98,10 @@ async function handleFlow(selectedColorValue, selectedCalendar, selectedReminder
     }
 }
 
-function getAuthToken() {
-    return new Promise ((resolve, reject) => {
-        chrome.identity.getAuthToken({interactive: true}, function(token) {
-            if (chrome.runtime.lastError || !token) {
-                reject(new Error('Failed to get OAuth token. Please try again.'));
-            } else {
-                resolve(token);
-            }
-        });
-    });
-}
-
-function getCurrTab() {
-    return new Promise ((resolve, reject) => {
-        chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-            var currTab = tabs[0];
-            if (chrome.runtime.lastError || !currTab) {
-                reject(new Error('Failed to query the current tab. Please try again later'));
-                return;
-            } else {
-                resolve(currTab);
-            }
-        });
-    });
-}
-
 function dataProc(token, selectedSemesterValue, selectedReminderTime, selectedColorValue, selectedCalendar) {
     try {
         // ===============Google API===============
         // Function to create a calendar event
-        console.log('Token:', token);
 
         function createCalendarEvent(event) {
             fetch(`https://www.googleapis.com/calendar/v3/calendars/${selectedCalendar}/events`, {
@@ -424,7 +399,7 @@ END:VCALENDAR`;
 
                                         if (token) {
                                             // console.log("Extension end");
-                                            createCalendarEvent(event);
+                                            // createCalendarEvent(event);
                                         }
                                     }
                                 }
