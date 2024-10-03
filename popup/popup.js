@@ -245,6 +245,66 @@ RRULE=${event.recurrence[0]}
 END:VEVENT
 END:VCALENDAR`;
     }
+
+    function handleMultiHourClass(totalSpan, rowIndex, skip, colIndex) {
+        // For every total - 1 span
+        for (i = 1; i < totalSpan; i++) {
+            // If next row is a valid row
+            if (rowIndex + i < skip.length) {
+                // Edit value to 1 in row i
+                skip[rowIndex + i][colIndex] = 1;
+
+                updatePrevCol(colIndex, skip, rowIndex + i)
+                let nextRow = rowIndex + i
+            }
+        }
+    }
+
+    function updatePrevCol(colIndex, skip, nextRow) {
+        // Checks the col before curr one
+        let itrColIndex = colIndex - 1;
+        while(itrColIndex > 0) {
+            if(skip[nextRow][itrColIndex] > 0) {
+                skip[nextRow][itrColIndex] += 1;
+            }
+            else {
+                break;
+            }
+            itrColIndex -= 1;
+        }
+    }
+
+    function createCalEvent(className, classLocation, startDate, formattedStartTime, endDate, formattedEndTime, selectedSemesterValue, selectedColorValue, selectedReminderTime) {
+        let event = {
+            'summary': `${className}`,
+            'location': `${classLocation}`,
+            'start': {
+                'dateTime': `${startDate}T${formattedStartTime}`,
+                'timeZone': 'Asia/Kuala_Lumpur'
+            },
+            'end': {
+                'dateTime': `${endDate}T${formattedEndTime}`,
+                'timeZone': 'Asia/Kuala_Lumpur'
+            },
+            'recurrence': [
+                `RRULE:FREQ=WEEKLY;COUNT=${selectedSemesterValue}`
+            ],
+            'reminders': {
+                'useDefault': false,
+                'overrides': []
+            },
+            'colorId': selectedColorValue
+        }
+
+        if (selectedReminderTime !== "none") {
+            event.reminders.overrides.push({
+                'method': 'popup',
+                'minutes': parseInt(selectedReminderTime)
+            })
+        }
+
+        return event;
+    }
     // =============== End of helper functions ===============
 
     // =============== Web scrape workflow ===============
@@ -313,91 +373,43 @@ END:VCALENDAR`;
                     }
 
                     const spanElement = cell.querySelector("span");
-                    if (spanElement) {
-                        // Get innerHTML
-                        const classContent = spanElement.innerHTML.split('<br>');
+                    if (!spanElement) return;
 
-                        // Process data
-                        const className = truncClassSpace(classContent[0]) + ', ' + classContent[1];
-                        const classTime = classContent[2];
-                        const {formattedStartTime, formattedEndTime} = formatTime(classTime);
-                        const classLocation = truncLocation(classContent[3]);
+                    // Get innerHTML and process data
+                    const classContent = spanElement.innerHTML.split('<br>');
+                    const className = truncClassSpace(classContent[0]) + ', ' + classContent[1];
+                    const classTime = classContent[2];
+                    const {formattedStartTime, formattedEndTime} = formatTime(classTime);
+                    const classLocation = truncLocation(classContent[3]);
 
-                        const day = days[colIndex];
-                        const startDate = formatDate(dates[colIndex], year);
-                        const endDate = formatDate(dates[colIndex], year);
+                    const day = days[colIndex];
+                    const startDate = formatDate(dates[colIndex], year);
+                    const endDate = formatDate(dates[colIndex], year);
 
-                        console.log(`Summary: ${className}, Location: ${classLocation}, Day: ${day}, startDateTime: ${startDate}T${formattedStartTime}, endDateTime: ${endDate}T${formattedEndTime}`);
+                    console.log(`Summary: ${className}, Location: ${classLocation}, Day: ${day}, startDateTime: ${startDate}T${formattedStartTime}, endDateTime: ${endDate}T${formattedEndTime}`);
 
-                        // If class is 2 hours, mark slot below as "True"
-                        let totalSpan = rowSpan(formattedStartTime, formattedEndTime);
+                    // If class is 2 hours, mark slot below as "True"
+                    let totalSpan = rowSpan(formattedStartTime, formattedEndTime);
 
-                        // If the class's total span is more than an hour
-                        if (totalSpan > 1) {
-                            // For every total - 1 span
-                            for (i = 1; i < totalSpan; i++) {
-                                // If next row is a valid row
-                                if (rowIndex + i < skip.length) {
-                                    // Edit value to 1 in row i
-                                    skip[rowIndex + i][colIndex] = 1;
+                    // If the class's total span is more than an hour
+                    if (totalSpan > 1) {
+                        handleMultiHourClass(totalSpan, rowIndex, skip, colIndex);
+                    }
 
-                                    // Checks the col before curr one
-                                    let itrColIndex = colIndex - 1;
-                                    while(itrColIndex > 0) {
-                                        if(skip[rowIndex + i][itrColIndex] > 0) {
-                                            skip[rowIndex + i][itrColIndex] += 1;
-                                        }
-                                        else {
-                                            break;
-                                        }
-                                        itrColIndex -= 1;
-                                    }
-                                }
-                            }
-                        }
+                    const event = createCalEvent(className, classLocation, startDate, formattedStartTime, endDate, formattedEndTime, selectedSemesterValue, selectedColorValue, selectedReminderTime);
+                    // Append to array after defining events
+                    // console.log('Event: ', event)
 
-                        let event = {
-                            'summary': `${className}`,
-                            'location': `${classLocation}`,
-                            'start': {
-                                'dateTime': `${startDate}T${formattedStartTime}`,
-                                'timeZone': 'Asia/Kuala_Lumpur'
-                            },
-                            'end': {
-                                'dateTime': `${endDate}T${formattedEndTime}`,
-                                'timeZone': 'Asia/Kuala_Lumpur'
-                            },
-                            'recurrence': [
-                                `RRULE:FREQ=WEEKLY;COUNT=${selectedSemesterValue}`
-                            ],
-                            'reminders': {
-                                'useDefault': false,
-                                'overrides': []
-                            },
-                            'colorId': selectedColorValue
-                        }
+                    classEvents.push(event);
+                    // console.log(classEvents);
 
-                        if (selectedReminderTime !== "none") {
-                            event.reminders.overrides.push({
-                                'method': 'popup',
-                                'minutes': parseInt(selectedReminderTime)
-                            })
-                        }
+                    // Log the selected value
+                    // console.log(`RRULE:FREQ=WEEKLY;COUNT=${selectedSemesterValue}`);
+                    // console.log('Selected semester value:', selectedSemesterValue);
 
-                        // Append to array after defining events
-                        // console.log('Event: ', event)
-
-                        classEvents.push(event);
-                        // console.log(classEvents);
-
-                        // Log the selected value
-                        // console.log(`RRULE:FREQ=WEEKLY;COUNT=${selectedSemesterValue}`);
-                        // console.log('Selected semester value:', selectedSemesterValue);
-
-                        if (token) {
-                            // console.log("Extension end");
-                            createCalendarEvent(event);
-                        }
+                    if (token) {
+                        // console.log("Extension end");
+                        // createCalendarEvent(event);
                     }
                 }
             });
