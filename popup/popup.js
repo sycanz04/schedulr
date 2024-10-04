@@ -62,7 +62,9 @@ document.getElementById('colorForm').addEventListener('submit', function(event) 
         const selectedCalendar = document.querySelector('input[name="calendar"]:checked')?.value;
         const selectedReminderTime = document.querySelector('input[name="reminder"]:checked')?.value;
         const selectedSemesterValue = document.querySelector('input[name="semester"]:checked')?.value;
-        handleFlow(selectedColorValue, selectedCalendar, selectedReminderTime, selectedSemesterValue);
+        const selectedEventFormat = document.querySelector('input[name="format"]:checked')?.value;
+
+        handleFlow(selectedColorValue, selectedCalendar, selectedReminderTime, selectedSemesterValue, selectedEventFormat);
     }
     catch(err) {
         console.error('An error occured: ', err);
@@ -71,9 +73,9 @@ document.getElementById('colorForm').addEventListener('submit', function(event) 
 });
 
 // This function handles token and window flow
-async function handleFlow(selectedColorValue, selectedCalendar, selectedReminderTime, selectedSemesterValue) {
+async function handleFlow(selectedColorValue, selectedCalendar, selectedReminderTime, selectedSemesterValue, selectedEventFormat) {
     // Check if all values are selected
-    if (!(selectedSemesterValue && selectedReminderTime && selectedColorValue && selectedCalendar)) {
+    if (!(selectedSemesterValue && selectedReminderTime && selectedColorValue && selectedCalendar && selectedEventFormat)) {
         window.alert('Please select all options.');
         return;
     }
@@ -89,7 +91,7 @@ async function handleFlow(selectedColorValue, selectedCalendar, selectedReminder
         chrome.scripting.executeScript({
             target: { tabId: currTab.id },
             func: dataProc,
-            args: [token, selectedSemesterValue, selectedReminderTime, selectedColorValue, selectedCalendar]
+            args: [token, selectedSemesterValue, selectedReminderTime, selectedColorValue, selectedCalendar, selectedEventFormat]
         });
 
     } catch (error) {
@@ -98,7 +100,7 @@ async function handleFlow(selectedColorValue, selectedCalendar, selectedReminder
     }
 }
 
-function dataProc(token, selectedSemesterValue, selectedReminderTime, selectedColorValue, selectedCalendar) {
+function dataProc(token, selectedSemesterValue, selectedReminderTime, selectedColorValue, selectedCalendar, selectedEventFormat) {
     // =============== Helper functions ===============
     // Function to create a calendar event
     function createCalendarEvent(event) {
@@ -110,21 +112,21 @@ function dataProc(token, selectedSemesterValue, selectedReminderTime, selectedCo
             },
             body: JSON.stringify(event)
         })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error(`Error creating event: ${response.statusText}`);
-                }
-                return response.json();
-            })
-            .then(data => {
-                console.log('Event created:', data);
-            })
-            .catch(error => {
-                console.error('Error creating event:', error);
-                window.alert(`Failed to create event: ${error.message}`);
-            });
+        .then(response => {
+            if (!response.ok) {
+                console.error(`Error creating event: ${response.statusText}`);
+                window.alert(`Error creating event: ${response.statusText}`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log('Event created:', data);
+        })
+        .catch(error => {
+            console.error('Error creating event:', error);
+            window.alert(`Failed to create event: ${error.message}`);
+        });
     }
-
 
     // Remove unnecessary prefix
     function truncLocation(location){
@@ -274,9 +276,9 @@ END:VCALENDAR`;
         }
     }
 
-    function createCalEvent(className, classLocation, startDate, formattedStartTime, endDate, formattedEndTime, selectedSemesterValue, selectedColorValue, selectedReminderTime) {
+    function createCalEvent(summary, classLocation, startDate, formattedStartTime, endDate, formattedEndTime, selectedSemesterValue, selectedColorValue, selectedReminderTime) {
         let event = {
-            'summary': `${className}`,
+            'summary': `${summary}`,
             'location': `${classLocation}`,
             'start': {
                 'dateTime': `${startDate}T${formattedStartTime}`,
@@ -305,6 +307,48 @@ END:VCALENDAR`;
 
         return event;
     }
+
+    function procData(classContent, subjTitleVal, classInstructorVal) {
+        const subjCodeAndClassSect = truncClassSpace(classContent[0]);
+        const subjCode = subjCodeAndClassSect.split("-")[0].trim();
+        const classSect = subjCodeAndClassSect.split("-")[1].trim();
+
+        let baseIndex = 1;
+        let subjTitle = null;
+        let classInstructor = null;
+
+        if (subjTitleVal === "Y") {
+            subjTitle = classContent[baseIndex];
+            baseIndex += 1;
+        }
+
+        // Abbreviate the class types
+        let classType = classContent[baseIndex];
+        if (classType === "Lecture") {
+            classType = "Lec";
+        } else if (classType === "Tutorial") {
+            classType = "Tut";
+        }
+
+        const classTime = classContent[baseIndex + 1];
+        const {formattedStartTime, formattedEndTime} = formatTime(classTime);
+        const classLocation = truncLocation(classContent[baseIndex + 2]);
+
+        if (classInstructorVal === "Y") {
+            classInstructor = classContent[baseIndex + 4];
+        }
+
+        return {
+            subjCode,
+            classSect,
+            subjTitle,
+            classType,
+            startTime: formattedStartTime,
+            endTime: formattedEndTime,
+            classLocation,
+            classInstructor
+        }
+    }
     // =============== End of helper functions ===============
 
     // =============== Web scrape workflow ===============
@@ -312,7 +356,8 @@ END:VCALENDAR`;
     const iframeElement = document.querySelector("#ptifrmtgtframe");
 
     if (!iframeElement) {
-        throw "iframe not found!";
+        console.error("iframe not found!");
+        window.alert("iframe not found!");
     }
 
     // Access the iframe's content document
@@ -322,6 +367,8 @@ END:VCALENDAR`;
     const dayHeader = iframeDocument.querySelectorAll("th.PSLEVEL3GRIDODDROW");
     const rows = iframeDocument.querySelectorAll("table.PSLEVEL3GRIDODDROW  tr");
     const year = iframeDocument.querySelector("div#win0divDERIVED_CLASS_S_DESCR100_2 td.PSGROUPBOXLABEL.PSLEFTCORNER").textContent;
+    const subjTitleVal = iframeDocument.querySelector('input[name="DERIVED_CLASS_S_SSR_DISP_TITLE$chk"][id="DERIVED_CLASS_S_SSR_DISP_TITLE$chk"]').value;
+    const classInstructorVal = iframeDocument.querySelector('input[name="DERIVED_CLASS_S_SHOW_INSTR$chk"][id="DERIVED_CLASS_S_SHOW_INSTR$chk"]').value;
 
     // Get the dates
     const days = []
@@ -338,8 +385,8 @@ END:VCALENDAR`;
             // console.log(dates);
         })
     } else {
-        console.log("No day elements found");
-        throw "No day elements found";
+        console.error("No day elements found");
+        window.alert("No day elements found");
     }
 
     // days.shift();
@@ -351,6 +398,12 @@ END:VCALENDAR`;
     let classEvents = [];
 
     let skip = createArray(12, 8, 0);
+
+    if (subjTitleVal === "N" && (selectedEventFormat === "2" || selectedEventFormat === "3")) {
+        console.error('Please check "Show Class Title" box below the calendar under Display Options!');
+        window.alert('Please check "Show Class Title" box below the calendar under Display Options!');
+        return;
+    }
 
     // For every tr
     rows.forEach((row, rowIndex) => {
@@ -377,30 +430,43 @@ END:VCALENDAR`;
 
                     // Get innerHTML and process data
                     const classContent = spanElement.innerHTML.split('<br>');
-                    const className = truncClassSpace(classContent[0]) + ', ' + classContent[1];
-                    const classTime = classContent[2];
-                    const {formattedStartTime, formattedEndTime} = formatTime(classTime);
-                    const classLocation = truncLocation(classContent[3]);
+                    let result = procData(classContent, subjTitleVal, classInstructorVal);
+                    console.log(result);
 
                     const day = days[colIndex];
                     const startDate = formatDate(dates[colIndex], year);
                     const endDate = formatDate(dates[colIndex], year);
 
-                    console.log(`Summary: ${className}, Location: ${classLocation}, Day: ${day}, startDateTime: ${startDate}T${formattedStartTime}, endDateTime: ${endDate}T${formattedEndTime}`);
+                    /*
+                    Let user choose thier own event format:
+                    Subject Code - Section (Type)
+                    Subject Name - Section (Type)
+                    Subject Name - Code - Section (Type)
+                    */
+                    let summary = `${result.subjCode} - ${result.classSect} (${result.classType})`;
+
+                    if (selectedEventFormat === "2") {
+                        summary = `${result.subjTitle} - ${result.classSect} (${result.classType})`;
+                    } else if (selectedEventFormat === "3") {
+                        summary = `${result.subjTitle} - ${result.subjCode} - ${result.classSect} (${result.classType})`;
+                    }
+
+                    console.log(`Summary: ${summary}, Location: ${result.classLocation}, Day: ${day}, startDateTime: ${startDate}T${result.startTime}, endDateTime: ${endDate}T${result.endTime}`);
 
                     // If class is 2 hours, mark slot below as "True"
-                    let totalSpan = rowSpan(formattedStartTime, formattedEndTime);
+                    let totalSpan = rowSpan(result.startTime, result.endTime);
 
                     // If the class's total span is more than an hour
                     if (totalSpan > 1) {
                         handleMultiHourClass(totalSpan, rowIndex, skip, colIndex);
                     }
 
-                    const event = createCalEvent(className, classLocation, startDate, formattedStartTime, endDate, formattedEndTime, selectedSemesterValue, selectedColorValue, selectedReminderTime);
+                    const event = createCalEvent(summary, result.classLocation, startDate, result.startTime
+                        , endDate, result.endTime, selectedSemesterValue, selectedColorValue, selectedReminderTime);
                     // Append to array after defining events
                     // console.log('Event: ', event)
 
-                    classEvents.push(event);
+                    // classEvents.push(event);
                     // console.log(classEvents);
 
                     // Log the selected value
@@ -409,7 +475,7 @@ END:VCALENDAR`;
 
                     if (token) {
                         // console.log("Extension end");
-                        // createCalendarEvent(event);
+                        createCalendarEvent(event);
                     }
                 }
             });
