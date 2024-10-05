@@ -222,32 +222,6 @@ function dataProc(token, selectedSemesterValue, selectedReminderTime, selectedCo
         return totalSpan;
     }
 
-    // This function converts json object into ical format and write it into .ics file
-    function jsonToIcal(event) {
-        // Convert from 2024-09-30T10:00:00 to 19980118T073000Z
-        let dtStart = event.start.dateTime.replace(/[-:]/g, "")
-        let dtEnd = event.end.dateTime.replace(/[-:]/g, "")
-
-        // Get reminder component
-        const reminder = `
-BEGIN:VALARM
-TRIGGER:-PT${selectedReminderTime}M
-DESCRIPTION:Reminder
-ACTION:DISPLAY
-END:VALARM`;
-
-        let icsContent = `
-BEGIN:VCALENDAR
-BEGIN:VEVENT
-SUMMARY:${event.summary}
-LOCATION:${event.location}
-DTSTART;TZID=${event.start.timeZone}:${dtStart}Z
-DTEND;TZID=${event.end.timeZone}:${dtEnd}Z
-RRULE=${event.recurrence[0]}
-END:VEVENT
-END:VCALENDAR`;
-    }
-
     function handleMultiHourClass(totalSpan, rowIndex, skip, colIndex) {
         // For every total - 1 span
         for (i = 1; i < totalSpan; i++) {
@@ -328,6 +302,8 @@ END:VCALENDAR`;
             classType = "Lec";
         } else if (classType === "Tutorial") {
             classType = "Tut";
+        } else if (classType === "Laboratory") {
+            classType = "Lab";
         }
 
         const classTime = classContent[baseIndex + 1];
@@ -349,6 +325,38 @@ END:VCALENDAR`;
             classInstructor
         }
     }
+    
+    // This function converts json object into ical format and write it into .ics file
+    function icalBlob(event) {
+        // Define the header and footer of the iCalendar
+        const icalHeader = `BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:-//sycanz/schedulr//EN\n`;
+        const icalFooter = `END:VCALENDAR`;
+
+        event.forEach((classes) => {
+            // Convert from 2024-09-30T10:00:00 to 19980118T073000Z
+            let dtStart = classes.start.dateTime.replace(/[-:]/g, "");
+            let dtEnd = classes.end.dateTime.replace(/[-:]/g, "");
+
+            console.log(selectedReminderTime);
+
+let classEvent =
+`
+BEGIN:VEVENT
+BEGIN:VALARM
+TRIGGER:-PT${selectedReminderTime}M
+DESCRIPTION:${classes.summary}
+ACTION:DISPLAY
+END:VALARM
+SUMMARY:${classes.summary}
+LOCATION:${classes.location}
+DTSTART;TZID=${classes.start.timeZone}:${dtStart}Z
+DTEND;TZID=${classes.end.timeZone}:${dtEnd}Z
+RRULE=${classes.recurrence[0]}
+END:VEVENT
+`
+        });
+    }
+
     // =============== End of helper functions ===============
 
     // =============== Web scrape workflow ===============
@@ -358,6 +366,7 @@ END:VCALENDAR`;
     if (!iframeElement) {
         console.error("iframe not found!");
         window.alert("iframe not found!");
+        return;
     }
 
     // Access the iframe's content document
@@ -370,24 +379,31 @@ END:VCALENDAR`;
     const subjTitleVal = iframeDocument.querySelector('input[name="DERIVED_CLASS_S_SSR_DISP_TITLE$chk"][id="DERIVED_CLASS_S_SSR_DISP_TITLE$chk"]').value;
     const classInstructorVal = iframeDocument.querySelector('input[name="DERIVED_CLASS_S_SHOW_INSTR$chk"][id="DERIVED_CLASS_S_SHOW_INSTR$chk"]').value;
 
+    if (!dayHeader || dayHeader.length === 0) {
+        console.error("No day elements found");
+        window.alert("No day elements found");
+        return;
+    }
+
+    if (subjTitleVal === "N" && (selectedEventFormat === "2" || selectedEventFormat === "3")) {
+        console.error('Please check "Show Class Title" box below the calendar under Display Options!');
+        window.alert('Please check "Show Class Title" box below the calendar under Display Options!');
+        return;
+    }
+
     // Get the dates
     const days = []
     const dates = []
-    if (dayHeader.length > 0) {
-        dayHeader.forEach((element) => {
-            const dayText = element.textContent.split("\n");
-            const day = dayText[0].trim();
-            const date = dayText[1]
-            // console.log(`Day: ${day}, Date: ${date}`);
-            days.push(day);
-            dates.push(date);
-            // console.log(days);
-            // console.log(dates);
-        })
-    } else {
-        console.error("No day elements found");
-        window.alert("No day elements found");
-    }
+    dayHeader.forEach((element) => {
+        const dayText = element.textContent.split("\n");
+        const day = dayText[0].trim();
+        const date = dayText[1]
+        // console.log(`Day: ${day}, Date: ${date}`);
+        days.push(day);
+        dates.push(date);
+        // console.log(days);
+        // console.log(dates);
+    });
 
     // days.shift();
     // dates.shift();
@@ -396,14 +412,7 @@ END:VCALENDAR`;
 
     // Create array to store all events.
     let classEvents = [];
-
     let skip = createArray(12, 8, 0);
-
-    if (subjTitleVal === "N" && (selectedEventFormat === "2" || selectedEventFormat === "3")) {
-        console.error('Please check "Show Class Title" box below the calendar under Display Options!');
-        window.alert('Please check "Show Class Title" box below the calendar under Display Options!');
-        return;
-    }
 
     // For every tr
     rows.forEach((row, rowIndex) => {
@@ -414,17 +423,17 @@ END:VCALENDAR`;
         let curColSkips = 0;
 
         // For every cell
-        if (cells.length > 0) {
-            cells.forEach((cell, susColIndex) => {
-                if (susColIndex > 0) { // Other than the first one
-                    let colIndex = susColIndex + curColSkips;
-                    // console.log(rowIndex, susColIndex);
+        cells.forEach((cell, susColIndex) => {
+            if (susColIndex > 0) { // Other than the first one
+                let colIndex = susColIndex + curColSkips;
+                // console.log(rowIndex, susColIndex);
 
-                    if (skip[rowIndex][susColIndex] > 0) {
-                        curColSkips += 1;
-                        colIndex += skip[rowIndex][susColIndex];
-                    }
+                if (skip[rowIndex][susColIndex] > 0) {
+                    curColSkips += 1;
+                    colIndex += skip[rowIndex][susColIndex];
+                }
 
+                try {
                     const spanElement = cell.querySelector("span");
                     if (!spanElement) return;
 
@@ -451,7 +460,7 @@ END:VCALENDAR`;
                         summary = `${result.subjTitle} - ${result.subjCode} - ${result.classSect} (${result.classType})`;
                     }
 
-                    console.log(`Summary: ${summary}, Location: ${result.classLocation}, Day: ${day}, startDateTime: ${startDate}T${result.startTime}, endDateTime: ${endDate}T${result.endTime}`);
+                    // console.log(`Summary: ${summary}, Location: ${result.classLocation}, Day: ${day}, startDateTime: ${startDate}T${result.startTime}, endDateTime: ${endDate}T${result.endTime}`);
 
                     // If class is 2 hours, mark slot below as "True"
                     let totalSpan = rowSpan(result.startTime, result.endTime);
@@ -475,12 +484,23 @@ END:VCALENDAR`;
 
                     if (token) {
                         // console.log("Extension end");
-                        createCalendarEvent(event);
+                        // createCalendarEvent(event);
                     }
+                    classEvents.push(event);
+
+                } catch (error) {
+                    console.error('Error processing class data:', error);
+                    window.alert('Failed to process class data:', error);
+                    return;
                 }
-            });
-        }
+            }
+        });
     });
+
+    // Create a blob file for users to download
+    // console.log(classEvents);
+    icalBlob(classEvents);
     // =============== End of web scrape workflow ===============
+
     window.alert("Timetable transferred to Google Calendar!");
 }
