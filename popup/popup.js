@@ -327,34 +327,47 @@ function dataProc(token, selectedSemesterValue, selectedReminderTime, selectedCo
     }
     
     // This function converts json object into ical format and write it into .ics file
-    function icalBlob(event) {
+    function icalBlob(event, selectedReminderTime) {
         // Define the header and footer of the iCalendar
-        const icalHeader = `BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:-//sycanz/schedulr//EN\n`;
-        const icalFooter = `END:VCALENDAR`;
+        const icalHeader = `BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:-//sycanz/schedulr//EN`;
+        const icalFooter = `\nEND:VCALENDAR`;
 
+        // Empty string to stor all class events
+        let allClasses = ""
         event.forEach((classes) => {
             // Convert from 2024-09-30T10:00:00 to 19980118T073000Z
             let dtStart = classes.start.dateTime.replace(/[-:]/g, "");
             let dtEnd = classes.end.dateTime.replace(/[-:]/g, "");
 
-            console.log(selectedReminderTime);
-
-let classEvent =
-`
+            // Create empty string to store all events
+            let classEvent = `
 BEGIN:VEVENT
+SUMMARY:${classes.summary}
+LOCATION:${classes.location}
+DTSTART;TZID=${classes.start.timeZone}:${dtStart}Z
+DTEND;TZID=${classes.end.timeZone}:${dtEnd}Z
+RRULE=${classes.recurrence[0]}`
+
+            if (selectedReminderTime !== "none") {
+                classEvent += `
 BEGIN:VALARM
 TRIGGER:-PT${selectedReminderTime}M
 DESCRIPTION:${classes.summary}
 ACTION:DISPLAY
 END:VALARM
-SUMMARY:${classes.summary}
-LOCATION:${classes.location}
-DTSTART;TZID=${classes.start.timeZone}:${dtStart}Z
-DTEND;TZID=${classes.end.timeZone}:${dtEnd}Z
-RRULE=${classes.recurrence[0]}
-END:VEVENT
-`
+`;
+            }
+
+            // Close the event
+            classEvent += `END:VEVENT`;
+
+            // Append the class event to allClasses
+            allClasses += classEvent;
         });
+
+        const icalContent = icalHeader + allClasses + icalFooter;
+
+        return icalContent
     }
 
     // =============== End of helper functions ===============
@@ -499,7 +512,29 @@ END:VEVENT
 
     // Create a blob file for users to download
     // console.log(classEvents);
-    icalBlob(classEvents);
+    icalContent = icalBlob(classEvents, selectedReminderTime);
+
+    const icsContainer = document.querySelector('.ics-container');
+    if (icsContainer) {
+        console.log("Found icsContainer", icsContainer);
+    }
+
+    // Convert data to Blob
+    const blob = new Blob([icalContent], { type: 'text/calendar;charset=utf-8' });
+    const blobUrl = URL.createObjectURL(blob);
+
+    const downloadButton = document.createElement('a');
+    downloadButton.href = blobUrl;
+    downloadButton.download = 'schedulr.ics';
+    downloadButton.innerText = 'Download .ics';
+    downloadButton.classList.add('download-btn');
+
+    // Append the button to ics-container
+    // icsContainer.appendChild(downloadButton);
+
+    // Hide the loader
+    // document.getElementById('ics-loader').style.display = 'none';
+
     // =============== End of web scrape workflow ===============
 
     window.alert("Timetable transferred to Google Calendar!");

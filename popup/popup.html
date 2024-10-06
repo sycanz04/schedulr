@@ -80,8 +80,16 @@
                 <input type="radio" id="Tomato" name="color" value="11">
                 <label for="Tomato" class="color-circle" style="background-color: #dc2127;"></label>
             </div>
-            <input type="submit" value="Submit">
+            <div class="button-container">
+                <input type="submit" value="Transfer to Google Calendar">
+            </div>
         </form>
+    </div>
+    <div class="ics-container">
+        <!-- Loader -->
+        <div class="loader-container">
+            <div class="loader" id="ics-loader"></div>
+        </div>
     </div>
     <script type="module" src="popup.js"></script>
 </body>

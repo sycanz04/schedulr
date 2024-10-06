@@ -1,7 +1,7 @@
 body {
     font-family: Arial, sans-serif;
     border: 2px solid #89b4fa;
-    width: 320px;
+    width: 315px;
     margin: 0;
     box-sizing: border-box;
     background-color: #1e1e2e;
@@ -45,15 +45,21 @@ input[type="radio"] {
     margin-right: 10px;
 }
 
+.button-container {
+    display: flex;
+    justify-content: center;
+}
+
 input[type="submit"] {
     background-color: #585b70;
     border: 2px solid #89b4fa;
     color: white;
     margin-top: 5px;
     padding: 10px;
-    border-radius: 10px;
+    border-radius: 16px;
     cursor: pointer;
     font-size: 14px;
+    justify-content: center;
 }
 
 input[type="submit"]:hover {
