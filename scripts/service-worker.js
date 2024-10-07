@@ -1,12 +1,16 @@
-chrome.runtime.onMessage.addListener((message) => {
+console.log("Service worker running");
+function messageListener(message) {
     if (message.action === "calChoice") {
+        console.log("Received message in service-worker.js");
         getToken();
-    } else {
-        console.log("Unexpected message received!");
     }
-});
+}
+
+// Add the listener
+chrome.runtime.onMessage.addListener(messageListener);
 
 function getToken() {
+    console.log("Getting token");
     let tokenPromise = new Promise(function(myResolve) {
         chrome.identity.getAuthToken({interactive: true}, function(token) {
             if (chrome.runtime.lastError || !token) {
@@ -23,6 +27,7 @@ function getToken() {
     
     tokenPromise.then(
         function(token) {
+            console.log("Token retrieved. Fetching calendar IDs");
             getCalIds(token);
         }
     )
@@ -44,6 +49,7 @@ function getCalIds(token) {
                 message: `Error getting calendar id: ${response.statusText}`
             });
         }
+        console.log("Reponse ok, getting JSON");
         return response.json();
     })
     .then(calObject => {
@@ -60,6 +66,7 @@ function getCalIds(token) {
 }
 
 function parseCalIds(calObject) {
+    console.log("Parsing calendars");
     let calJson = {};
     calObject.items.forEach(calendar => {
         if (!(calendar.summary.includes("Holidays")) && !(calendar.summary.includes("Birthdays"))) {
@@ -67,8 +74,10 @@ function parseCalIds(calObject) {
         }
     });
 
+    console.log("Calendars parsed, sending calendar JSON back to popup.js");
     chrome.runtime.sendMessage({
         action: 'calData',
         data: calJson
     });
+
 }

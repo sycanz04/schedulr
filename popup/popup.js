@@ -330,22 +330,31 @@ function dataProc(token, selectedSemesterValue, selectedReminderTime, selectedCo
     function icalBlob(event, selectedReminderTime) {
         // Define the header and footer of the iCalendar
         const icalHeader = `BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:-//sycanz/schedulr//EN`;
+        const icalTz = `\nBEGIN:VTIMEZONE\nTZID:Asia/Kuala_Lumpur\nBEGIN:STANDARD\nTZOFFSETFROM:+0800\nTZOFFSETTO:+0800\nTZNAME:GMT+8\nEND:STANDARD\nEND:VTIMEZONE`
         const icalFooter = `\nEND:VCALENDAR`;
 
-        // Empty string to stor all class events
+        allClasses = classCalIcs(event);
+
+        const icalContent = icalHeader + icalTz + allClasses + icalFooter;
+
+        return icalContent
+    }
+
+    function classCalIcs(event) {
+        // Empty string to store all class events
         let allClasses = ""
         event.forEach((classes) => {
             // Convert from 2024-09-30T10:00:00 to 19980118T073000Z
-            let dtStart = classes.start.dateTime.replace(/[-:]/g, "");
-            let dtEnd = classes.end.dateTime.replace(/[-:]/g, "");
+            let dtStart = classes.start.dateTime.replace(/[-:]/g, "").split("+")[0];
+            let dtEnd = classes.end.dateTime.replace(/[-:]/g, "").split("+")[0];
 
             // Create empty string to store all events
             let classEvent = `
 BEGIN:VEVENT
 SUMMARY:${classes.summary}
 LOCATION:${classes.location}
-DTSTART;TZID=${classes.start.timeZone}:${dtStart}Z
-DTEND;TZID=${classes.end.timeZone}:${dtEnd}Z
+DTSTART;TZID=${classes.start.timeZone}:${dtStart}
+DTEND;TZID=${classes.end.timeZone}:${dtEnd}
 RRULE=${classes.recurrence[0]}`
 
             if (selectedReminderTime !== "none") {
@@ -354,21 +363,23 @@ BEGIN:VALARM
 TRIGGER:-PT${selectedReminderTime}M
 DESCRIPTION:${classes.summary}
 ACTION:DISPLAY
-END:VALARM
-`;
+END:VALARM`;
             }
 
+
             // Close the event
-            classEvent += `END:VEVENT`;
+            classEvent += `\nEND:VEVENT`;
 
             // Append the class event to allClasses
             allClasses += classEvent;
         });
 
-        const icalContent = icalHeader + allClasses + icalFooter;
-
-        return icalContent
+        return allClasses;
     }
+
+    // function formatDate(dateMonthUnformatted) {
+    //     console.log(dateMonthUnformatted);
+    // }
 
     // =============== End of helper functions ===============
 
@@ -453,7 +464,7 @@ END:VALARM
                     // Get innerHTML and process data
                     const classContent = spanElement.innerHTML.split('<br>');
                     let result = procData(classContent, subjTitleVal, classInstructorVal);
-                    console.log(result);
+                    // console.log(result);
 
                     const day = days[colIndex];
                     const startDate = formatDate(dates[colIndex], year);
@@ -473,7 +484,7 @@ END:VALARM
                         summary = `${result.subjTitle} - ${result.subjCode} - ${result.classSect} (${result.classType})`;
                     }
 
-                    // console.log(`Summary: ${summary}, Location: ${result.classLocation}, Day: ${day}, startDateTime: ${startDate}T${result.startTime}, endDateTime: ${endDate}T${result.endTime}`);
+                    console.log(`Summary: ${summary}, Location: ${result.classLocation}, Day: ${day}, startDateTime: ${startDate}T${result.startTime}, endDateTime: ${endDate}T${result.endTime}`);
 
                     // If class is 2 hours, mark slot below as "True"
                     let totalSpan = rowSpan(result.startTime, result.endTime);
@@ -514,6 +525,8 @@ END:VALARM
     // console.log(classEvents);
     icalContent = icalBlob(classEvents, selectedReminderTime);
 
+    console.log(icalContent);
+
     const icsContainer = document.querySelector('.ics-container');
     if (icsContainer) {
         console.log("Found icsContainer", icsContainer);
@@ -529,11 +542,7 @@ END:VALARM
     downloadButton.innerText = 'Download .ics';
     downloadButton.classList.add('download-btn');
 
-    // Append the button to ics-container
-    // icsContainer.appendChild(downloadButton);
-
-    // Hide the loader
-    // document.getElementById('ics-loader').style.display = 'none';
+    // downloadButton.click();
 
     // =============== End of web scrape workflow ===============
 
