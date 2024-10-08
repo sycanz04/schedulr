@@ -357,7 +357,7 @@ SUMMARY:${classes.summary}
 LOCATION:${classes.location}
 DTSTART;TZID=${classes.start.timeZone}:${dtStart}
 DTEND;TZID=${classes.end.timeZone}:${dtEnd}
-RRULE=${classes.recurrence[0]}
+${classes.recurrence[0]}
 UID:${uid}
 DTSTAMP:${dtStamp}Z`
 
@@ -555,7 +555,7 @@ END:VALARM`;
 
                     if (token) {
                         // console.log("Extension end");
-                        // createCalendarEvent(event);
+                        createCalendarEvent(event);
                     }
                     classEvents.push(event);
 
@@ -589,7 +589,7 @@ END:VALARM`;
     downloadButton.innerText = 'Download .ics';
     downloadButton.classList.add('download-btn');
 
-    // downloadButton.click();
+    downloadButton.click();
 
     // =============== End of web scrape workflow ===============
 
