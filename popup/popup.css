@@ -24,7 +24,14 @@ h1::after {
     margin-top: 10px; 
 }
 
-.forms {
+.generalForms {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 0px 20px 20px 20px;
+}
+
+.calForms {
     display: flex;
     flex-direction: column;
     gap: 10px;
