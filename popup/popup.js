@@ -348,6 +348,8 @@ function dataProc(token, selectedSemesterValue, selectedReminderTime, selectedCo
             let dtStart = classes.start.dateTime.replace(/[-:]/g, "").split("+")[0];
             let dtEnd = classes.end.dateTime.replace(/[-:]/g, "").split("+")[0];
 
+            let {uid, dtStamp} = uidAndDtstamp();
+
             // Create empty string to store all events
             let classEvent = `
 BEGIN:VEVENT
@@ -355,7 +357,10 @@ SUMMARY:${classes.summary}
 LOCATION:${classes.location}
 DTSTART;TZID=${classes.start.timeZone}:${dtStart}
 DTEND;TZID=${classes.end.timeZone}:${dtEnd}
-RRULE=${classes.recurrence[0]}`
+RRULE=${classes.recurrence[0]}
+UID:${uid}
+DTSTAMP:${dtStamp}Z`
+
 
             if (selectedReminderTime !== "none") {
                 classEvent += `
@@ -377,9 +382,47 @@ END:VALARM`;
         return allClasses;
     }
 
-    // function formatDate(dateMonthUnformatted) {
-    //     console.log(dateMonthUnformatted);
-    // }
+    function uidAndDtstamp() {
+        // Generate and get all necessary date time
+        let date = new Date();
+        const year = date.getFullYear().toString();
+        const day = date.getDate().toString().padStart(2, '0');
+        const month = (date.getMonth() + 1).toString().padStart(2, '0');
+        const hours = date.getHours().toString().padStart(2, '0');
+        const minutes = date.getMinutes().toString().padStart(2, '0');
+        const seconds = date.getSeconds().toString().padStart(2, '0');
+
+        // Generate a short random string
+        const randomStr = Math.random().toString(36).substring(2, 8);
+
+        const dtStamp = `${year}${month}${day}T${hours}${minutes}${seconds}`;
+        const uid = `${randomStr}-${dtStamp}@schedulr.com`;
+        // console.log(dtStamp, uid);
+
+        return {uid, dtStamp};
+    }
+
+    function addZeroToDate(date) {
+        // Split date string to date and month
+        const splitDate = date.split(" ");
+
+        // Get date string
+        const parseDate = parseInt(splitDate[0]);
+        const parseMonth = splitDate[1];
+
+        // Add 0 to date if it's 1 digit
+        let formattedDate;
+        if (parseDate > 0 && parseDate < 10) {
+            formattedDate = `0${parseDate}`;
+        } else {
+            formattedDate = parseDate.toString();
+        }
+
+        // Combine date month
+        const realDate = `${formattedDate} ${parseMonth}`;
+
+        return realDate;
+    }
 
     // =============== End of helper functions ===============
 
@@ -418,15 +461,19 @@ END:VALARM`;
     // Get the dates
     const days = []
     const dates = []
-    dayHeader.forEach((element) => {
-        const dayText = element.textContent.split("\n");
-        const day = dayText[0].trim();
-        const date = dayText[1]
-        // console.log(`Day: ${day}, Date: ${date}`);
-        days.push(day);
-        dates.push(date);
-        // console.log(days);
-        // console.log(dates);
+    dayHeader.forEach((element, index) => {
+        if (index === 0) {
+            dates.push("null");
+        } else {
+            const dayText = element.textContent.split("\n");
+            const day = dayText[0].trim();
+            let date = dayText[1]
+            date = addZeroToDate(date);
+            // console.log(`Day: ${day}, Date: ${date}`);
+            days.push(day);
+            dates.push(date);
+            // console.log(`Days: ${days}, Date: ${dates}`);
+        }
     });
 
     // days.shift();
@@ -466,7 +513,7 @@ END:VALARM`;
                     let result = procData(classContent, subjTitleVal, classInstructorVal);
                     // console.log(result);
 
-                    const day = days[colIndex];
+                    const day = days[colIndex - 1];
                     const startDate = formatDate(dates[colIndex], year);
                     const endDate = formatDate(dates[colIndex], year);
 
