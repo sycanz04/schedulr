@@ -47,7 +47,10 @@ The shortcut key opens up the popup page
 - `Command+Shift+S`
 
 ## Project status ⏳
-Schedulr version 2.3.2 is available on [Chrome Web store](https://chromewebstore.google.com/detail/schedulr/ofaflpillnejkhmkefmcpoamjeaghipp) as of now.
+Schedulr version 2.3.1 is available on [Chrome Web store](https://chromewebstore.google.com/detail/schedulr/ofaflpillnejkhmkefmcpoamjeaghipp) as of now.
+
+## Changelog
+Detailed changes for each release are documented in the release notes.
 
 ## Tech Stack 🚀
 1. Javascript
