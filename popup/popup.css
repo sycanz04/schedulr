@@ -63,6 +63,10 @@ form {
     background: transparent;
 }
 
+.tip {
+    margin-top: 15px;
+}
+
 p, label {
     margin: 0 0 10px;
     font-size: 14px;
