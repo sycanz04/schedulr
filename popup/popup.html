@@ -9,16 +9,23 @@
 </head>
 <body>
     <h1>Schedulr</h1>
-    <div class="forms">
-        <form id="calendarForm">
-            <p>Calendar to insert event to:</p>
-
-            <!-- Loader -->
-            <div class="loader-container">
-                <div class="loader" id="loader"></div>
+    <div class="firstPage">
+        <form id="optionForm">
+            <p>What do you want to perform?</p>
+            <input type="radio" id="cal" name="option" value="1">
+            <label for="cal">Transfer to Google Calendar</label><br>
+            <input type="radio" id="ics" name="option" value="2">
+            <label for="ics">Download .ics file</label><br>
+            <input type="radio" id="both" name="option" value="3">
+            <label for="both">Both</label><br>
+            
+            <div class="firstButton">
+                <input type="submit" value="Confirm">
             </div>
         </form>
+    </div>
 
+    <div class="generalForms">
         <form id="semesterForm">
             <p>How many weeks of classes: </p>
             <input type="radio" id="short" name="semester" value="7">
@@ -45,6 +52,17 @@
             <label for="minutes">30 minutes before</label><br>
             <input type="radio" id="hour" name="reminder" value="60">
             <label for="hour">1 hour before</label><br>
+        </form>
+    </div>
+
+    <div class="calForms">>
+        <form id="calendarForm">
+            <p>Calendar to insert event to:</p>
+
+            <!-- Loader -->
+            <div class="loader-container">
+                <div class="loader" id="loader"></div>
+            </div>
         </form>
 
         <form id="colorForm">
@@ -80,10 +98,11 @@
                 <input type="radio" id="Tomato" name="color" value="11">
                 <label for="Tomato" class="color-circle" style="background-color: #dc2127;"></label>
             </div>
-            <div class="button-container">
-                <input type="submit" value="Transfer to Google Calendar">
-            </div>
         </form>
+    </div>
+
+    <div class="finalButton">
+        <input type="submit" value="Submit">
     </div>
     <script type="module" src="popup.js"></script>
 </body>

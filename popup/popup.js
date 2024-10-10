@@ -1,5 +1,6 @@
 import { getAuthToken, getCurrTab } from './helper/prog-flow.js';
 
+// Query for user available calendar then insert into popup.html dynamically
 function calChoice() {
     chrome.runtime.sendMessage({
         action: "calChoice"
@@ -7,6 +8,20 @@ function calChoice() {
 }
 
 calChoice();
+
+chrome.runtime.onMessage.addListener((message) => {
+    if (message.action === "calData") {
+        let calData = message.data;
+        // console.log("Cal Data:", calData);
+
+        // Get form element in html
+        const form = document.getElementById("calendarForm");
+
+        setAttributes(form, calData);
+    } else if (message.action === "showAlert") {
+        window.alert(calData);
+    }
+});
 
 function setAttributes(form, calData) {
     // Ideal html tags in popup.js
@@ -39,47 +54,79 @@ function setAttributes(form, calData) {
     document.getElementById('loader').style.display = 'none';
 }
 
-chrome.runtime.onMessage.addListener((message) => {
-    if (message.action === "calData") {
-        let calData = message.data;
-        // console.log("Cal Data:", calData);
+document.getElementById('optionForm').addEventListener('submit', function(event) {
+    event.preventDefault();
 
-        // Get form element in html
-        const form = document.getElementById("calendarForm");
+    const selectedOptionValue = document.querySelector('input[name="option"]:checked')?.value;
+    console.log(`Received option value: ${selectedOptionValue}`);
 
-        setAttributes(form, calData);
-    } else if (message.action === "showAlert") {
-        window.alert(calData);
-    }
-});
-
-document.getElementById('colorForm').addEventListener('submit', function(event) {
-    event.preventDefault();  // Prevent the form from submitting
-
-    try{
-        // Get the value of the selected radio button
-        const selectedColorValue = document.querySelector('input[name="color"]:checked')?.value;
-        const selectedCalendar = document.querySelector('input[name="calendar"]:checked')?.value;
-        const selectedReminderTime = document.querySelector('input[name="reminder"]:checked')?.value;
-        const selectedSemesterValue = document.querySelector('input[name="semester"]:checked')?.value;
-        const selectedEventFormat = document.querySelector('input[name="format"]:checked')?.value;
-
-        handleFlow(selectedColorValue, selectedCalendar, selectedReminderTime, selectedSemesterValue, selectedEventFormat);
-    }
-    catch(err) {
-        console.error('An error occured: ', err);
-        window.alert(`An error occured: ${err.message}`);
-    }
-});
-
-// This function handles token and window flow
-async function handleFlow(selectedColorValue, selectedCalendar, selectedReminderTime, selectedSemesterValue, selectedEventFormat) {
-    // Check if all values are selected
-    if (!(selectedSemesterValue && selectedReminderTime && selectedColorValue && selectedCalendar && selectedEventFormat)) {
-        window.alert('Please select all options.');
+    if (!(selectedOptionValue)) {
+        window.alert('Please select an option.');
         return;
     }
-    
+
+    // Hide the loader after calendar
+    const firstPage = document.getElementsByClassName('firstPage')[0].style.display = 'none';
+
+    // Query all possible forms
+    let generalForms = document.getElementsByClassName('generalForms')[0];
+    let calForms = document.getElementsByClassName('calForms')[0];
+    let finalButton = document.getElementsByClassName('finalButton')[0];
+
+    // Display appropriate forms
+    if (selectedOptionValue == 1 || selectedOptionValue == 3) {
+        generalForms.style.display = 'flex';
+        calForms.style.display = 'flex';
+        finalButton.style.display = 'flex';
+
+    } else if (selectedOptionValue == 2) {
+        generalForms.style.display = 'flex';
+        finalButton.style.display = 'flex';
+    }
+
+    getFormsValue(selectedOptionValue);
+});
+
+function getFormsValue(selectedOptionValue) {
+    document.getElementsByClassName('finalButton')[0].addEventListener('click', function(event) {
+        event.preventDefault();  // Prevent the form from submitting
+
+        try{
+            // Get the value of the selected radio button
+            const selectedSemesterValue = document.querySelector('input[name="semester"]:checked')?.value;
+            const selectedReminderTime = document.querySelector('input[name="reminder"]:checked')?.value;
+            const selectedColorValue = document.querySelector('input[name="color"]:checked')?.value;
+            const selectedCalendar = document.querySelector('input[name="calendar"]:checked')?.value;
+            const selectedEventFormat = document.querySelector('input[name="format"]:checked')?.value;
+
+            if (selectedOptionValue == 1 || selectedOptionValue == 3) {
+                // Check if all values are selected
+                if (!(selectedSemesterValue && selectedReminderTime && selectedColorValue && selectedCalendar && selectedEventFormat)) {
+                    window.alert('Please select all options.');
+                    return;
+                }
+
+                handleFlow(selectedColorValue, selectedCalendar, selectedReminderTime, selectedSemesterValue, selectedEventFormat, selectedOptionValue);
+
+            } else if (selectedOptionValue == 2) {
+                // Check if all values are selected
+                if (!(selectedSemesterValue && selectedReminderTime && selectedEventFormat)) {
+                    window.alert('Please select all options.');
+                    return;
+                }
+
+                handleFlow(null, null, selectedReminderTime, selectedSemesterValue, selectedEventFormat, selectedOptionValue);
+            }
+        }
+        catch(err) {
+            console.error('An error occured: ', err);
+            window.alert(`An error occured: ${err.message}`);
+        }
+    });
+}
+
+// This function handles token and window flow
+async function handleFlow(selectedColorValue, selectedCalendar, selectedReminderTime, selectedSemesterValue, selectedEventFormat, selectedOptionValue) {
     try {
         // Get Oauth token
         const token = await getAuthToken();
@@ -91,7 +138,7 @@ async function handleFlow(selectedColorValue, selectedCalendar, selectedReminder
         chrome.scripting.executeScript({
             target: { tabId: currTab.id },
             func: dataProc,
-            args: [token, selectedSemesterValue, selectedReminderTime, selectedColorValue, selectedCalendar, selectedEventFormat]
+            args: [token, selectedSemesterValue, selectedReminderTime, selectedColorValue, selectedCalendar, selectedEventFormat, selectedOptionValue]
         });
 
     } catch (error) {
@@ -100,7 +147,7 @@ async function handleFlow(selectedColorValue, selectedCalendar, selectedReminder
     }
 }
 
-function dataProc(token, selectedSemesterValue, selectedReminderTime, selectedColorValue, selectedCalendar, selectedEventFormat) {
+function dataProc(token, selectedSemesterValue, selectedReminderTime, selectedColorValue, selectedCalendar, selectedEventFormat, selectedOptionValue) {
     // =============== Helper functions ===============
     // Function to create a calendar event
     function createCalendarEvent(event) {
@@ -269,7 +316,6 @@ function dataProc(token, selectedSemesterValue, selectedReminderTime, selectedCo
                 'useDefault': false,
                 'overrides': []
             },
-            'colorId': selectedColorValue
         }
 
         if (selectedReminderTime !== "none") {
@@ -277,6 +323,10 @@ function dataProc(token, selectedSemesterValue, selectedReminderTime, selectedCo
                 'method': 'popup',
                 'minutes': parseInt(selectedReminderTime)
             })
+        }
+
+        if (selectedOptionValue != 2) {
+            event.colorId = selectedColorValue
         }
 
         return event;
@@ -370,7 +420,6 @@ DESCRIPTION:${classes.summary}
 ACTION:DISPLAY
 END:VALARM`;
             }
-
 
             // Close the event
             classEvent += `\nEND:VEVENT`;
@@ -542,7 +591,7 @@ END:VALARM`;
                     }
 
                     const event = createCalEvent(summary, result.classLocation, startDate, result.startTime
-                        , endDate, result.endTime, selectedSemesterValue, selectedColorValue, selectedReminderTime);
+                        , endDate, result.endTime, selectedSemesterValue, selectedColorValue, selectedReminderTime, selectedOptionValue);
                     // Append to array after defining events
                     // console.log('Event: ', event)
 
@@ -553,9 +602,11 @@ END:VALARM`;
                     // console.log(`RRULE:FREQ=WEEKLY;COUNT=${selectedSemesterValue}`);
                     // console.log('Selected semester value:', selectedSemesterValue);
 
-                    if (token) {
-                        // console.log("Extension end");
-                        createCalendarEvent(event);
+                    if (selectedOptionValue == 1 || selectedOptionValue == 3) {
+                        if (token) {
+                            // console.log("Extension end");
+                            createCalendarEvent(event);
+                        }
                     }
                     classEvents.push(event);
 
@@ -568,28 +619,30 @@ END:VALARM`;
         });
     });
 
-    // Create a blob file for users to download
-    // console.log(classEvents);
-    icalContent = icalBlob(classEvents, selectedReminderTime);
+    if (selectedOptionValue == 2 || selectedOptionValue == 3) {
+        // Create a blob file for users to download
+        // console.log(classEvents);
+        icalContent = icalBlob(classEvents, selectedReminderTime);
 
-    console.log(icalContent);
+        console.log(icalContent);
 
-    const icsContainer = document.querySelector('.ics-container');
-    if (icsContainer) {
-        console.log("Found icsContainer", icsContainer);
+        const icsContainer = document.querySelector('.ics-container');
+        if (icsContainer) {
+            console.log("Found icsContainer", icsContainer);
+        }
+
+        // Convert data to Blob
+        const blob = new Blob([icalContent], { type: 'text/calendar;charset=utf-8' });
+        const blobUrl = URL.createObjectURL(blob);
+
+        const downloadButton = document.createElement('a');
+        downloadButton.href = blobUrl;
+        downloadButton.download = 'schedulr.ics';
+        downloadButton.innerText = 'Download .ics';
+        downloadButton.classList.add('download-btn');
+
+        downloadButton.click();
     }
-
-    // Convert data to Blob
-    const blob = new Blob([icalContent], { type: 'text/calendar;charset=utf-8' });
-    const blobUrl = URL.createObjectURL(blob);
-
-    const downloadButton = document.createElement('a');
-    downloadButton.href = blobUrl;
-    downloadButton.download = 'schedulr.ics';
-    downloadButton.innerText = 'Download .ics';
-    downloadButton.classList.add('download-btn');
-
-    downloadButton.click();
 
     // =============== End of web scrape workflow ===============
 
