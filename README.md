@@ -26,13 +26,16 @@ https://github.com/user-attachments/assets/9b1bcb8e-6f9b-4f51-89be-7f8090aea6ab
 2. Click "Add to Chrome".
 
 ## Usage 🕹️
+Note: Some steps after step 4 may vary depending on your selected action.
 1. Go to "My Weekly Schedule" page in CliC. ***(Ensure you're viewing the schedule for the very first week of the semester)***
 2. Open the extension by using the [shortcut key](https://github.com/sycanz04/schedulr?tab=readme-ov-file#key-binding-) or by clicking the extension icon.
 3. An authentication window will appear, grant permission for both scopes and then reopen the extension.
-4. Choose the calendar where you'd like to add events. ***(Your main calendar is typically the one linked to your email)***
+4. Select an action (Google Calendar transfer, download .ics, or both), then click **Confirm**.
 5. Select the semester length: either **Short (7 weeks)** or **Long (14 weeks)**.
-6. Pick a colour for the calendar events.
-7. Press the **Submit** button to complete the process.
+6. Select your event format and reminder settings
+7. Pick the target calendar. ***(Your main calendar is typically the one linked to your email)***
+8. Choose an event colour.
+9. Press the **Submit** to complete the process.
 
 ...classes **SHOULD** be added to Google Calendar.
 
@@ -44,7 +47,7 @@ The shortcut key opens up the popup page
 - `Command+Shift+S`
 
 ## Project status ⏳
-Schedulr version 2.3.1 is available on [Chrome Web store](https://chromewebstore.google.com/detail/schedulr/ofaflpillnejkhmkefmcpoamjeaghipp) as of now.
+Schedulr version 2.3.2 is available on [Chrome Web store](https://chromewebstore.google.com/detail/schedulr/ofaflpillnejkhmkefmcpoamjeaghipp) as of now.
 
 ## Tech Stack 🚀
 1. Javascript
