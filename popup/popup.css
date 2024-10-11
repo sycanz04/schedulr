@@ -1,7 +1,7 @@
 body {
     font-family: Arial, sans-serif;
     border: 2px solid #89b4fa;
-    width: 250px;
+    width: 315px;
     margin: 0;
     box-sizing: border-box;
     background-color: #1e1e2e;
@@ -15,24 +15,81 @@ h1 {
     text-align: center;
 }
 
-h1::after {
-    content: "";
-    display: block;
-    width: 100%;
-    height: 2px;
-    background-color: #89b4fa;
-    margin-top: 10px; 
-}
-
-.forms {
+.firstPage {
     display: flex;
     flex-direction: column;
     gap: 10px;
     padding: 0px 20px 20px 20px;
 }
 
+.firstButton {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    padding: 0px 20px;
+}
+
+.generalForms {
+    display: none;
+    flex-direction: column;
+    gap: 10px;
+    padding: 0px 20px;
+}
+
+.calForms {
+    display: none;
+    flex-direction: column;
+    gap: 10px;
+    padding: 0px 20px 20px 20px;
+}
+
+.finalButton {
+    display: none;
+    justify-content: center;
+    gap: 10px;
+    padding: 0px 20px 20px 20px;
+}
+
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 10px;
+}
+
+.backButton button {
+    display: none;
+    background-color: transparent;
+    border: none;
+    padding-left: 8px;
+    cursor: pointer;
+    align-items: center;
+    gap: 8px;
+}
+
+.backButton button i {
+    color: white;
+    font-size: 15px;
+}
+
+.line {
+    border-bottom: 2px solid #89b4fa;
+    margin-top: 0px;
+    margin-bottom: 20px;
+}
+
+.middle {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
 form {
     background: transparent;
+}
+
+.tip {
+    margin-top: 15px;
 }
 
 p, label {
@@ -45,15 +102,21 @@ input[type="radio"] {
     margin-right: 10px;
 }
 
+.button-container {
+    display: flex;
+    justify-content: center;
+}
+
 input[type="submit"] {
     background-color: #585b70;
     border: 2px solid #89b4fa;
     color: white;
     margin-top: 5px;
     padding: 10px;
-    border-radius: 10px;
+    border-radius: 16px;
     cursor: pointer;
     font-size: 14px;
+    justify-content: center;
 }
 
 input[type="submit"]:hover {
@@ -100,7 +163,7 @@ input[type="radio"]:checked + .color-circle {
     border-top: 4px solid #3498db;
     width: 15px;
     height: 15px;
-    -webkit-animation: spin 2s linear infinite; /* Safari */
+    -webkit-animation: spin 2s linear infinite;
     animation: spin 2s linear infinite;
 }
 

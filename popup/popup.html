@@ -8,23 +8,57 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <h1>Schedulr</h1>
-    <div class="forms">
-        <form id="calendarForm">
-            <p>Calendar to insert event to:</p>
+    <div class="header-container">
+        <div class="backButton">
+            <button id="backButton">
+                <i class="fa fa-arrow-left"></i>
+            </button>
+        </div>
+        <div class="middle">
+            <img src="../images/magnify128.png" width=30px height=auto></img>
+            <h1>Schedulr</h1>
+        </div>
+        <a href="https://hackerspacemmu.rocks/" target="_blank">
+            <img src="../images/hackerspace.png" width=40px height=auto></img>
+        </a>
+    </div>
 
-            <!-- Loader -->
-            <div class="loader-container">
-                <div class="loader" id="loader"></div>
+    <div class="line"></div>
+
+    <div class="firstPage">
+        <form id="optionForm">
+            <p>What do you want to perform?</p>
+            <input type="radio" id="cal" name="option" value="1">
+            <label for="cal">Transfer to Google Calendar</label><br>
+            <input type="radio" id="ics" name="option" value="2">
+            <label for="ics">Download .ics file</label><br>
+            <input type="radio" id="both" name="option" value="3">
+            <label for="both">Both</label><br>
+            
+            <div class="firstButton">
+                <input type="submit" value="Confirm">
             </div>
+            <p class="tip"><em><strong>Tip</strong>: An .ics file lets you import events into other calendar apps like Outlook.</em></p>
         </form>
+    </div>
 
+    <div class="generalForms">
         <form id="semesterForm">
             <p>How many weeks of classes: </p>
             <input type="radio" id="short" name="semester" value="7">
             <label for="short">Short semester (7 weeks)</label><br>
             <input type="radio" id="long" name="semester" value="14">
             <label for="long">Long semester (14 weeks)</label><br>
+        </form>
+
+        <form id="eventFormatForm">
+            <p>Pick your event format: </p>
+            <input type="radio" id="first" name="format" value="1">
+            <label for="first">Subject Code - Section (Type)</label><br>
+            <input type="radio" id="second" name="format" value="2">
+            <label for="second">Subject Name - Section (Type)</label><br>
+            <input type="radio" id="third" name="format" value="3">
+            <label for="third">Subject Name - Code - Section (Type)</label><br>
         </form>
 
         <form id="reminderForm">
@@ -35,6 +69,17 @@
             <label for="minutes">30 minutes before</label><br>
             <input type="radio" id="hour" name="reminder" value="60">
             <label for="hour">1 hour before</label><br>
+        </form>
+    </div>
+
+    <div class="calForms">>
+        <form id="calendarForm">
+            <p>Calendar to insert event to:</p>
+
+            <!-- Loader -->
+            <div class="loader-container">
+                <div class="loader" id="loader"></div>
+            </div>
         </form>
 
         <form id="colorForm">
@@ -70,9 +115,12 @@
                 <input type="radio" id="Tomato" name="color" value="11">
                 <label for="Tomato" class="color-circle" style="background-color: #dc2127;"></label>
             </div>
-            <input type="submit" value="Submit">
         </form>
     </div>
-    <script src="popup.js"></script>
+
+    <div class="finalButton">
+        <input type="submit" value="Submit">
+    </div>
+    <script type="module" src="popup.js"></script>
 </body>
 </html>
