@@ -54,10 +54,19 @@ function setAttributes(form, calData) {
     document.getElementById('loader').style.display = 'none';
 }
 
+let selectedOptionValue;
+
+// Function to handle event
+function finalButtonClickHandler(event) {
+    event.preventDefault();
+    getFormsValue(selectedOptionValue);
+}
+
+// Listener to get selected option value
 document.getElementById('optionForm').addEventListener('submit', function(event) {
     event.preventDefault();
 
-    const selectedOptionValue = document.querySelector('input[name="option"]:checked')?.value;
+    selectedOptionValue = document.querySelector('input[name="option"]:checked')?.value;
     console.log(`Received option value: ${selectedOptionValue}`);
 
     if (!(selectedOptionValue)) {
@@ -70,59 +79,84 @@ document.getElementById('optionForm').addEventListener('submit', function(event)
 
     // Query all possible forms
     let generalForms = document.getElementsByClassName('generalForms')[0];
+    let backButton = document.getElementById('backButton');
     let calForms = document.getElementsByClassName('calForms')[0];
     let finalButton = document.getElementsByClassName('finalButton')[0];
 
+    generalForms.style.display = 'flex';
+    backButton.style.display = 'flex';
+
     // Display appropriate forms
     if (selectedOptionValue == 1 || selectedOptionValue == 3) {
-        generalForms.style.display = 'flex';
         calForms.style.display = 'flex';
         finalButton.style.display = 'flex';
-
     } else if (selectedOptionValue == 2) {
-        generalForms.style.display = 'flex';
         finalButton.style.display = 'flex';
     }
 
-    getFormsValue(selectedOptionValue);
+    // Remove previously attached listener
+    finalButton.removeEventListener('click', finalButtonClickHandler);
+
+    // Attach new listener
+    finalButton.addEventListener('click', finalButtonClickHandler);
 });
 
+// Event listener for the back button
+document.getElementById('backButton').addEventListener('click', function() {
+    // Query all forms
+    let optionForm = document.getElementsByClassName('optionForm')[0];
+    let generalForms = document.getElementsByClassName('generalForms')[0];
+    let calForms = document.getElementsByClassName('calForms')[0];
+    let finalButton = document.getElementsByClassName('finalButton')[0];
+
+    // Hide the second page forms
+    generalForms.style.display = 'none';
+    calForms.style.display = 'none';
+    finalButton.style.display = 'none';
+
+    // Clear the previous form options
+    // optionForm.innerHTML = '';
+
+    // Show the first page again
+    document.getElementsByClassName('firstPage')[0].style.display = 'flex';
+
+    // Hide the back button itself since we're back on the first page
+    document.getElementById('backButton').style.display = 'none';
+});
+
+// Checks all neccessary field vary by selected option value
 function getFormsValue(selectedOptionValue) {
-    document.getElementsByClassName('finalButton')[0].addEventListener('click', function(event) {
-        event.preventDefault();  // Prevent the form from submitting
+    try{
+        // Get the value of the selected radio button
+        const selectedSemesterValue = document.querySelector('input[name="semester"]:checked')?.value;
+        const selectedReminderTime = document.querySelector('input[name="reminder"]:checked')?.value;
+        const selectedColorValue = document.querySelector('input[name="color"]:checked')?.value;
+        const selectedCalendar = document.querySelector('input[name="calendar"]:checked')?.value;
+        const selectedEventFormat = document.querySelector('input[name="format"]:checked')?.value;
 
-        try{
-            // Get the value of the selected radio button
-            const selectedSemesterValue = document.querySelector('input[name="semester"]:checked')?.value;
-            const selectedReminderTime = document.querySelector('input[name="reminder"]:checked')?.value;
-            const selectedColorValue = document.querySelector('input[name="color"]:checked')?.value;
-            const selectedCalendar = document.querySelector('input[name="calendar"]:checked')?.value;
-            const selectedEventFormat = document.querySelector('input[name="format"]:checked')?.value;
-
-            if (selectedOptionValue == 1 || selectedOptionValue == 3) {
-                // Check if all values are selected
-                if (!(selectedSemesterValue && selectedReminderTime && selectedColorValue && selectedCalendar && selectedEventFormat)) {
-                    window.alert('Please select all options.');
-                    return;
-                }
-
-                handleFlow(selectedColorValue, selectedCalendar, selectedReminderTime, selectedSemesterValue, selectedEventFormat, selectedOptionValue);
-
-            } else if (selectedOptionValue == 2) {
-                // Check if all values are selected
-                if (!(selectedSemesterValue && selectedReminderTime && selectedEventFormat)) {
-                    window.alert('Please select all options.');
-                    return;
-                }
-
-                handleFlow(null, null, selectedReminderTime, selectedSemesterValue, selectedEventFormat, selectedOptionValue);
+        if (selectedOptionValue == 1 || selectedOptionValue == 3) {
+            // Check if all values are selected
+            if (!(selectedSemesterValue && selectedReminderTime && selectedColorValue && selectedCalendar && selectedEventFormat)) {
+                window.alert('Please select all options.');
+                return;
             }
+
+            handleFlow(selectedColorValue, selectedCalendar, selectedReminderTime, selectedSemesterValue, selectedEventFormat, selectedOptionValue);
+
+        } else if (selectedOptionValue == 2) {
+            // Check if all values are selected
+            if (!(selectedSemesterValue && selectedReminderTime && selectedEventFormat)) {
+                window.alert('Please select all options.');
+                return;
+            }
+
+            handleFlow(null, null, selectedReminderTime, selectedSemesterValue, selectedEventFormat, selectedOptionValue);
         }
-        catch(err) {
-            console.error('An error occured: ', err);
-            window.alert(`An error occured: ${err.message}`);
-        }
-    });
+    }
+    catch(err) {
+        console.error('An error occured: ', err);
+        window.alert(`An error occured: ${err.message}`);
+    }
 }
 
 // This function handles token and window flow
