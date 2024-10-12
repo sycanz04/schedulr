@@ -1,6 +1,6 @@
 ## [2.3.2](https://github.com/sycanz04/schedulr/commit/7d9b5b3b033816d8e30bdedc528b99114a9704cb) (10-10-2024)
 ### Bug Fixes
-- bug when "Show Instructor" or "Show Class Title" under Display Option in CLiC is checked ([e7369a7](https://github.com/sycanz04/schedulr/commit/e7369a775feb13d413b8923e254a489e6d4ba69f))
+- bug when "Show Instructor" or "Show Class Title" under Display Option in CLiC is checked ([e7369a7](https://github.com/sycanz04/schedulr/commit/e7369a775feb13d413b8923e254a489e6d4ba69f)), closes [#19](https://github.com/sycanz04/schedulr/issues/19)
 
 ### Features
 - user can install .ics file and import it into other calendars ([287a37c](https://github.com/sycanz04/schedulr/commit/287a37c170bbba86fd47b2bc5fe81b03efb63bf7)) ([f24ca66](https://github.com/sycanz04/schedulr/commit/f24ca663f98a038f7ada6c1c2b74dc21f6d42e7c))

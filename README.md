@@ -1,5 +1,5 @@
 # Schedulr 📅
-Google chrome extension that extracts timetable from the "My Weekly Schedule" page of **MMU CliC** and automatically creates recurring events in Google Calendar, effectively transferring your schedule from CliC to Google Calendar.
+A chrome extension that extracts your **MMU CliC** timetable, adds recurring events recurring events to Google Calendar, and lets you download it as an .ics file to import calendar into other calendars like Outlook Calendar and Apple Calendar.
 
 https://github.com/user-attachments/assets/9b1bcb8e-6f9b-4f51-89be-7f8090aea6ab
 
@@ -12,8 +12,9 @@ https://github.com/user-attachments/assets/9b1bcb8e-6f9b-4f51-89be-7f8090aea6ab
   - [macOS](https://github.com/sycanz04/schedulr?tab=readme-ov-file#macos-)
 - [Project status](https://github.com/sycanz04/schedulr?tab=readme-ov-file#project-status-)
 - [Tech Stack](https://github.com/sycanz04/schedulr?tab=readme-ov-file#tech-stack-)
-- [Why this project?](https://github.com/sycanz04/schedulr?tab=readme-ov-file#why-this-project-)
+- [Changelog](https://github.com/sycanz04/schedulr?tab=readme-ov-file#changelog-)
 - [Privacy policy](https://github.com/sycanz04/schedulr?tab=readme-ov-file#privacy-policy-)
+- [Why this project?](https://github.com/sycanz04/schedulr?tab=readme-ov-file#why-this-project-)
 - [Buy me a coffee](https://github.com/sycanz04/schedulr?tab=readme-ov-file#buy-me-a-coffee-)
 - [Credit](https://github.com/sycanz04/schedulr?tab=readme-ov-file#credit-)
 
@@ -37,7 +38,7 @@ Note: Some steps after step 4 may vary depending on your selected action.
 8. Choose an event colour.
 9. Press the **Submit** to complete the process.
 
-...classes **SHOULD** be added to Google Calendar.
+***Tip**: An .ics file lets you import events into other calendar apps like Outlook.*
 
 ## Key binding ⌨️
 The shortcut key opens up the popup page
@@ -47,22 +48,23 @@ The shortcut key opens up the popup page
 - `Command+Shift+S`
 
 ## Project status ⏳
-Schedulr version 2.3.1 is available on [Chrome Web store](https://chromewebstore.google.com/detail/schedulr/ofaflpillnejkhmkefmcpoamjeaghipp) as of now.
-
-## Changelog
-Detailed changes for each release are documented in the release notes.
+Schedulr version 2.3.2 is available on [Chrome Web store](https://chromewebstore.google.com/detail/schedulr/ofaflpillnejkhmkefmcpoamjeaghipp) as of now.
 
 ## Tech Stack 🚀
 1. Javascript
-2. Google API
+2. Google calendar API
+
+## Changelog 📁
+Detailed changes for each release are documented in the [release notes](https://github.com/sycanz04/schedulr/releases).
+
+## Privacy policy 📜
+Please read the [Privacy Policy](https://www.mmuschedulr.com/privacy-policy.html) for this extension before proceeding.
 
 ## Why this project? 🛌
 Imagine a world where you can automate your life - cool right? I initially created this to save time on manually transferring my timetable but it seems I've spend more time building it than I would have transferring the timetable manually...oh well.
 
 Since this is my first web project, I'd love to hear any suggetions for improvements you might have!
 
-## Privacy policy 📜
-Please read the [Privacy Policy](https://www.mmuschedulr.com/privacy-policy.html) for this extension before proceeding.
 ## Buy me a coffee ☕
 I seem to have developed a bit of an addiction to espresso shots, so if you're feeling generous, feel free to [buy me a coffee](https://ko-fi.com/sycanz)!
 
