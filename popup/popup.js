@@ -680,5 +680,11 @@ END:VALARM`;
 
     // =============== End of web scrape workflow ===============
 
-    window.alert("Timetable transferred to Google Calendar!");
+    if (selectedOptionValue == 1) {
+        window.alert("Timetable transferred to Google Calendar!");
+    } else if (selectedOptionValue == 2){
+        window.alert(".ics file installed!");
+    } else {
+        window.alert("Timetable transferred to Google Calendar and installed .ics file!");
+    }
 }
