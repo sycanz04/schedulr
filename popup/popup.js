@@ -132,16 +132,18 @@ function getFormsValue(selectedOptionValue) {
         const selectedReminderTime = document.querySelector('input[name="reminder"]:checked')?.value;
         const selectedColorValue = document.querySelector('input[name="color"]:checked')?.value;
         const selectedCalendar = document.querySelector('input[name="calendar"]:checked')?.value;
-        const selectedEventFormat = document.querySelector('input[name="format"]:checked')?.value;
+        // const selectedEventFormat = document.querySelector('input[name="format"]:checked')?.value;
 
         if (selectedOptionValue == 1 || selectedOptionValue == 3) {
             // Check if all values are selected
-            if (!(selectedSemesterValue && selectedReminderTime && selectedColorValue && selectedCalendar && selectedEventFormat)) {
+            // if (!(selectedSemesterValue && selectedReminderTime && selectedColorValue && selectedCalendar && selectedEventFormat)) {
+            if (!(selectedSemesterValue && selectedReminderTime && selectedColorValue && selectedCalendar)) {
                 window.alert('Please select all options.');
                 return;
             }
 
-            handleFlow(selectedColorValue, selectedCalendar, selectedReminderTime, selectedSemesterValue, selectedEventFormat, selectedOptionValue);
+            // handleFlow(selectedColorValue, selectedCalendar, selectedReminderTime, selectedSemesterValue, selectedEventFormat, selectedOptionValue);
+            handleFlow(selectedColorValue, selectedCalendar, selectedReminderTime, selectedSemesterValue, selectedOptionValue);
 
         } else if (selectedOptionValue == 2) {
             // Check if all values are selected
@@ -150,7 +152,7 @@ function getFormsValue(selectedOptionValue) {
                 return;
             }
 
-            handleFlow(null, null, selectedReminderTime, selectedSemesterValue, selectedEventFormat, selectedOptionValue);
+            handleFlow(null, null, selectedReminderTime, selectedSemesterValue, selectedOptionValue);
         }
     }
     catch(err) {
@@ -160,7 +162,8 @@ function getFormsValue(selectedOptionValue) {
 }
 
 // This function handles token and window flow
-async function handleFlow(selectedColorValue, selectedCalendar, selectedReminderTime, selectedSemesterValue, selectedEventFormat, selectedOptionValue) {
+// async function handleFlow(selectedColorValue, selectedCalendar, selectedReminderTime, selectedSemesterValue, selectedEventFormat, selectedOptionValue) {
+async function handleFlow(selectedColorValue, selectedCalendar, selectedReminderTime, selectedSemesterValue, selectedOptionValue) {
     try {
         // Get Oauth token
         const token = await getAuthToken();
@@ -172,7 +175,8 @@ async function handleFlow(selectedColorValue, selectedCalendar, selectedReminder
         chrome.scripting.executeScript({
             target: { tabId: currTab.id },
             func: dataProc,
-            args: [token, selectedSemesterValue, selectedReminderTime, selectedColorValue, selectedCalendar, selectedEventFormat, selectedOptionValue]
+            // args: [token, selectedSemesterValue, selectedReminderTime, selectedColorValue, selectedCalendar, selectedEventFormat, selectedOptionValue]
+            args: [token, selectedSemesterValue, selectedReminderTime, selectedColorValue, selectedCalendar, selectedOptionValue]
         });
 
     } catch (error) {
@@ -181,7 +185,8 @@ async function handleFlow(selectedColorValue, selectedCalendar, selectedReminder
     }
 }
 
-function dataProc(token, selectedSemesterValue, selectedReminderTime, selectedColorValue, selectedCalendar, selectedEventFormat, selectedOptionValue) {
+// function dataProc(token, selectedSemesterValue, selectedReminderTime, selectedColorValue, selectedCalendar, selectedEventFormat, selectedOptionValue) {
+function dataProc(token, selectedSemesterValue, selectedReminderTime, selectedColorValue, selectedCalendar, selectedOptionValue) {
     // =============== Helper functions ===============
     // Function to create a calendar event
     function createCalendarEvent(event) {
@@ -510,59 +515,113 @@ END:VALARM`;
     // =============== End of helper functions ===============
 
     // =============== Web scrape workflow ===============
-    // Declare iframe
-    const iframeElement = document.querySelector("#ptifrmtgtframe");
 
-    if (!iframeElement) {
-        console.error("iframe not found!");
-        window.alert("iframe not found!");
-        return;
-    }
+    // console.log(openClassSec);
+    let classSec = document.querySelectorAll("[id^='win0divDERIVED_SSR_FL_SSR_SCRTAB_DTLS']");
 
-    // Access the iframe's content document
-    const iframeDocument = iframeElement.contentWindow.document.body;
+    // For each class sections
+    classSec.forEach((element, index) => {
+        // Select all class name, type, dates, times, and location
+        let className = element.querySelectorAll("[id^='DERIVED_SSR_FL_SSR_SCRTAB_DTLS']");
+        let classDetails = element.querySelectorAll("a[id^='DERIVED_SSR_FL_SSR_SBJ_CAT_NBR$355']");
+        let classDates = element.querySelectorAll("[id^='DERIVED_SSR_FL_SSR_ST_END_DT1']");
+        let classTimes = element.querySelectorAll("[id^='DERIVED_SSR_FL_SSR_DAYSTIMES1']");
+        let classLoc = element.querySelectorAll("[id^='DERIVED_SSR_FL_SSR_DRV_ROOM1']");
 
-    // Select elements in iframe
-    const dayHeader = iframeDocument.querySelectorAll("th.PSLEVEL3GRIDODDROW");
-    const rows = iframeDocument.querySelectorAll("table.PSLEVEL3GRIDODDROW  tr");
-    const year = iframeDocument.querySelector("div#win0divDERIVED_CLASS_S_DESCR100_2 td.PSGROUPBOXLABEL.PSLEFTCORNER").textContent;
-    const subjTitleVal = iframeDocument.querySelector('input[name="DERIVED_CLASS_S_SSR_DISP_TITLE$chk"][id="DERIVED_CLASS_S_SSR_DISP_TITLE$chk"]').value;
-    const classInstructorVal = iframeDocument.querySelector('input[name="DERIVED_CLASS_S_SHOW_INSTR$chk"][id="DERIVED_CLASS_S_SHOW_INSTR$chk"]').value;
+        let maxSlots = Math.max(classDetails.length);
 
-    if (!dayHeader || dayHeader.length === 0) {
-        console.error("No day elements found");
-        window.alert("No day elements found");
-        return;
-    }
 
-    if (subjTitleVal === "N" && (selectedEventFormat === "2" || selectedEventFormat === "3")) {
-        console.error('Please check "Show Class Title" box below the calendar under Display Options!');
-        window.alert('Please check "Show Class Title" box below the calendar under Display Options!');
-        return;
-    }
+        for (let i = 0; i < maxSlots; i++) {
+            // Get the text content of the elements
+            let classNameText = className[0].textContent;
+            let classDetailsText = classDetails[i].textContent.trim();
+            let classDatesText = classDates[i].textContent.trim();
+            let classTimesText = classTimes[i].textContent.trim();
+            let classLocText = classLoc[i].textContent.trim();
 
-    // Get the dates
-    const days = []
-    const dates = []
-    dayHeader.forEach((element, index) => {
-        if (index === 0) {
-            dates.push("null");
-        } else {
-            const dayText = element.textContent.split("\n");
-            const day = dayText[0].trim();
-            let date = dayText[1]
-            date = addZeroToDate(date);
-            // console.log(`Day: ${day}, Date: ${date}`);
-            days.push(day);
-            dates.push(date);
-            // console.log(`Days: ${days}, Date: ${dates}`);
+            // Call function to ultimately create calendar event
+            groupData(classNameText, classDetailsText, classDatesText, classTimesText, classLocText);
         }
-    });
+    })
 
-    // days.shift();
-    // dates.shift();
-    // console.log(days);
-    // console.log(dates);
+    function groupData(className, classDetails, classDates, classTimes, classLoc) {
+        // console.log(className, classType, classDates, classTimes, classLoc);
+
+        let {classCode, classNameOnly} = procClassName(className);
+        let {splitClassType, splitClassSect} = procClassDetails(classDetails);
+    }
+
+    function procClassName(className) {
+        // console.log(className.trim());
+        splitClassName = className.trim().split(/\s+/);
+        // console.log(splitClassName);
+
+        let classCode = splitClassName[0] + splitClassName[1];
+        let classNameOnly = "";
+        for (let i = 2; i < splitClassName.length; i++) {
+            classNameOnly += splitClassName[i] + " ";
+        }
+
+        // console.log(classCode);
+        // console.log(classNameOnly);
+        return {classCode, classNameOnly};
+    }
+
+    function procClassDetails(classDetails) {
+        splitClassDetails = classDetails.split(" - ");
+        // console.log(splitClassDetails);
+
+        splitClassType = splitClassDetails[0].split(" ")[1];
+        splitClassSect = splitClassDetails[1].split(" ")[2];
+        // console.log(splitClassType);
+
+        return {splitClassType, splitClassSect};
+    }
+
+    // // Access the iframe's content document
+    // const iframeDocument = iframeElement.contentWindow.document.body;
+
+    // // Select elements in iframe
+    // const dayHeader = iframeDocument.querySelectorAll("th.PSLEVEL3GRIDODDROW");
+    // const rows = iframeDocument.querySelectorAll("table.PSLEVEL3GRIDODDROW  tr");
+    // const year = iframeDocument.querySelector("div#win0divDERIVED_CLASS_S_DESCR100_2 td.PSGROUPBOXLABEL.PSLEFTCORNER").textContent;
+    // const subjTitleVal = iframeDocument.querySelector('input[name="DERIVED_CLASS_S_SSR_DISP_TITLE$chk"][id="DERIVED_CLASS_S_SSR_DISP_TITLE$chk"]').value;
+    // const classInstructorVal = iframeDocument.querySelector('input[name="DERIVED_CLASS_S_SHOW_INSTR$chk"][id="DERIVED_CLASS_S_SHOW_INSTR$chk"]').value;
+
+    // if (!dayHeader || dayHeader.length === 0) {
+    //     console.error("No day elements found");
+    //     window.alert("No day elements found");
+    //     return;
+    // }
+
+    // if (subjTitleVal === "N" && (selectedEventFormat === "2" || selectedEventFormat === "3")) {
+    //     console.error('Please check "Show Class Title" box below the calendar under Display Options!');
+    //     window.alert('Please check "Show Class Title" box below the calendar under Display Options!');
+    //     return;
+    // }
+
+    // // Get the dates
+    // const days = []
+    // const dates = []
+    // dayHeader.forEach((element, index) => {
+    //     if (index === 0) {
+    //         dates.push("null");
+    //     } else {
+    //         const dayText = element.textContent.split("\n");
+    //         const day = dayText[0].trim();
+    //         let date = dayText[1]
+    //         date = addZeroToDate(date);
+    //         // console.log(`Day: ${day}, Date: ${date}`);
+    //         days.push(day);
+    //         dates.push(date);
+    //         // console.log(`Days: ${days}, Date: ${dates}`);
+    //     }
+    // });
+
+    // // days.shift();
+    // // dates.shift();
+    // // console.log(days);
+    // // console.log(dates);
 
     // Create array to store all events.
     let classEvents = [];
@@ -639,7 +698,7 @@ END:VALARM`;
                     if (selectedOptionValue == 1 || selectedOptionValue == 3) {
                         if (token) {
                             // console.log("Extension end");
-                            createCalendarEvent(event);
+                            // createCalendarEvent(event);
                         }
                     }
                     classEvents.push(event);
