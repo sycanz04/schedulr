@@ -31,7 +31,7 @@ https://github.com/user-attachments/assets/b9e1409c-e5e3-4159-a5ff-86cfa49d3a7c
 
 ## Usage 🕹️
 Note: Some steps after step 4 may vary depending on your target calendar.
-1. Go to "My Weekly Schedule" page in CliC. ***(Ensure all subjects are expanded)***
+1. Go to "View My Classes/Schedule" page in CliC. ***(Ensure all subjects are expanded)***
 2. Open the extension by using the [shortcut key](https://github.com/sycanz04/schedulr?tab=readme-ov-file#key-binding-) or by clicking the extension icon.
 3. An authentication window will appear, grant permission for both scopes and then reopen the extension.
 
