@@ -1,7 +1,7 @@
 # Schedulr 📅
 A chrome extension that imports your **MMU CLiC** timetable into Google Calendar and other calendars like Outlook and Apple Calendar.
 
-https://github.com/user-attachments/assets/9b1bcb8e-6f9b-4f51-89be-7f8090aea6ab
+https://github.com/user-attachments/assets/b9e1409c-e5e3-4159-a5ff-86cfa49d3a7c
 
 ## Table of Content
 - [Requirements](https://github.com/sycanz04/schedulr?tab=readme-ov-file#requirements-)
