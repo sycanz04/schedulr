@@ -488,7 +488,7 @@ END:VALARM`;
         downloadButton.click();
     }
 
-    // =============== End of web scrape workflow ===============
+    /* =============== End of web scrape workflow =============== */
 
     if (selectedOptionValue == 1) {
         window.alert("Timetable transferred to Google Calendar!");
