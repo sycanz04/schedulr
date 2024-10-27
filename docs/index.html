@@ -38,7 +38,7 @@
             <div class="top-part">
                 <div class="text-container">
                     <h1>MMU Schedulr</h1>
-                    <h2>A chrome extension that transfers your timetable from CLiC to Google Calendar and other calendars (via .ics)</h2>
+                    <h2>A chrome extension that imports your MMU CLiC into Google Calendar and other calendars</h2>
 
                     <div>
                         <div class="rating">
@@ -62,7 +62,7 @@
 
                 <div class="video-container">
                     <video controls width="1000" height="600">
-                        <source src="assets/video/schedulr2.3.2.mp4" type="video/mp4">
+                        <source src="assets/video/schedulr3.0.0.mp4" type="video/mp4">
                         your browser does not support the video tag.
                     </video>
                 </div>
@@ -101,17 +101,30 @@
             </ol>
 
             <h1>Usage 🕹️</h1>
-            <p>Note: Some steps after step 4 may vary depending on your selected action.</p>
+            <p>Note: Some steps after step 4 may vary depending on your target calendar.</p>
             <ol>
-                <li>Go to "My Weekly Schedule" page in CliC. <strong><em>(Ensure you're viewing the schedule for the very first week of the semester)</em></strong></li>
+                <li>Go to "My Weekly Schedule" page in CliC. <strong><em>(Ensure all subjects are expanded)</em></strong></li>
                 <li>Open the extension by using the <a href="#key-binding" id="links">shortcut key</a> or by clicking the extension icon.</li>
                 <li>An authentication window will appear, grant permission for both scopes and then reopen the extension.</li>
-                <li>Select an action (Google Calendar transfer, download .ics, or both), then click <strong>Confirm</strong></li>
+            </ol>
+
+            <h2>To import calendar into Google Calendar</h2>
+            <ol start="4">
+                <li>Select <strong>Transfer to Google Calendar</strong>, then click <strong>Confirm</strong>.</li>
                 <li>Select the semester length: either <strong>Short (7 weeks)</strong> or <strong>Long (14 weeks)</strong>.</li>
                 <li>Select your event format and reminder settings.</li>
                 <li>Pick the target calendar. <strong><em>(Your main calendar is typically the one linked to your email)</em></strong></li>
                 <li>Choose an event colour.</li>
-                <li>Press the <strong>Submit</strong> to complete the process.</li>
+                <li>Press the <strong>Submit</strong> to transfer timetable to Google Calendar.</li>
+            </ol>
+
+            <h2>To import calendar into other calendars (like Outlook, Apple Calendar)</h2>
+            <ol start="4">
+                    <li>Select <strong>Download an .ics file</strong>, then click <strong>Confirm</strong></li>
+                <li>Select the semester length: either <strong>Short (7 weeks)</strong> or <strong>Long (14 weeks)</strong>.</li>
+                <li>Select your event format and reminder settings.</li>
+                <li>Press the <strong>Submit</strong> to download the .ics file.</li>
+                <li>Go to your target calendar and import the .ics file.</li>
             </ol>
             <em><strong>Tip</strong>: An .ics file lets you import events into other calendar apps like Outlook.</em><br><br>
 
@@ -128,13 +141,15 @@
 
             <h1>Project status ⏳</h1>
             <p>
-                Schedulr version 2.3.2 is available on <a href="https://chromewebstore.google.com/detail/schedulr/ofaflpillnejkhmkefmcpoamjeaghipp" id="links">Chrome Web store</a> as of now.
+                Schedulr version 3.0.0 is available on <a href="https://chromewebstore.google.com/detail/schedulr/ofaflpillnejkhmkefmcpoamjeaghipp" id="links">Chrome Web store</a> as of now.
             </p>
 
             <h1>Tech Stack 🚀</h1>
             <ol>
                 <li>Javascript</li>
                 <li>Google API</li>
+                <li>HTML</li>
+                <li>CSS</li>
             </ol>
 
             <h1>Changelog 📁</h1>
@@ -144,6 +159,9 @@
 
             <h1>Privacy Policy 📜</h1>
             <p>Please read the <a href="privacy-policy.html" id="links">Privacy Policy</a> for this extension before proceeding.</p>
+
+            <h1>License ⚖️</h1>
+            <p>This project is licensed under the GNU General Public License v3.0 - see the <a href="https://github.com/sycanz04/schedulr/blob/main/LICENSE" id="links">LICENSE</a></p>
 
             <h1>Why this project? 🛌</h1>
             <p>
