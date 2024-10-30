@@ -31,7 +31,13 @@ https://github.com/user-attachments/assets/b9e1409c-e5e3-4159-a5ff-86cfa49d3a7c
 
 ## Usage 🕹️
 Note: Some steps after step 4 may vary depending on your target calendar.
-1. Go to "View My Classes/Schedule" page in CliC. ***(Ensure all subjects are expanded)***
+
+#### For students:
+1. Go to "View My Classes/Schedule > By Class" in CliC. ***(Ensure all subjects are expanded)***
+2. Open the extension by using the [shortcut key](https://github.com/sycanz04/schedulr?tab=readme-ov-file#key-binding-) or by clicking the extension icon.
+3. An authentication window will appear, grant permission for both scopes and then reopen the extension.
+#### For lecturers:
+1. Go to "Instructor Workstation > My Weekly Schedule" in CLiC.
 2. Open the extension by using the [shortcut key](https://github.com/sycanz04/schedulr?tab=readme-ov-file#key-binding-) or by clicking the extension icon.
 3. An authentication window will appear, grant permission for both scopes and then reopen the extension.
 
@@ -60,7 +66,7 @@ The shortcut key opens up the popup page
 - `Command+Shift+S`
 
 ## Project status ⏳
-Schedulr version 3.0.0 is available on [Chrome Web store](https://chromewebstore.google.com/detail/schedulr/ofaflpillnejkhmkefmcpoamjeaghipp) as of now.
+Schedulr version 3.0.1 is available on [Chrome Web store](https://chromewebstore.google.com/detail/schedulr/ofaflpillnejkhmkefmcpoamjeaghipp) as of now.
 
 ## Tech Stack 🚀
 1. Javascript

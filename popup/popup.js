@@ -585,12 +585,13 @@ END:VALARM`;
 
     const lectIndicator = document.querySelector("table.ptalNoPadding.ptalPgltAreaControlsIcon a#ptalPgltAreaHide");
     
-    if (lectIndicator) {
+    if (lectIndicator && iframeElement) {
         // Do the lecturer's process
         console.log("We got a lecturer here!");
         lectFlow();
     } else {
         // Do the student's process
+        console.log("We got a student here!");
         studentFlow();
     }
 
