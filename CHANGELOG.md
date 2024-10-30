@@ -1,3 +1,7 @@
+## [3.0.1](https://github.com/sycanz04/schedulr/commit/2d349ff267f37936df757f4045f9a80052f2fd10) (30-10-2024)
+## Bug Fixes
+- Realise interface didn't change for lecturer so added old algo for lecturer. ([01e7f0c](https://github.com/sycanz04/schedulr/commit/166742b9dde793dc64f43bb32a6f7eccaafb5dcd))
+
 ## [3.0.0](https://github.com/sycanz04/schedulr/commit/3f9ee4edc19c6f783c353df11c183eb6b8088682) (27-10-2024)
 ### Major update
 - Re-scraped/processed data from CLiC to make Schedulr compatible with the newer version of CLiC's interface.
