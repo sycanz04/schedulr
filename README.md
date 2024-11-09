@@ -1,5 +1,11 @@
-# Schedulr 📅
-A chrome extension that imports your **MMU CLiC** timetable into Google Calendar and other calendars like Outlook and Apple Calendar.
+<div align="center">
+  <img src="./images/magnify128.png" alt="NeoHtop Logo" width="120" />
+  <h1>Schedulr</h1>
+  <p>A chrome extension that transfers MMU timetable into Google, Outlook, Apple Calendar (and more)</p>
+
+  [![License](https://img.shields.io/github/license/sycanz04/schedulr)](https://github.com/sycanz04/schedulr/blob/main/LICENSE)
+  [![GitHub release](https://img.shields.io/github/v/release/sycanz04/schedulr)](https://github.com/sycanz04/schedulr/releases)
+</div>
 
 https://github.com/user-attachments/assets/b9e1409c-e5e3-4159-a5ff-86cfa49d3a7c
 
@@ -33,46 +39,45 @@ https://github.com/user-attachments/assets/b9e1409c-e5e3-4159-a5ff-86cfa49d3a7c
 Note: Some steps after step 4 may vary depending on your target calendar.
 
 #### For students:
-1. Go to "View My Classes/Schedule > By Class" in CliC. ***(Ensure all subjects are expanded)***
+1. Go to **"View My Classes/Schedule > By Class"** in CliC. ***(Ensure all subjects are expanded)***
 2. Open the extension by using the [shortcut key](https://github.com/sycanz04/schedulr?tab=readme-ov-file#key-binding-) or by clicking the extension icon.
 3. An authentication window will appear, grant permission for both scopes and then reopen the extension.
+
 #### For lecturers:
-1. Go to "Instructor Workstation > My Weekly Schedule" in CLiC.
+1. Go to **"Instructor WorkCenter > My Weekly Schedule"** in CLiC.
 2. Open the extension by using the [shortcut key](https://github.com/sycanz04/schedulr?tab=readme-ov-file#key-binding-) or by clicking the extension icon.
 3. An authentication window will appear, grant permission for both scopes and then reopen the extension.
 
 #### To import calendar into Google Calendar:
 4. Select **Transfer to Google Calendar**, then click **Confirm**.
-5. Select the semester length: either **Short (7 weeks)** or **Long (14 weeks)**.
-6. Select your event format and reminder settings
-7. Pick the target calendar. ***(Your main calendar is typically the one linked to your email)***
-8. Choose an event colour.
-9. Press the **Submit** to transfer timetable to Google Calendar.
+5. Select all the necessary options.
+6. Press the **Submit** button to transfer timetable to Google Calendar.
 
 #### To import calendar into other calendars (like Outlook, Apple Calendar):
 4. Select **Download an .ics file**, then click **Confirm**.
-5. Select the semester length: either **Short (7 weeks)** or **Long (14 weeks)**.
-6. Select your event format and reminder settings
-7. Press the **Submit** to download the .ics file.
-8. Go to your target calendar and import the .ics file.
+5. Select all the necessary options.
+6. Press the **Submit** button to download the .ics file.
+7. Go to your target calendar and import the .ics file.
 
 ***Tip**: An .ics file lets you import events into other calendar apps like Outlook.*
 
 ## Key binding ⌨️
 The shortcut key opens up the popup page
-### Linux 🐧 and Windows 🪟
-- `Alt+Shift+S`
-### macOS 🍎
-- `Command+Shift+S`
+- **Linux and Windows** - `Alt+Shift+S`
+- **macOS** - `Command+Shift+S`
 
 ## Project status ⏳
 Schedulr version 3.0.1 is available on [Chrome Web store](https://chromewebstore.google.com/detail/schedulr/ofaflpillnejkhmkefmcpoamjeaghipp) as of now.
 
+## Contributing 🤝🏻
+Schedulr is an open-source project designed to assist fellow MMU peers. I invite you to participate in various ways to contribute and enhance the project!
+
+Feel free to explore the contribution guidelines below to get started. Your involvement is greatly appreciated!
+
 ## Tech Stack 🚀
 1. Javascript
 2. Google calendar API
-3. HTML
-4. CSS
+3. HTML, CSS
 
 ## Changelog 📁
 Detailed changes for each release are documented in the [release notes](https://github.com/sycanz04/schedulr/releases).
@@ -83,13 +88,8 @@ Please read the [Privacy Policy](https://www.mmuschedulr.com/privacy-policy.html
 ## License ⚖️
 This project is licensed under the GNU General Public License v3.0 - see the [LICENSE](https://github.com/sycanz04/schedulr/blob/main/LICENSE)
 
-## Why this project? 🛌
-Imagine a world where you can automate your life - cool right? I initially created this to save time on manually transferring my timetable but it seems I've spend more time building it than I would have transferring the timetable manually...oh well.
-
-Since this is my first web project, I'd love to hear any suggetions for improvements you might have!
-
 ## Buy me a coffee ☕
 I seem to have developed a bit of an addiction to espresso shots, so if you're feeling generous, feel free to [buy me a coffee](https://ko-fi.com/sycanz)!
 
-## Credit 🤝🏻
+## Credit 🎉
 This project was developed at [Hackerspace MMU](https://hackerspacemmu.rocks/). Also shoutout to a couple of friends who helped me out on this project.
