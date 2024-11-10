@@ -16,10 +16,9 @@ https://github.com/user-attachments/assets/b9e1409c-e5e3-4159-a5ff-86cfa49d3a7c
   - [Import timetable into Google Calendar](https://github.com/sycanz04/schedulr?tab=readme-ov-file#to-import-calendar-into-google-calendar)
   - [Import timetable into other calendars](https://github.com/sycanz04/schedulr?tab=readme-ov-file#to-import-calendar-into-other-calendars-like-outlook-apple-calendar)
 - [Key Binding](https://github.com/sycanz04/schedulr?tab=readme-ov-file#key-binding-%EF%B8%8F)
-  - [Linux and Windows](https://github.com/sycanz04/schedulr?tab=readme-ov-file#linux--and-windows-)
-  - [macOS](https://github.com/sycanz04/schedulr?tab=readme-ov-file#macos-)
 - [Project status](https://github.com/sycanz04/schedulr?tab=readme-ov-file#project-status-)
 - [Contributing](https://github.com/sycanz04/schedulr/tree/docs?tab=readme-ov-file#contributing-)
+- [Development Guide](https://github.com/sycanz04/schedulr/tree/docs?tab=readme-ov-file#development-guide-)
 - [Tech Stack](https://github.com/sycanz04/schedulr?tab=readme-ov-file#tech-stack-)
 - [Changelog](https://github.com/sycanz04/schedulr?tab=readme-ov-file#changelog-)
 - [Privacy policy](https://github.com/sycanz04/schedulr?tab=readme-ov-file#privacy-policy-)
@@ -86,8 +85,8 @@ Feel free to explore the [contribution guidelines](https://github.com/sycanz04/s
 
 #### Uploading the extension to your browser
 1. **Clone the Repository**  
-   ```sh
-   git clone https://github.com/sycanz04/schedulr
+   ```bash
+   $ git clone https://github.com/sycanz04/schedulr
    ```
 
 2. **Prepare `manifest.json`**

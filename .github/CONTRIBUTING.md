@@ -10,8 +10,8 @@ To get started with contributing code, please refer to the Development Guide for
 
 ### Reporting Bugs
 1. Create a new issue in the [issue tracker](https://github.com/sycanz04/schedulr/issues).
-2. Follow the bug report template to report any bugs you find.
+2. Follow the [bug report template](https://github.com/sycanz04/schedulr/blob/docs/.github/ISSUE_TEMPLATE/bug_report.md) to report any bugs you find.
 
 ### Requesting Features
 1. Create a new issue in the [issue tracker](https://github.com/sycanz04/schedulr/issues).
-2. Follow the feature request template to request any features you would like to have.
+2. Follow the [feature request template](https://github.com/sycanz04/schedulr/blob/docs/.github/ISSUE_TEMPLATE/feature_request.md) to request any features you would like to have.
