@@ -40,18 +40,23 @@ Note: Some steps after step 4 may vary depending on your target calendar.
 
 #### For students:
 1. Go to **"View My Classes/Schedule > By Class"** in CliC. ***(Ensure all subjects are expanded)***
-2. Open the extension by using the [shortcut key](https://github.com/sycanz04/schedulr?tab=readme-ov-file#key-binding-) or by clicking the extension icon.
-3. An authentication window will appear, grant permission for both scopes and then reopen the extension.
 
 #### For lecturers:
 1. Go to **"Instructor WorkCenter > My Weekly Schedule"** in CLiC.
+
+---
+
 2. Open the extension by using the [shortcut key](https://github.com/sycanz04/schedulr?tab=readme-ov-file#key-binding-) or by clicking the extension icon.
 3. An authentication window will appear, grant permission for both scopes and then reopen the extension.
+
+---
 
 #### To import calendar into Google Calendar:
 4. Select **Transfer to Google Calendar**, then click **Confirm**.
 5. Select all the necessary options.
 6. Press the **Submit** button to transfer timetable to Google Calendar.
+
+--- 
 
 #### To import calendar into other calendars (like Outlook, Apple Calendar):
 4. Select **Download an .ics file**, then click **Confirm**.
