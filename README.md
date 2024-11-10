@@ -19,6 +19,7 @@ https://github.com/user-attachments/assets/b9e1409c-e5e3-4159-a5ff-86cfa49d3a7c
   - [Linux and Windows](https://github.com/sycanz04/schedulr?tab=readme-ov-file#linux--and-windows-)
   - [macOS](https://github.com/sycanz04/schedulr?tab=readme-ov-file#macos-)
 - [Project status](https://github.com/sycanz04/schedulr?tab=readme-ov-file#project-status-)
+- [Contributing](https://github.com/sycanz04/schedulr/tree/docs?tab=readme-ov-file#contributing-)
 - [Tech Stack](https://github.com/sycanz04/schedulr?tab=readme-ov-file#tech-stack-)
 - [Changelog](https://github.com/sycanz04/schedulr?tab=readme-ov-file#changelog-)
 - [Privacy policy](https://github.com/sycanz04/schedulr?tab=readme-ov-file#privacy-policy-)
@@ -72,7 +73,45 @@ Schedulr version 3.0.1 is available on [Chrome Web store](https://chromewebstore
 ## Contributing 🤝🏻
 Schedulr is an open-source project designed to assist fellow MMU peers. I invite you to participate in various ways to contribute and enhance the project!
 
-Feel free to explore the contribution guidelines below to get started. Your involvement is greatly appreciated!
+Feel free to explore the [contribution guidelines](https://github.com/sycanz04/schedulr/blob/docs/.github/CONTRIBUTING.md) below to get started. Your involvement is greatly appreciated!
+
+## Development Guide 📚
+### Prerequisites
+- Javascript, basic web scraping knowledge
+- Basic understanding of Google Calendar API
+- Familiar with chrome extension development, manifest v3. Easy tutorial by google [here](https://developer.chrome.com/docs/extensions/mv3/getstarted/)
+
+### Getting Started
+**Note**: This guide is based on Google Chrome's workflow, so some of the steps *(especially `manifest.json` format)* may not directly apply to other browsers. Please refer to the respective browser's documentation for more information.
+
+#### Uploading the extension to your browser
+1. **Clone the Repository**  
+   ```sh
+   git clone https://github.com/sycanz04/schedulr
+   ```
+
+2. **Prepare `manifest.json`**
+   - Rename `template_manifest.json` to `manifest.json`
+   - Remove the "key" and "oauth2" fields (for now).
+
+3. **Load the Extension into Chrome**
+   - Open Chrome browser and go to `chrome://extensions/`
+   - Enable Developer mode (toggle switch at the top right)
+   - Click on `Load unpacked` and select the cloned repository
+   - The extension should now be loaded in your browser
+
+#### Setting up Google Calendar API
+1. Set Up Google Cloud Project:
+    - Create a new project in the Google Cloud Console.
+    - Enable the Google Calendar API.
+    - Generate an OAuth 2.0 credentials (OAuth Client ID) with the application type **Chrome extension**, Item ID (can be retrieved from `chrome://extensions`).
+
+2. Environment Configuration:
+    - Add the "oauth2" fields to the `manifest.json` file and fill in the `client_id` (the one you generated) and `scopes` (remain as usual) fields.
+
+3. Test and Contribute:
+    - Test the extension by importing your timetable into Google Calendar.
+    - Make changes and submit a pull request. Please follow the pull request template here.
 
 ## Tech Stack 🚀
 1. Javascript
