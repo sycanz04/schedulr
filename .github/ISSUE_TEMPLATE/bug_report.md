@@ -30,6 +30,7 @@ If applicable, add screenshots to help explain your problem.
 - **Extension Version**: (e.g., 1.2.3)
 - **Operating System**: (e.g., Windows 10, macOS 11, Ubuntu 20.04)
 - **Any relevant browser extensions**: (e.g., ad blockers, etc.)
+- **Device language**: (e.g., US-EN)
 
 #### Additional context
 Add any other context about the problem here. 
