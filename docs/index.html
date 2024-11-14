@@ -38,7 +38,7 @@
             <div class="top-part">
                 <div class="text-container">
                     <h1>MMU Schedulr</h1>
-                    <h2>A chrome extension that imports your MMU CLiC into Google Calendar and other calendars</h2>
+                    <h2>A chrome extension that imports MMU timetable into Google or other calendars</h2>
 
                     <div>
                         <div class="rating">
@@ -86,6 +86,7 @@
             <p>
                 A chrome extension that extracts your <strong>MMU CliC</strong> timetable, adds recurring events recurring events 
                 to Google Calendar, and lets you download it as an .ics file to import calendar into other calendars like Outlook Calendar and Apple Calendar.
+                Saving you lots of time.
             </p>
 
             <h1>Requirements 👀</h1>
@@ -102,8 +103,18 @@
 
             <h1>Usage 🕹️</h1>
             <p>Note: Some steps after step 4 may vary depending on your target calendar.</p>
+
+            <h2>For students:</h2>
             <ol>
-                <li>Go to "View My Classes/Schedule" page in CliC. <strong><em>(Ensure all subjects are expanded)</em></strong></li>
+                <li>Go to <strong>"View My Classes/Schedule > By Class"</strong> in CliC. <strong>(Ensure all subjects are expanded)</strong>.</li>
+            </ol>
+
+            <h2>For lecturers:</h2>
+            <ol>
+                <li>Go to <strong>"Instructor WorkCenter > My Weekly Schedule"</strong> in CLiC.</li>
+            </ol>
+
+            <ol start="2">
                 <li>Open the extension by using the <a href="#key-binding" id="links">shortcut key</a> or by clicking the extension icon.</li>
                 <li>An authentication window will appear, grant permission for both scopes and then reopen the extension.</li>
             </ol>
@@ -111,32 +122,24 @@
             <h2>To import calendar into Google Calendar</h2>
             <ol start="4">
                 <li>Select <strong>Transfer to Google Calendar</strong>, then click <strong>Confirm</strong>.</li>
-                <li>Select the semester length: either <strong>Short (7 weeks)</strong> or <strong>Long (14 weeks)</strong>.</li>
-                <li>Select your event format and reminder settings.</li>
-                <li>Pick the target calendar. <strong><em>(Your main calendar is typically the one linked to your email)</em></strong></li>
-                <li>Choose an event colour.</li>
-                <li>Press the <strong>Submit</strong> to transfer timetable to Google Calendar.</li>
+                <li>Select all the necessary options.</li>
+                <li>Press the <strong>Submit</strong> button to transfer timetable to Google Calendar.</li>
             </ol>
 
             <h2>To import calendar into other calendars (like Outlook, Apple Calendar)</h2>
             <ol start="4">
-                    <li>Select <strong>Download an .ics file</strong>, then click <strong>Confirm</strong></li>
-                <li>Select the semester length: either <strong>Short (7 weeks)</strong> or <strong>Long (14 weeks)</strong>.</li>
-                <li>Select your event format and reminder settings.</li>
-                <li>Press the <strong>Submit</strong> to download the .ics file.</li>
+                <li>Select <strong>Download an .ics file</strong>, then click <strong>Confirm</strong>.</li>
+                <li>Select all the necessary options.</li>
+                <li>Press the <strong>Submit</strong> button to download the .ics file.</li>
                 <li>Go to your target calendar and import the .ics file.</li>
             </ol>
             <em><strong>Tip</strong>: An .ics file lets you import events into other calendar apps like Outlook.</em><br><br>
 
             <h1 id="key-binding">Key Binding ⌨️</h1>
             <p>The shortcut key opens up the popup page</p>
-            <h2>Linux 🐧 and Windows 🪟</h2>
             <ul>
-                <li><kbd>Alt+Shift+S</kbd></li>
-            </ul>
-            <h2>macOS 🍎</h2>
-            <ul>
-                <li><kbd>Command+Shift+S</kbd></li>
+                <li>Linux and Windows - <kbd>Alt+Shift+S</kbd></li>
+                <li>macOS - <kbd>Command+Shift+S</kbd></li>
             </ul>
 
             <h1>Project status ⏳</h1>
@@ -144,12 +147,23 @@
                 Schedulr version 3.0.1 is available on <a href="https://chromewebstore.google.com/detail/schedulr/ofaflpillnejkhmkefmcpoamjeaghipp" id="links">Chrome Web store</a> as of now.
             </p>
 
+            <h1>Contributing 🤝</h1>
+            <p>
+                Schedulr is an open-source project designed to assist fellow MMU peers. I invite you to participate in various ways to contribute and enhance the project!
+                <br><br>
+                Feel free to explore the <a href="https://github.com/sycanz04/schedulr/blob/main/.github/CONTRIBUTING.md" id="links">contribution guidelines</a> below to get started. Your involvement is greatly appreciated!
+            </p>
+
+            <h1>Development Guide 📚</h1>
+            <p>
+                If you're interested in contributing code to the project, please refer to the development guide <a href="https://github.com/sycanz04/schedulr?tab=readme-ov-file#development-guide-" id="links">here</a>.
+            </p>
+
             <h1>Tech Stack 🚀</h1>
             <ol>
                 <li>Javascript</li>
                 <li>Google API</li>
-                <li>HTML</li>
-                <li>CSS</li>
+                <li>HTML, CSS</li>
             </ol>
 
             <h1>Changelog 📁</h1>
@@ -163,21 +177,13 @@
             <h1>License ⚖️</h1>
             <p>This project is licensed under the GNU General Public License v3.0 - see the <a href="https://github.com/sycanz04/schedulr/blob/main/LICENSE" id="links">LICENSE</a></p>
 
-            <h1>Why this project? 🛌</h1>
-            <p>
-                Imagine a world where you can automate your life - cool right? I initially created this to save time on manually transferring my
-                timetable but it seems I've spend more time building it than I would have transferring the timetable manually...oh well.
-                <br><br>
-                Since this is my first web project, I'd love to hear any suggetions for improvements you might have!
-            </p>
-
             <h1>Buy me a coffee ☕</h1>
             <p>
                 I seem to have developed a bit of an addiction to espresso shots, so if you're feeling generous,
                 feel free to <a href="https://ko-fi.com/sycanz" id="links">buy me a coffee</a>!
             </p>
 
-            <h1>Credit 🤝</h1>
+            <h1>Credit 🎉</h1>
             <p>
                 This project was developed at <a href="https://hackerspacemmu.rocks/" id="links">Hackerspace MMU</a>. Also shoutout to a couple of friends who helped me out on this project.
             </p>

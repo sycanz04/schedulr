@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="./images/magnify128.png" alt="NeoHtop Logo" width="120" />
+  <img src="./images/magnify128.png" alt="Schedulr Logo" width="120" />
   <h1>Schedulr</h1>
   <p>A chrome extension that transfers MMU timetable into Google, Outlook, Apple Calendar (and more)</p>
 
@@ -17,8 +17,8 @@ https://github.com/user-attachments/assets/b9e1409c-e5e3-4159-a5ff-86cfa49d3a7c
   - [Import timetable into other calendars](https://github.com/sycanz04/schedulr?tab=readme-ov-file#to-import-calendar-into-other-calendars-like-outlook-apple-calendar)
 - [Key Binding](https://github.com/sycanz04/schedulr?tab=readme-ov-file#key-binding-%EF%B8%8F)
 - [Project status](https://github.com/sycanz04/schedulr?tab=readme-ov-file#project-status-)
-- [Contributing](https://github.com/sycanz04/schedulr/tree/docs?tab=readme-ov-file#contributing-)
-- [Development Guide](https://github.com/sycanz04/schedulr/tree/docs?tab=readme-ov-file#development-guide-)
+- [Contributing](https://github.com/sycanz04/schedulr?tab=readme-ov-file#contributing-)
+- [Development Guide](https://github.com/sycanz04/schedulr?tab=readme-ov-file#development-guide-)
 - [Tech Stack](https://github.com/sycanz04/schedulr?tab=readme-ov-file#tech-stack-)
 - [Changelog](https://github.com/sycanz04/schedulr?tab=readme-ov-file#changelog-)
 - [Privacy policy](https://github.com/sycanz04/schedulr?tab=readme-ov-file#privacy-policy-)
