@@ -26,6 +26,7 @@ https://github.com/user-attachments/assets/b9e1409c-e5e3-4159-a5ff-86cfa49d3a7c
 - [Why this project?](https://github.com/sycanz04/schedulr?tab=readme-ov-file#why-this-project-)
 - [Buy me a coffee](https://github.com/sycanz04/schedulr?tab=readme-ov-file#buy-me-a-coffee-)
 - [Credit](https://github.com/sycanz04/schedulr?tab=readme-ov-file#credit-)
+- [Frequently Asked Questions (FAQs)](https://github.com/sycanz04/schedulr?tab=readme-ov-file#frequently-asked-questions-faqs-)
 
 ## Requirements 👀
 - MMU student with **"Active"** current student status **ONLY**.
