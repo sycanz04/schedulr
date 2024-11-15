@@ -115,7 +115,7 @@ Feel free to explore the [contribution guidelines](https://github.com/sycanz04/s
 
 3. Test and Contribute:
     - Test the extension by importing your timetable into Google Calendar.
-    - Make changes and submit a pull request. Please follow the pull request template here.
+    - Make changes and submit a pull request. Please follow the pull request template [here](https://github.com/sycanz04/schedulr/blob/main/.github/pull_request_template.md).
 
 ## Tech Stack 🚀
 1. Javascript
@@ -136,3 +136,53 @@ I seem to have developed a bit of an addiction to espresso shots, so if you're f
 
 ## Credit 🎉
 This project was developed at [Hackerspace MMU](https://hackerspacemmu.rocks/). Also shoutout to a couple of friends who helped me out on this project.
+
+## Frequently Asked Questions (FAQs) 🤔
+**Q: What browser does Schedulr currently support?**
+
+**A:** Google Chrome as of now.
+
+
+**Q: Do I have to pay for this extension?**
+
+**A:** No, Schedulr is free to use for all **active** MMU students/lecturers and open-source.
+
+
+**Q: Why are some of my classes not showing up in the timetable?**
+
+**A:** Ensure you have expanded all subjects in the "By Class" page.
+
+
+**Q: Do I need to grant permission every time I open the extension? And should I grant permission for both scopes in the authentication window?**
+
+**A:** You only need to grant permission once and you're good to go. And yes you absolutely should grant permission for both scopes, otherwise the extension will not work properly.
+
+
+**Q: Should I be worried about my privacy when using this extension?**
+
+**A:** No, the extension only reads your timetable and transfers it to your calendar. It does not store any personal data.
+
+
+**Q: Can I use this extension for other universities?**
+
+**A:** No, this extension is specifically designed for MMU students and lecturers only.
+
+
+**Q: Are there any plans to support other browsers?**
+
+**A:** Maybe in the future, but for now, the focus is on Chrome.
+
+
+**Q: Can I rely on this extension for my timetable?**
+
+**A:** Somewhat, reason being CLiC might have unexpected bugs or changes that might affect the extension.
+
+
+**Q: How can I contribute to this project?**
+
+**A:** There are things like bug fixes, feature requests, code, and documentation that you can contribute to. Check out the [contribution guidelines](https://github.com/sycanz04/schedulr/blob/main/.github/CONTRIBUTING.md)
+
+
+**Q: Where can I get any help or support?**
+
+**A:** Check if the encountered issues are mentioned in this documentation. If not, you can communicate with me through [email](mailto:aidenchan0397@gmail.com), [issue tracker](https://github.com/sycanz04/schedulr/issues), or [discord](https://discordapp.com/users/340443368326692876)
