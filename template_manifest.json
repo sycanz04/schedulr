@@ -1,42 +1,38 @@
 {
-    "manifest_version": 3,
-    "name": "schedulr",
-    "version": "3.0.1",
-    "description": "It scrapes the timetable from CliC and inserts it into google calendar",
-    "key": "EXTENSION_PUBLIC_KEY",
-    "icons": {
-        "16": "images/magnify16.png",
-        "32": "images/magnify32.png",
-        "48": "images/magnify48.png",
-        "128": "images/magnify128.png"
-    },
-    "action": {
-        "default_popup": "popup/popup.html"
-    },
-    "commands": {
-        "_execute_action": {
-            "suggested_key": {
-                "default": "Alt+Shift+S",
-                "linux": "Alt+Shift+S",
-                "mac": "Command+Shift+S",
-                "windows": "Alt+Shift+S"
-            },
-            "description" : "Open schedulr's popup.html"
-        }
-    },
-    "background": {
-        "service_worker": "scripts/service-worker.js"
-    },
-    "permissions": [
-        "activeTab",
-        "scripting",
-        "identity"
-    ],
-    "oauth2": {
-        "client_id": "MY_CLIENT_ID",
-        "scopes": [
-            "https://www.googleapis.com/auth/calendar",
-            "https://www.googleapis.com/auth/calendar.events"
-        ]
+  "manifest_version": 3,
+  "name": "schedulr",
+  "version": "3.0.1",
+  "description": "It scrapes the timetable from CliC and inserts it into google calendar",
+  "key": "EXTENSION_PUBLIC_KEY",
+  "icons": {
+    "16": "images/magnify16.png",
+    "32": "images/magnify32.png",
+    "48": "images/magnify48.png",
+    "128": "images/magnify128.png"
+  },
+  "action": {
+    "default_popup": "popup/popup.html"
+  },
+  "commands": {
+    "_execute_action": {
+      "suggested_key": {
+        "default": "Alt+Shift+S",
+        "linux": "Alt+Shift+S",
+        "mac": "Command+Shift+S",
+        "windows": "Alt+Shift+S"
+      },
+      "description": "Open schedulr's popup.html"
     }
+  },
+  "background": {
+    "service_worker": "scripts/service-worker.js"
+  },
+  "permissions": ["activeTab", "scripting", "identity", "tabs"],
+  "oauth2": {
+    "client_id": "MY_CLIENT_ID",
+    "scopes": [
+      "https://www.googleapis.com/auth/calendar",
+      "https://www.googleapis.com/auth/calendar.events"
+    ]
+  }
 }
