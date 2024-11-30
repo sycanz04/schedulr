@@ -1,7 +1,7 @@
 {
     "manifest_version": 3,
     "name": "schedulr",
-    "version": "3.0.1",
+    "version": "3.0.2",
     "description": "It scrapes the timetable from CliC and inserts it into google calendar",
     "key": "EXTENSION_PUBLIC_KEY",
     "icons": {

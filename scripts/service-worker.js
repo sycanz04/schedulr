@@ -1,7 +1,7 @@
 // Navigate user to 'schedulr' website when installed
 chrome.runtime.onInstalled.addListener(() => {
     chrome.tabs.create({
-        url: "https://www.mmuschedulr.com",
+        url: "https://www.mmuschedulr.com/#usage",
     });
 });
 
