@@ -73,7 +73,7 @@ The shortcut key opens up the popup page
 - **macOS** - `Command+Shift+S`
 
 ## Project status ⏳
-Schedulr version 3.0.1 is available on [Chrome Web store](https://chromewebstore.google.com/detail/schedulr/ofaflpillnejkhmkefmcpoamjeaghipp) as of now.
+Schedulr version 3.0.2 is available on [Chrome Web store](https://chromewebstore.google.com/detail/schedulr/ofaflpillnejkhmkefmcpoamjeaghipp) as of now.
 
 ## Contributing 🤝🏻
 Schedulr is an open-source project designed to assist fellow MMU peers. I invite you to participate in various ways to contribute and enhance the project!
