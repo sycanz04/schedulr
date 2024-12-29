@@ -1,58 +1,5 @@
 import { getAuthToken, getCurrTab } from './helper/prog-flow.js';
-
-// Query for user available calendar then insert into popup.html dynamically
-function calChoice() {
-    chrome.runtime.sendMessage({
-        action: "calChoice"
-    });
-}
-
-calChoice();
-
-chrome.runtime.onMessage.addListener((message) => {
-    if (message.action === "calData") {
-        let calData = message.data;
-        // console.log("Cal Data:", calData);
-
-        // Get form element in html
-        const form = document.getElementById("calendarForm");
-
-        setAttributes(form, calData);
-    } else if (message.action === "showAlert") {
-        window.alert(calData);
-    }
-});
-
-function setAttributes(form, calData) {
-    // Ideal html tags in popup.js
-    // <input type="radio" id="$summary" name="calender" value="$calId">
-    // <label for="$summary>$Summary</label><br>
-
-    for (let cals in calData) {
-        // Create input and label tag for every index
-        const input = document.createElement("input");
-        const label = document.createElement("label");
-        const br = document.createElement("br");
-
-        // Set attribute for input tag
-        input.setAttribute("type", "radio");
-        input.setAttribute("id", `${cals}`);
-        input.setAttribute("name", "calendar");
-        input.setAttribute("value", `${calData[cals]}`);
-
-        // Set attribute for label tag
-        label.innerText = `${cals}`;
-        label.setAttribute("for", `${cals}`);
-
-        // Append input and label tag, then a line break after
-        form.appendChild(input);
-        form.appendChild(label);
-        form.appendChild(br);
-    }
-
-    // Hide the loader after calendar
-    document.getElementById('loader').style.display = 'none';
-}
+import { calChoice, setAttributes } from './helper/cal-choice.js';
 
 let selectedOptionValue;
 
@@ -62,12 +9,12 @@ function finalButtonClickHandler(event) {
     getFormsValue(selectedOptionValue);
 }
 
-// Listener to get selected option value
+// Listener to get selected option value in first page
 document.getElementById('optionForm').addEventListener('submit', function(event) {
     event.preventDefault();
 
     selectedOptionValue = document.querySelector('input[name="option"]:checked')?.value;
-    console.log(`Received option value: ${selectedOptionValue}`);
+    // console.log(`Received option value: ${selectedOptionValue}`);
 
     if (!(selectedOptionValue)) {
         window.alert('Please select an option.');
@@ -77,12 +24,13 @@ document.getElementById('optionForm').addEventListener('submit', function(event)
     // Hide the loader after calendar
     const firstPage = document.getElementsByClassName('firstPage')[0].style.display = 'none';
 
-    // Query all possible forms
+    // Query all possible forms and buttons
     let generalForms = document.getElementsByClassName('generalForms')[0];
     let backButton = document.getElementById('backButton');
     let calForms = document.getElementsByClassName('calForms')[0];
     let finalButton = document.getElementsByClassName('finalButton')[0];
 
+    // Display the common form and button among all the options
     generalForms.style.display = 'flex';
     backButton.style.display = 'flex';
 
@@ -101,7 +49,7 @@ document.getElementById('optionForm').addEventListener('submit', function(event)
     finalButton.addEventListener('click', finalButtonClickHandler);
 });
 
-// Event listener for the back button
+// Listener for the back button that returns to previous page
 document.getElementById('backButton').addEventListener('click', function() {
     // Query all forms
     let optionForm = document.getElementsByClassName('optionForm')[0];
@@ -135,6 +83,8 @@ function getFormsValue(selectedOptionValue) {
         const selectedEventFormat = document.querySelector('input[name="format"]:checked')?.value;
 
         if (selectedOptionValue == 1 || selectedOptionValue == 3) {
+            calChoice();
+
             // Check if all values are selected
             if (!(selectedSemesterValue && selectedReminderTime && selectedColorValue && selectedCalendar && selectedEventFormat)) {
                 window.alert('Please select all options.');

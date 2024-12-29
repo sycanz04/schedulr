@@ -6,17 +6,18 @@ chrome.runtime.onInstalled.addListener(() => {
 });
 
 console.log("Service worker running");
-function messageListener(message) {
+
+// Listener to start authentication process
+chrome.runtime.onMessage.addListener((message, sendResponse) => {
     if (message.action === "calChoice") {
         console.log("Received message in service-worker.js");
-        getToken();
+        getToken(sendResponse);
+        return true;
     }
-}
+})
 
-// Add the listener
-chrome.runtime.onMessage.addListener(messageListener);
-
-function getToken() {
+// Authenticate user and retrieve authentication token
+function getToken(sendResponse) {
     console.log("Getting token");
     let tokenPromise = new Promise(function (myResolve) {
         chrome.identity.getAuthToken({ interactive: true }, function (token) {
@@ -25,23 +26,24 @@ function getToken() {
                     "Error getting OAuth token:",
                     chrome.runtime.lastError
                 );
-                chrome.runtime.sendMessage({
-                    action: "showAlert",
+                sendResponse({
+                    success: false,
                     message: "Error getting OAuth token",
                 });
                 return;
             }
-            myResolve(token);
+            myResolve(token, sendResponse);
         });
     });
 
-    tokenPromise.then(function (token) {
+    tokenPromise.then(function (token, sendResponse) {
         console.log("Token retrieved. Fetching calendar IDs");
-        getCalIds(token);
+        getCalIds(token, sendResponse);
     });
 }
 
-function getCalIds(token) {
+// Query for user available calendars
+function getCalIds(token, sendResponse) {
     fetch("https://www.googleapis.com/calendar/v3/users/me/calendarList", {
         method: "GET",
         headers: {
@@ -52,8 +54,8 @@ function getCalIds(token) {
         .then((response) => {
             if (!response.ok) {
                 console.log(`Error creating event: ${response.statusText}`);
-                chrome.runtime.sendMessage({
-                    action: "showAlert",
+                sendResponse({
+                    success: false,
                     message: `Error getting calendar id: ${response.statusText}`,
                 });
             }
@@ -62,32 +64,32 @@ function getCalIds(token) {
         })
         .then((calObject) => {
             // console.log('Calendar list:', calObject);
-            parseCalIds(calObject);
+            parseCalIds(calObject, sendResponse);
         })
         .catch((error) => {
             console.error("Error occured:", error);
-            chrome.runtime.sendMessage({
-                action: "showAlert",
+            sendResponse({
+                success: false,
                 message: `Error occured: ${error}`,
             });
         });
 }
 
-function parseCalIds(calObject) {
+// Parse datas to only return calendar ids
+function parseCalIds(calObject, sendResponse) {
     console.log("Parsing calendars");
     let calJson = {};
     calObject.items.forEach((calendar) => {
-        if (
-            !calendar.summary.includes("Holidays") &&
-            !calendar.summary.includes("Birthdays")
-        ) {
+        if (!calendar.summary.includes("Holidays") && !calendar.summary.includes("Birthdays")) {
             calJson[calendar.summary] = calendar.id;
         }
     });
 
     console.log("Calendars parsed, sending calendar JSON back to popup.js");
-    chrome.runtime.sendMessage({
-        action: "calData",
+
+    // Return list of calendar ids to popup.js
+    sendResponse({
+        success: true,
         data: calJson,
     });
 }
