@@ -1,18 +1,18 @@
-import { getAuthToken, getCurrTab } from './helper/prog-flow.js';
+import { getAuthToken, getCurrTab } from '../scripts/helper/prog-flow.js';
 
 // Query for user available calendar then insert into popup.html dynamically
-function calChoice() {
+function queryCalList() {
     chrome.runtime.sendMessage({
-        action: "calChoice"
+        action: "queryCalList"
     });
 }
 
-calChoice();
+queryCalList();
 
 chrome.runtime.onMessage.addListener((message) => {
     if (message.action === "calData") {
         let calData = message.data;
-        // console.log("Cal Data:", calData);
+        console.log("Cal Data:", calData);
 
         // Get form element in html
         const form = document.getElementById("calendarForm");
@@ -24,10 +24,6 @@ chrome.runtime.onMessage.addListener((message) => {
 });
 
 function setAttributes(form, calData) {
-    // Ideal html tags in popup.js
-    // <input type="radio" id="$summary" name="calender" value="$calId">
-    // <label for="$summary>$Summary</label><br>
-
     for (let cals in calData) {
         // Create input and label tag for every index
         const input = document.createElement("input");

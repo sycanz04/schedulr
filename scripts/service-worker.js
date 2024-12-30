@@ -1,93 +1,38 @@
-// Navigate user to 'schedulr' website when installed
+// service-worker.js is a file that runs background scripts which does not
+// require any user interaction to execute.
+
+import { getToken } from './auth-flow.js';
+import { getCalIds } from './calList-query.js';
+
+// Navigate user to 'schedulr' website's usage part when 
+// the extension is first installed
 chrome.runtime.onInstalled.addListener(() => {
     chrome.tabs.create({
         url: "https://www.mmuschedulr.com/#usage",
     });
 });
 
-console.log("Service worker running");
-function messageListener(message) {
-    if (message.action === "calChoice") {
+// Listener to know when to query for user's calendar list
+chrome.runtime.onMessage.addListener((message, sendResponse) => {
+    if (message.action === "queryCalList") {
         console.log("Received message in service-worker.js");
-        getToken();
-    }
-}
 
-// Add the listener
-chrome.runtime.onMessage.addListener(messageListener);
-
-function getToken() {
-    console.log("Getting token");
-    let tokenPromise = new Promise(function (myResolve) {
-        chrome.identity.getAuthToken({ interactive: true }, function (token) {
-            if (chrome.runtime.lastError || !token) {
-                console.error(
-                    "Error getting OAuth token:",
-                    chrome.runtime.lastError
-                );
+        getToken()
+            .then((token) => {
+                return getCalIds(token);
+            })
+            .then((calJson) => {
+                console.log("Calendars queried:", calJson);
                 chrome.runtime.sendMessage({
-                    action: "showAlert",
-                    message: "Error getting OAuth token",
+                    action: "calData",
+                    data: calJson
                 });
-                return;
-            }
-            myResolve(token);
-        });
-    });
-
-    tokenPromise.then(function (token) {
-        console.log("Token retrieved. Fetching calendar IDs");
-        getCalIds(token);
-    });
-}
-
-function getCalIds(token) {
-    fetch("https://www.googleapis.com/calendar/v3/users/me/calendarList", {
-        method: "GET",
-        headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-        },
-    })
-        .then((response) => {
-            if (!response.ok) {
-                console.log(`Error creating event: ${response.statusText}`);
-                chrome.runtime.sendMessage({
-                    action: "showAlert",
-                    message: `Error getting calendar id: ${response.statusText}`,
-                });
-            }
-            console.log("Reponse ok, getting JSON");
-            return response.json();
-        })
-        .then((calObject) => {
-            // console.log('Calendar list:', calObject);
-            parseCalIds(calObject);
-        })
-        .catch((error) => {
-            console.error("Error occured:", error);
-            chrome.runtime.sendMessage({
-                action: "showAlert",
-                message: `Error occured: ${error}`,
+            })
+            .catch((error) => {
+                console.log("Failed to get token:", error);
+                window.alert("Failed to get token:", error);
             });
-        });
-}
 
-function parseCalIds(calObject) {
-    console.log("Parsing calendars");
-    let calJson = {};
-    calObject.items.forEach((calendar) => {
-        if (
-            !calendar.summary.includes("Holidays") &&
-            !calendar.summary.includes("Birthdays")
-        ) {
-            calJson[calendar.summary] = calendar.id;
-        }
-    });
-
-    console.log("Calendars parsed, sending calendar JSON back to popup.js");
-    chrome.runtime.sendMessage({
-        action: "calData",
-        data: calJson,
-    });
-}
+        return true;
+    }
+});
