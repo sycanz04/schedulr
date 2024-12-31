@@ -162,8 +162,11 @@ function getFormsValue(selectedOptionValue) {
 // This function handles token and window flow
 async function handleFlow(selectedColorValue, selectedCalendar, selectedReminderTime, selectedSemesterValue, selectedEventFormat, selectedOptionValue) {
     try {
-        // Get Oauth token
-        const token = await getAuthToken();
+        let token = null;
+        if (selectedOptionValue == 1 || selectedOptionValue == 3) {
+            // Get Oauth token
+            token = await getAuthToken();
+        }
 
         // Get the current active tab
         const currTab = await getCurrTab();
