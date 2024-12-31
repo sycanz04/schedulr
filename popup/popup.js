@@ -163,6 +163,8 @@ function getFormsValue(selectedOptionValue) {
 async function handleFlow(selectedColorValue, selectedCalendar, selectedReminderTime, selectedSemesterValue, selectedEventFormat, selectedOptionValue) {
     try {
         let token = null;
+        
+        // Only try to get token if the selected options require Google account access
         if (selectedOptionValue == 1 || selectedOptionValue == 3) {
             // Get Oauth token
             token = await getAuthToken();
